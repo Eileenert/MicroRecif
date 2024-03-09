@@ -8,5 +8,3 @@ class Lifeform{
     string type;
     int nbr_entite;
 };
-
-chat chat chat
