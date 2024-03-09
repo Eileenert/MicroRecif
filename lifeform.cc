@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-chat
-hello111
-=======
 #include <iostream>
 #include <string>
 
