@@ -10,16 +10,12 @@ class Segments{
     public:
         double get_angle();
         double get_longueur();
-        void extr_init();
+        void get_extr();
 
     private:
         S2d base;
-        S2d extr;
         double angle;
         double longueur;
-        double extr_x;
-        double extr_y;
-        vector<double> corails;
 };
 
 double Segments::get_angle(){
@@ -30,38 +26,20 @@ double Segments::get_longueur(){
     return longueur;
 }
 
-void Segments::extr_init(){
-    extr_x = base.x + longueur*cos(angle);
-    extr_y = base.y + longueur*sin(angle);
-
+S2d Segments::get_extr(){
+    S2d extr;
+    extr.x = base.x + longueur*cos(angle);
+    extr.y = base.y + longueur*sin(angle);
+    return extr;
 }
 
-
-
-struct Carres{
-    vector<double> carres;
-};
-struct Cercles{
-    vector<double> cercles;
-};
 
 void ecart_angulaire(double angle1, double angle2);//section 2.1
 void bool_superpo();//section 2.1
 void bool_intersect_superpo();//section 2.2
 
 
-int main()
-{
-    struct Segments s;
-    cin >> s.get_angle() >> s.get_longueur();
-    if (!(-180 <= s.get_angle() <= 180))
-    {
-        cout << error; // à finir... message d'erreur avec module message
-    }
-     if (s.get_longueur < 0)
-    {
-        cout << error; // à finir... message d'erreur avec module message
-    }
+int main(){
 
 
     return 0; 
@@ -78,8 +56,6 @@ void ecart_angulaire(double angle1, double angle2){ //section 2.1, angle1 c'est 
         ecart = 180 - (angle1-angle2);
     }
 }
-void bool_superpo();//section 2.1
-void bool_intersect_superpo();//section 2.2
 
 
 // TESTS ==============================
