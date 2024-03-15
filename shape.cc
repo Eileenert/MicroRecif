@@ -29,12 +29,6 @@ void bool_superpo();//section 2.1
 void bool_intersect_superpo();//section 2.2
 
 
-int main(){
-
-
-    return 0; 
-}
-
 void ecart_angulaire(double angle1, double angle2){ //section 2.1, angle1 c'est alphak et angle2 c'est alphak+1
     double ecart(0.);
     if (angle1 >= 0)
