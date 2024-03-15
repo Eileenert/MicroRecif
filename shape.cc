@@ -5,21 +5,28 @@
 using namespace std;
 
 struct S2d {double x=0.; double y=0.;};
-class Segments
-{
-private:
-    struct S2d base;
-    double angle;
-    double longueur;
-    struct S2d extr;
-    vector<double> corails;
+
+class Segments{
+    public:
+        double get_angle();
+        double get_longueur();
+
+        void init_angle();
+
+
+    private:
+        S2d base;
+        double angle;
+        double longueur;
+        S2d extr;
+        vector<double> corails;
 };
 
-double Segment::get_angle(){
+double Segments::get_angle(){
     return angle;
 }
 
-double Segment::get_longeur(){
+double Segments::get_longueur(){
     return longueur;
 }
 
@@ -35,17 +42,14 @@ struct Cercles{
 void ecart_angulaire(double angle1, double angle2);//section 2.1
 void bool_superpo();//section 2.1
 void bool_intersect_superpo();//section 2.2
+void verifie_angle();
+void verifie_longueur();
 
 
 int main()
 {
-    struct Segments s;
-    cin >> s.get_angle() >> s.get_longueur();
-    if (!(-180 <= s.angle <= 180))
-    {
-        cout << error; // à finir... message d'erreur avec module message
-    }
-     if (s.longueur < 0)
+
+    if (s.get_longueur() < 0)
     {
         cout << error; // à finir... message d'erreur avec module message
     }
@@ -70,5 +74,21 @@ void ecart_angulaire(double angle1, double angle2){ //section 2.1, angle1 c'est 
 }
 void bool_superpo();//section 2.1
 void bool_intersect_superpo();//section 2.2
+
+void verifie_angle() {
+    struct Segments s;
+    cin >> s.get_angle() >> s.get_longueur();
+    if (!(-180 <= s.get_angle() <= 180))
+    {
+        cout << error; // à finir... message d'erreur avec module message
+    }
+};
+
+void verifie_longueur(){
+if (s.get_longueur() < 0)
+    {
+        cout << message::segment_length_outside; // à finir... message d'erreur avec module message
+    }
+}
 
 
