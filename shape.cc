@@ -5,8 +5,9 @@
 using namespace std;
 
 struct S2d {double x=0.; double y=0.;};
-struct Segments
+class Segments
 {
+private:
     struct S2d base;
     double angle;
     double longueur;
