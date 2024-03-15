@@ -5,6 +5,8 @@
 #include "shape.h"
 using namespace std;
 
+constexpr double epsil_zero(0.5) ;
+
 double Segments::get_angle(){
     return angle;
 }
