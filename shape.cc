@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <vector>
 #include "message.h"
 using namespace std;
 
@@ -10,9 +11,14 @@ struct Segments
     double angle;
     double longueur;
     struct S2d extr;
+    vector<double> corails;
 };
-struct Carrés{};
-struct Cercles{};
+struct Carres{
+    vector<double> carres;
+};
+struct Cercles{
+    vector<double> cercles;
+};
 
 void ecart_angulaire(double angle1, double angle2);//section 2.1
 void bool_superpo();//section 2.1
