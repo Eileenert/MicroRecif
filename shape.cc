@@ -7,12 +7,24 @@ using namespace std;
 struct S2d {double x=0.; double y=0.;};
 class Segments
 {
+private:
     struct S2d base;
     double angle;
     double longueur;
     struct S2d extr;
     vector<double> corails;
 };
+
+double Segment::get_angle(){
+    return angle;
+}
+
+double Segment::get_longeur(){
+    return longueur;
+}
+
+
+
 struct Carres{
     vector<double> carres;
 };
@@ -28,7 +40,7 @@ void bool_intersect_superpo();//section 2.2
 int main()
 {
     struct Segments s;
-    cin >> s.angle >> s.longueur;
+    cin >> s.get_angle() >> s.get_longueur();
     if (!(-180 <= s.angle <= 180))
     {
         cout << error; // à finir... message d'erreur avec module message
