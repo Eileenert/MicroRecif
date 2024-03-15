@@ -2,21 +2,11 @@
 #include <cmath>
 #include <vector>
 #include "message.h"
+#include "shape.h"
 using namespace std;
 
-struct S2d {double x=0.; double y=0.;};
+constexpr double epsil_zero(0.5) ;
 
-class Segments{
-    public:
-        double get_angle();
-        double get_longueur();
-        void get_extr();
-
-    private:
-        S2d base;
-        double angle;
-        double longueur;
-};
 
 double Segments::get_angle(){
     return angle;
