@@ -11,6 +11,8 @@ class Segments{
         double get_angle();
         double get_longeur();
 
+        void init_angle();
+
 
     private:
         struct S2d base;
