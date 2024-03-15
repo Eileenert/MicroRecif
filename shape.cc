@@ -9,25 +9,31 @@ struct S2d {double x=0.; double y=0.;};
 class Segments{
     public:
         double get_angle();
-        double get_longeur();
-
-        void init_angle();
-
+        double get_longueur();
+        void extr_init();
 
     private:
-        struct S2d base;
+        S2d base;
+        S2d extr;
         double angle;
         double longueur;
-        struct S2d extr;
+        double extr_x;
+        double extr_y;
         vector<double> corails;
 };
 
-double Segment::get_angle(){
+double Segments::get_angle(){
     return angle;
 }
 
-double Segment::get_longeur(){
+double Segments::get_longueur(){
     return longueur;
+}
+
+void Segments::extr_init(){
+    extr_x = base.x + longueur*cos(angle);
+    extr_y = base.y + longueur*sin(angle);
+
 }
 
 
@@ -48,17 +54,14 @@ int main()
 {
     struct Segments s;
     cin >> s.get_angle() >> s.get_longueur();
-    if (!(-180 <= s.angle <= 180))
+    if (!(-180 <= s.get_angle() <= 180))
     {
         cout << error; // à finir... message d'erreur avec module message
     }
-     if (s.longueur < 0)
+     if (s.get_longueur < 0)
     {
         cout << error; // à finir... message d'erreur avec module message
     }
-    
-    s.extr.x = s.base.x + s.longueur*cos(s.angle); //extr(x,y) coordonnées de l'extrémité du segment
-    s.extr.y = s.base.y + s.longueur*sin(s.angle);
 
 
     return 0; 
@@ -79,3 +82,4 @@ void bool_superpo();//section 2.1
 void bool_intersect_superpo();//section 2.2
 
 
+// TESTS ==============================
