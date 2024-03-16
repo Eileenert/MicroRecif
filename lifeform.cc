@@ -25,7 +25,7 @@ class Corail{
 
     void verifie_angle(size_t index_segment);
     void verifie_longueur(size_t index_segment);
-    void angle_segment(double& angle_x, double base_x, double base_y,double extr_x, double extr_y);
+    void angle_segment(double& angle_seg, double base_x, double base_y,double extr_x, double extr_y);
 
     private:
         
@@ -59,16 +59,15 @@ void Corail::verifie_longueur(size_t index_segment){
         }
 }
 
-void Corail::angle_segment(double& angle_x, double base_x, double base_y,double extr_x, double extr_y){ //trouve l'angle qu'un segment(vecteur) fait par rapport à l'axe x, section 3.1
-    double angle;
+void Corail::angle_segment(double& angle_seg, double base_x, double base_y,double extr_x, double extr_y){ //trouve l'angle qu'un segment fait avec l'axe x, section 3.1
+    extr_x = extr_x - base_x;
+    extr_y = extr_y - base_y;
 
-    if (base_x == 0 && base_y == 0){
-    angle = atan2(extr_y, extr_x);
-    }
+    angle_seg = atan2(extr_y, extr_x);
 
-    
 }//au cas où, je ne me suis pas trompée pour (y,x), c'est dans cette ordre ._. , est je crois qu'il faut entrer les coordonnées des extrémités
- //du segment et que ça part du principe que la base est à (0,0) pour la fonction atan2, c'est pour ça que j'ai rajouté les conditions 
+ //du segment et que ça part du principe que la base est à (0,0) pour la fonction atan2, alors j'ai recalculé 
+ //les extrémités pour faire une translation des segments/vecteurs pour qu'ils aient leur base au point (0,0) pour le calcul de l'angle
 
 void ecart_angulaire(double angle1, double angle2){ //section 2.1, angle1 c'est alphak et angle2 c'est alphak+1
     double ecart(0.);
