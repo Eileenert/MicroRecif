@@ -1,4 +1,5 @@
 #define _USE_MATH_DEFINES
+#include <random> //section 3.1, util pour la gestion des probabilités
 #include <cmath>
 #include <iostream>
 #include <string>
@@ -24,6 +25,7 @@ class Corail{
 
     void verifie_angle(size_t index_segment);
     void verifie_longueur(size_t index_segment);
+    void angle_segment(double& angle_x, double base_x, double base_y,double extr_x, double extr_y);
 
     private:
         
@@ -44,17 +46,29 @@ class Corail{
 };
 
 void Corail::verifie_angle(size_t index_segment) {
-    if (!(-180 <= seg[index_segment].get_angle() <= 180)){
-        cout << message::segment_angle_outside; // à finir... message d'erreur avec module message
+    if (!(-M_PI <= seg[index_segment].get_angle() <= M_PI)){
+        cout << message::segment_angle_outside;
+        std ::exit(EXIT_FAILURE); //Pour le rendu 1 seulement
     }
 }
 
 void Corail::verifie_longueur(size_t index_segment){
     if (seg[index_segment].get_longueur() < 0){
-            cout << message::segment_length_outside; // à finir... message d'erreur avec module message
+            cout << message::segment_length_outside;
+            std ::exit(EXIT_FAILURE); //Pour le rendu 1 seulement
         }
 }
 
+void Corail::angle_segment(double& angle_x, double base_x, double base_y,double extr_x, double extr_y){ //trouve l'angle qu'un segment(vecteur) fait par rapport à l'axe x, section 3.1
+    double angle;
+
+    if (base_x == 0 && base_y == 0){
+    angle = atan2(extr_y, extr_x);
+    }
+
+    
+}//au cas où, je ne me suis pas trompée pour (y,x), c'est dans cette ordre ._. , est je crois qu'il faut entrer les coordonnées des extrémités
+ //du segment et que ça part du principe que la base est à (0,0) pour la fonction atan2, c'est pour ça que j'ai rajouté les conditions 
 
 void ecart_angulaire(double angle1, double angle2){ //section 2.1, angle1 c'est alphak et angle2 c'est alphak+1
     double ecart(0.);
