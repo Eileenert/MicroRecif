@@ -16,11 +16,10 @@ class Lifeform{
 private:
     string type;
     int nbr_entite;
-    int age;
 };
 
 
-class Corail{
+class Corail: public Lifeform{
     public:
 
     void verifie_angle(size_t index_segment);
@@ -46,16 +45,16 @@ class Corail{
 };
 
 void Corail::verifie_angle(size_t index_segment) {
-    if (!(-M_PI <= seg[index_segment].get_angle() <= M_PI)){
+    if(seg[index_segment].get_angle() < -M_PI or seg[index_segment].get_angle() > M_PI ) {
         cout << message::segment_angle_outside;
-        std ::exit(EXIT_FAILURE); //Pour le rendu 1 seulement
+        exit(EXIT_FAILURE); //Pour le rendu 1 seulement
     }
 }
 
 void Corail::verifie_longueur(size_t index_segment){
     if (seg[index_segment].get_longueur() < 0){
             cout << message::segment_length_outside;
-            std ::exit(EXIT_FAILURE); //Pour le rendu 1 seulement
+            exit(EXIT_FAILURE); //Pour le rendu 1 seulement
         }
 }
 
