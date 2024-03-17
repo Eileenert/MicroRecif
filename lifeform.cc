@@ -45,7 +45,7 @@ class Corail: public Lifeform{
 };
 
 void Corail::verifie_angle(size_t index_segment) {
-    if(seg[index_segment].get_angle() < -M_PI or seg[index_segment].get_angle() > M_PI ) {
+    if(seg[index_segment].get_angle() < -M_PI || seg[index_segment].get_angle() > M_PI) {
         cout << message::segment_angle_outside;
         exit(EXIT_FAILURE); //Pour le rendu 1 seulement
     }
@@ -76,6 +76,3 @@ void ecart_angulaire(double angle1, double angle2){ //section 2.1, angle1 c'est 
         ecart = M_PI - (angle1-angle2);
     }
 }
-
-
-

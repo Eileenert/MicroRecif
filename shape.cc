@@ -28,4 +28,18 @@ void bool_superpo(){
 
 void bool_intersect_superpo(){
 }
+
+// fonction que le prof veut qu'on fasse explicitement (dans shape ??) 
+void orientation(){
+
+}//section 2.2.1
+
+void onSegment(){
+
+}// détection d'appartenance d'un point q à un segment pr (q,p,r sont des points) section 2.2.2
+
+void doIntersection(){
+
+}//donne le résultat final sur la présence d'une intersection ou d'un alignement 
+
 // TESTS ==============================
