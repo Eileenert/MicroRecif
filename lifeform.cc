@@ -19,7 +19,7 @@ private:
 };
 
 
-class Corail{
+class Corail: public Lifeform{
     public:
 
     void verifie_angle(size_t index_segment);

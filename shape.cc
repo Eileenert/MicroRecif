@@ -27,6 +27,5 @@ void bool_superpo(){
 }//section 2.1//shape à définir
 
 void bool_intersect_superpo(){
-
-
+}
 // TESTS ==============================
