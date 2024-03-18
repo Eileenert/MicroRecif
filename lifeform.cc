@@ -10,6 +10,7 @@
 using namespace std;
 
 
+
 void Corail::verifie_angle(size_t index_segment) {
     if(seg[index_segment].get_angle() < -M_PI || seg[index_segment].get_angle() > M_PI) {
         cout << message::segment_angle_outside;
