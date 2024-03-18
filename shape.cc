@@ -22,18 +22,6 @@ S2d Segments::get_extr(){
     return extr;
 }
 
-void bool_superpo(){
-
-}//section 2.1//shape à définir
-
-void bool_intersect_superpo(){
-}
-
-// fonction que le prof veut qu'on fasse explicitement (dans shape ??) 
-void orientation(){
-
-}//section 2.2.1
-
 void onSegment(){
 
 }// détection d'appartenance d'un point q à un segment pr (q,p,r sont des points) section 2.2.2
