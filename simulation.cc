@@ -76,7 +76,7 @@ void Simulation::lecture(char * nom_fichier)
     while(getline(fichier >> ws, line)) 
     {
         // ligne de commentaire à ignorer, on passe à la suivante
-        if(line[0]=='#' or line[0]=='\n' or line[0]=='\r')  continue; 
+        if(line[0]=='#' || line[0]=='\n' || line[0]=='\r')  continue; 
         decodage_ligne(line);
 
     }

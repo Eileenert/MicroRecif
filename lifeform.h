@@ -55,7 +55,7 @@ class Corail: public Lifeform{
         bool statut_dev; // 0(EXTEND) 1(REPRO)
         bool dir_rot;   //direction rotation 0(TRIGO) ou 1(INVTRIGO)
         //jsp pk string ne fonctionne pas donc j'ai mis en commentaire pour l'instant
-        //string color; //bleu = alive ou noir = dead pour un prochain rendu, string parce que ensuite on devra surement mettre un code couleur rgb
+        string color; //bleu = alive ou noir = dead pour un prochain rendu, string parce que ensuite on devra surement mettre un code couleur rgb
         unsigned int nbr_segments;      //doit être strictement positif --> verifier dans une méthode à l'initialisation
         unsigned int cor_life_max; 
         double a;
