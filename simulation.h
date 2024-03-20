@@ -18,9 +18,9 @@ class Simulation{
         void init_nbr_algue(int nbr);
         void init_nbr_corail(int nbr);
         void init_nbr_scavenger(int nbr);
-
         void verifie_positive(int nbr);
-
+        void get_vector();
+        
     private:
         enum TYPE_lecture {ALGUE, CORAIL, SCAVENGER};
         int type;

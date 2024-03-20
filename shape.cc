@@ -2,7 +2,6 @@
 #include <iostream>
 #include <cmath>
 #include <vector>
-#include "message.h"
 #include "shape.h"
 using namespace std;
 

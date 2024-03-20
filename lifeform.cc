@@ -6,7 +6,6 @@
 #include <vector>
 #include "message.h"
 #include "lifeform.h"
-#include "shape.h"
 using namespace std;
 
 

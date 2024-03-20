@@ -2,9 +2,16 @@
 #include <fstream>
 #include <sstream>
 #include "simulation.h"
+#include "message.h"
+#include "shape.h"
 
 using namespace std;
 
+void Simulation::get_vector(){
+    for(Corail co: corail_vect){
+        cout << co.get_nbr_segments();
+    }
+}
 
 void Simulation::init_nbr_algue(int nbr){
     verifie_positive(nbr);
@@ -24,8 +31,6 @@ void Simulation::verifie_positive(int nbr){
         exit(EXIT_FAILURE);
     }
 }
-
-
 
 
 // traite le fichier ligne par ligne.  
@@ -124,12 +129,3 @@ void Simulation::decodage_ligne(string line){
 
     } 
 }
-
-
-//pour les tests
-/*
-int main(int argc, char * argv[]){
-    Simulation s;
-    s.lecture(argv[1]);
-    return 0;
-} */
