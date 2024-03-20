@@ -87,6 +87,11 @@ void Simulation::lecture(char * nom_fichier)
 void Simulation::decodage_ligne(string line){
 
     istringstream data(line);
+    double x, y, id, rayon;
+    int age;
+    bool statut, dir_rot, statut_dev;
+    unsigned int nbr_segments;
+
 
     switch(type){
         case ALGUE:
@@ -94,9 +99,7 @@ void Simulation::decodage_ligne(string line){
                 data >> nbr_algue;
 
             }
-            else if (algue_vect.size() <= nbr_algue){
-                double x, y;
-                int age;
+            else if(algue_vect.size() <= nbr_algue){
                 data >> x;
                 data >> y;
                 data >> age;
@@ -110,10 +113,43 @@ void Simulation::decodage_ligne(string line){
             break;
 
         case CORAIL:
+            if(nbr_corail == 0){
+                    data >> nbr_corail;
+                }
+            //mettre une condition --> si on a un nbr de segment initialisé segments sinon la condition en dessous
+            else if(corail_vect.size() <= nbr_corail){
+                data >> x;
+                data >> y;
+                data >> age;
+                data >> id;
+                data >> statut; //statut corail
+                data >> dir_rot;
+                data >> statut_dev;
+                data >> nbr_segments;
+                corail_vect.push_back(Corail(x, y, age, id, statut, dir_rot, statut_dev, nbr_segments));
+
+
+            }
+            if(corail_vect.size() == nbr_corail){
+                type = SCAVENGER;
+            }
 
             break;
 
         case SCAVENGER:
+            if(nbr_scavenger == 0){
+                    data >> nbr_scavenger;
+
+                }
+                else if(algue_vect.size() <= nbr_algue){
+                    data >> x;
+                    data >> y;
+                    data >> age;
+                    data >> rayon;
+                    data >> statut; //statut scavenger
+                    data >> id; //id_corail_cible
+                    scavenger_vect.push_back(Scavenger(x,y,age, rayon, statut, id));
+                }   
             break;
 
     } 
@@ -121,7 +157,8 @@ void Simulation::decodage_ligne(string line){
 
 
 //pour les tests
-/* int main(int argc, char * argv[]){
+/*
+int main(int argc, char * argv[]){
     Simulation s;
     s.lecture(argv[1]);
     return 0;
