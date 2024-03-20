@@ -1,3 +1,5 @@
+#ifndef LIFEFORM_H
+#define LIFEFORM_H
 #include <string>
 #include <vector>
 #include "shape.h"
@@ -10,7 +12,6 @@ class Lifeform{
         Lifeform(double x1, double y1, int age1)
         :x(x1), y(y1), age(age1)
         {}
-
     protected:
         double x;
         double y;
@@ -41,11 +42,14 @@ class Corail: public Lifeform{
         void verifie_angle(size_t index_segment);
         void verifie_longueur(size_t index_segment);
         void angle_segment(double& angle_seg, double base_x, double base_y,double extr_x, double extr_y);
+        std::vector<Segments> get_seg_vector();
+        unsigned int get_nbr_segments();
+        void add_seg_vector(double a, int s);
 
     private:
         
         //a voir si seg a besoin d'etre ordonne ou non pour appliquer les methodes du cours du 15/03/24
-        std::vector<Segments> seg;// si j'ai bien compris un corail a plusieurs segments donc j'ai fait un vecteur
+        std::vector<Segments> seg_vector;// si j'ai bien compris un corail a plusieurs segments donc j'ai fait un vecteur
 
         /*dans le rapport 2.1.2 p.3 je crois qu'il veut des entiers mais je vais demander parce que
         bool est mieux que 0 ou 1 -_('')_- mais il nous donne aussi le nom de certaines variable et 
@@ -59,8 +63,6 @@ class Corail: public Lifeform{
         std::string color; //bleu = alive ou noir = dead pour un prochain rendu, string parce que ensuite on devra surement mettre un code couleur rgb
         unsigned int nbr_segments;      //doit être strictement positif --> verifier dans une méthode à l'initialisation
         unsigned int cor_life_max; 
-        double a;
-        int s;
         int id;
         
 };
@@ -76,7 +78,6 @@ class Scavenger: public Lifeform{
         bool statut_sca; //0(LIBRE)    1(MANGE)
         int corail_id_cible;
         double rayon;
-
-
-
 };
+
+#endif

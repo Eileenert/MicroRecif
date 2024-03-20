@@ -12,14 +12,14 @@ using namespace std;
 
 
 void Corail::verifie_angle(size_t index_segment) {
-    if(seg[index_segment].get_angle() < -M_PI || seg[index_segment].get_angle() > M_PI) {
+    if(seg_vector[index_segment].get_angle() < -M_PI || seg_vector[index_segment].get_angle() > M_PI) {
         cout << message::segment_angle_outside;
         exit(EXIT_FAILURE); //Pour le rendu 1 seulement
     }
 }
 
 void Corail::verifie_longueur(size_t index_segment){
-    if (seg[index_segment].get_longueur() < 0){
+    if (seg_vector[index_segment].get_longueur() < 0){
             cout << message::segment_length_outside;
             exit(EXIT_FAILURE); //Pour le rendu 1 seulement
         }
@@ -35,3 +35,14 @@ void Corail::angle_segment(double& angle_seg, double base_x, double base_y,doubl
  //les extrémités pour faire une translation des segments/vecteurs pour qu'ils aient leur base au point (0,0) pour le calcul de l'angle
 
 
+vector<Segments> Corail::get_seg_vector(){
+    return seg_vector;
+}
+
+unsigned int Corail::get_nbr_segments(){
+    return nbr_segments;
+}
+
+void Corail::add_seg_vector(double a, int s){
+    seg_vector.push_back(Segments(x, y, a, s));
+}

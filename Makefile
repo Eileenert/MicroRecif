@@ -31,3 +31,4 @@ clean:
 projet.o: projet.cc simulation.cc
 simulation.o: simulation.cc message.cc lifeform.cc shape.cc
 lifeform.o: lifeform.cc message.cc shape.cc
+constantes.o : shape.cc

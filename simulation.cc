@@ -1,45 +1,9 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <string>
-#include <vector>
 #include "simulation.h"
-#include "lifeform.h"
-
 
 using namespace std;
-
-
-//3.1 il faut faire une classe simulation
-class Simulation{
-    public:
-        Simulation(int nbr_al = 0, int nbr_co=0, int nbr_sca=0)
-        : nbr_algue(nbr_al), nbr_corail(nbr_co), nbr_scavenger(nbr_sca)
-        {}
-
-        void lecture(char * nom_fichier);
-        void decodage_ligne(string line);
-
-        void init_nbr_algue(int nbr);
-        void init_nbr_corail(int nbr);
-        void init_nbr_scavenger(int nbr);
-
-        void verifie_positive(int nbr);
-
-    private:
-        enum TYPE_lecture {ALGUE, CORAIL, SCAVENGER};
-        int type;
-
-        int nbr_algue;
-        int nbr_corail;
-        int nbr_scavenger;
-        
-        vector<Corail> corail_vect;
-        vector<Scavenger> scavenger_vect;
-        vector<Algue> algue_vect;
-
-};
-
 
 
 void Simulation::init_nbr_algue(int nbr){
@@ -87,8 +51,8 @@ void Simulation::lecture(char * nom_fichier)
 void Simulation::decodage_ligne(string line){
 
     istringstream data(line);
-    double x, y, id, rayon;
-    int age;
+    double x, y, id, rayon, a;
+    int age, s;
     bool statut, dir_rot, statut_dev;
     unsigned int nbr_segments;
 
@@ -117,6 +81,12 @@ void Simulation::decodage_ligne(string line){
                     data >> nbr_corail;
                 }
             //mettre une condition --> si on a un nbr de segment initialisé segments sinon la condition en dessous
+            else if(corail_vect.back().get_seg_vector().size() <= corail_vect.back().get_nbr_segments()){
+                data >> s;
+                data >> a;
+                corail_vect.back().add_seg_vector(s,a);
+                
+            }
             else if(corail_vect.size() <= nbr_corail){
                 data >> x;
                 data >> y;

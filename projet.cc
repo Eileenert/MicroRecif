@@ -8,5 +8,7 @@ int main(int argc, char * argv[]){
         exit(EXIT_FAILURE);
     };
 
+    Simulation s1;
+    s1.lecture(argv[1]);
     return EXIT_SUCCESS; //surement a changer
 }

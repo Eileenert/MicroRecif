@@ -1,4 +1,8 @@
-#include "shape.h " // nécessaire pour utiliser epsil_zero et disposer des symboles de graphic.h
+#ifndef CONSTANTES
+#define CONSTANTES
+#include "shape.h" // nécessaire pour utiliser epsil_zero et disposer des symboles de graphic.h
+
+
 enum Statut_cor {DEAD, ALIVE} ;
 enum Dir_rot_cor {TRIGO, INVTRIGO} ;
 enum Statut_sca {LIBRE, MANGE} ;
@@ -17,3 +21,5 @@ constexpr double alg_birth_rate(0.5) ;
 constexpr unsigned max_life_alg(500) ;
 constexpr unsigned max_life_cor(1500) ;
 constexpr unsigned max_life_sca(2000) ;
+
+#endif

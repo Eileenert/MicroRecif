@@ -9,6 +9,13 @@ using namespace std;
 constexpr double epsil_zero(0.5) ;
 void ecart_angulaire(double angle1, double angle2);//section 2.1
 
+Segments::Segments(double x, double y, double a, int s)
+        :angle(a), longueur(s)
+        {
+            S2d base_temp{x,y};
+            base = base_temp;
+        }
+
 
 double Segments::get_angle(){
     return angle;
