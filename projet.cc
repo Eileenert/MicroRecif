@@ -10,6 +10,7 @@ int main(int argc, char * argv[]){
 
     Simulation s1;
     s1.lecture(argv[1]);
-    s1.get_vector();
+    cout << "ok";
+    s1.get_vector();//a supprimer juste pour tester
     return EXIT_SUCCESS; //surement a changer
 }

@@ -3,7 +3,7 @@
 CXX     = g++
 CXXFLAGS = -g -Wall -std=c++11
 CXXFILES = projet.cc lifeform.cc message.cc shape.cc simulation.cc
-OFILES = lifeform.h constantes.h message.h shape.h simulation.h
+OFILES = lifeform.o constantes.o message.o shape.o simulation.o
 
 # Definition de la premiere regle
 
@@ -33,4 +33,3 @@ lifeform.o: lifeform.cc message.h lifeform.h shape.h
 message.o: message.cc message.h
 shape.o: shape.cc shape.h
 simulation.o: simulation.cc simulation.h lifeform.h shape.h message.h
-

@@ -19,7 +19,7 @@ class Simulation{
         void init_nbr_corail(int nbr);
         void init_nbr_scavenger(int nbr);
         void verifie_positive(int nbr);
-        void get_vector();
+        void get_vector(); // a supprimer, juste pour tester
         
     private:
         enum TYPE_lecture {ALGUE, CORAIL, SCAVENGER};
@@ -34,5 +34,6 @@ class Simulation{
         std::vector<Algue> algue_vect;
 
 };
+
 
 #endif

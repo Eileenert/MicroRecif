@@ -32,7 +32,6 @@ void Simulation::verifie_positive(int nbr){
     }
 }
 
-
 // traite le fichier ligne par ligne.  
 void Simulation::lecture(char * nom_fichier)
 {
