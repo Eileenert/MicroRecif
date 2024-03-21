@@ -43,7 +43,7 @@ void ecart_angulaire(double& ecart, double angle1, double angle2){ //section 2.1
 }
 
 bool bool_superpo(double ecart){
-    double ecart(0.), a1(0.), a2(0.);
+    double a1(0.), a2(0.);
     bool superposition(0);
 
     ecart_angulaire(ecart, a1, a2);
@@ -72,12 +72,19 @@ bool onSegment(S2d p, S2d q, S2d r){
     return false; 
 }
 
-int orientation(S2d p, S2d q, S2d r) 
+double orientation(S2d p, S2d q, S2d r) 
 { 
-    int val = (q.y - p.y) * (r.x - q.x) - 
+    double val = (q.y - p.y) * (r.x - q.x) - 
               (q.x - p.x) * (r.y - q.y); 
+
+    double norme = pow((pow((q.x - p.x), 2) + pow((q.y - p.y), 2)), 1/2);
+
+    double d = val/norme;
+
+    if (d <= epsil_zero)
+        return 0;
   
-    if (val == 0) return 0;
+    //if (val == 0) return 0;
   
     return (val > 0)? 1: 2; 
 }
