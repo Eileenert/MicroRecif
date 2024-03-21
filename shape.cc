@@ -5,7 +5,7 @@
 #include "shape.h"
 using namespace std;
 
-constexpr double epsil_zero(0.5) ;
+constexpr double epsil_zero(0.5);
 void ecart_angulaire(double angle1, double angle2);//section 2.1
 
 Segments::Segments(double x, double y, double a, int s)
@@ -32,7 +32,7 @@ S2d Segments::get_extr(){
 }
 
 void ecart_angulaire(double& ecart, double angle1, double angle2){ //section 2.1, angle1 c'est alphak et angle2 c'est alphak+1
-    double ecart(0.);
+    
     if (angle2 >= 0){
         ecart = M_PI - (angle2-angle1);
     }
@@ -72,25 +72,21 @@ bool onSegment(S2d p, S2d q, S2d r){
     return false; 
 }
 
-double orientation(S2d p, S2d q, S2d r) 
-{ 
-    double val = (q.y - p.y) * (r.x - q.x) - 
-              (q.x - p.x) * (r.y - q.y); 
-
+double orientation(S2d p, S2d q, S2d r){ 
+    double val = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y); 
     double norme = pow((pow((q.x - p.x), 2) + pow((q.y - p.y), 2)), 1/2);
-
     double d = val/norme;
 
-    if (d <= epsil_zero)
+    if (abs(d) <= epsil_zero) 
         return 0;
   
-    //if (val == 0) return 0;
+    if (val == 0) 
+        return 0;
   
-    return (val > 0)? 1: 2; 
+    return (val > 0)? 1: 2; //je garde cette ligne ?? question assistant
 }
 
-bool doIntersect(S2d p1, S2d q1, S2d p2, S2d q2) 
-{ 
+bool doIntersect(S2d p1, S2d q1, S2d p2, S2d q2){ 
     int o1 = orientation(p1, q1, p2); 
     int o2 = orientation(p1, q1, q2); 
     int o3 = orientation(p2, q2, p1); 
