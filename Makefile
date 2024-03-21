@@ -2,7 +2,7 @@
 
 CXX     = g++
 CXXFLAGS = -g -Wall -std=c++11
-CXXFILES = projet.cc lifeform.cc message.cc shape.cc simulation.cc
+CXXFILES = projet.cc lifeform.cc message.cc shape.cc simulation.cc constantes.cc
 OFILES = lifeform.o constantes.o message.o shape.o simulation.o
 
 # Definition de la premiere regle
@@ -22,7 +22,7 @@ depend:
 
 clean:
 	@echo " *** EFFACE MODULES OBJET ET EXECUTABLE ***"
-	@/bin/rm -f *.o *.x *.cc~ *.h~ prog
+	@/bin/rm -f *.o *.x *.cc~ *.h~ projet
 
 #
 # -- Regles de dependances generees automatiquement
@@ -33,3 +33,4 @@ lifeform.o: lifeform.cc message.h lifeform.h shape.h
 message.o: message.cc message.h
 shape.o: shape.cc shape.h
 simulation.o: simulation.cc simulation.h lifeform.h shape.h message.h
+constantes.o: constantes.cc constantes.h shape.h
