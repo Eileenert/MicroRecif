@@ -55,15 +55,16 @@ class Corail: public Lifeform{
         bool est mieux que 0 ou 1 -_('')_- mais il nous donne aussi le nom de certaines variable et 
         peut-être que string c'est bien aussi, jsp a regarder
         */
+        int id;
+        bool statut_cor;
+        bool dir_rot;   //direction rotation 0(TRIGO) ou 1(INVTRIGO)
+        bool statut_dev; // 0(EXTEND) 1(REPRO)
+        unsigned int nbr_segments;      //doit être strictement positif --> verifier dans une méthode à l'initialisation
         bool is_alive;
         bool is_extend; // true = EXTEND et false = REPRO
-        bool statut_cor;
-        bool statut_dev; // 0(EXTEND) 1(REPRO)
-        bool dir_rot;   //direction rotation 0(TRIGO) ou 1(INVTRIGO)
         std::string color; //bleu = alive ou noir = dead pour un prochain rendu, string parce que ensuite on devra surement mettre un code couleur rgb
-        unsigned int nbr_segments;      //doit être strictement positif --> verifier dans une méthode à l'initialisation
         unsigned int cor_life_max; 
-        int id;
+        
         
 };
 
@@ -75,9 +76,10 @@ class Scavenger: public Lifeform{
         {}
 
     private:
+        double rayon;
         bool statut_sca; //0(LIBRE)    1(MANGE)
         int corail_id_cible;
-        double rayon;
+        
 };
 
 #endif
