@@ -22,7 +22,9 @@ class Simulation{
         void init_nbr_algue(int nbr);
         void init_nbr_corail(int nbr);
         void init_nbr_scavenger(int nbr);
-        void verifie_positive(int nbr);
+
+        void unique_id(unsigned int id);
+        void existant_id(unsigned int id_corail_cible);
         
     private:
         enum TYPE_lecture {ALGUE, CORAIL, SCAVENGER};

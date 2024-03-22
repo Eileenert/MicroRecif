@@ -11,6 +11,7 @@
 
 using namespace std;
 
+void verifie_positive(int nbr);
 void age_positif(int age);
 void longueur_segment(unsigned int s, unsigned int id);
 void angle_segment(double a, unsigned int id);
@@ -29,11 +30,7 @@ void Simulation::init_nbr_scavenger(int nbr){
     nbr_scavenger = nbr;
 }
 
-void Simulation::verifie_positive(int nbr){
-    if(nbr <0){
-        exit(EXIT_FAILURE);
-    }
-}
+
 
 // traite le fichier ligne par ligne.  
 void Simulation::lecture(char * nom_fichier)
@@ -119,13 +116,14 @@ void Simulation::decodage_corail(string line){
         data >> age;
         age_positif(age);
         data >> id;
+        unique_id(id);
         data >> statut; //statut corail
         data >> dir_rot;
         data >> statut_dev;
         data >> nbr_segments;
         corail_vect.push_back(Corail(x, y, age, id, statut, dir_rot, statut_dev, nbr_segments));
     }
-    if(corail_vect.size() == nbr_corail){
+    if((corail_vect.size() == nbr_corail) && (corail_vect.back().get_seg_vector().size() == corail_vect.back().get_nbr_segments())){
         type = SCAVENGER;
     }
 }
@@ -154,11 +152,45 @@ void Simulation::decodage_scavenger(string line){
         scavenger_vect.push_back(Scavenger(x, y, age, rayon, statut));
 
         if(statut == 1){
-            data >> id_corail_cible;
+            if(data >> id_corail_cible){
+                existant_id(id_corail_cible);
+            }
             scavenger_vect.back().init_corail_id_cible(id_corail_cible);
         }
         
     } 
+}
+
+
+
+void Simulation::unique_id(unsigned int id){
+    for(size_t i(0); i < corail_vect.size(); i++){
+        if(id == corail_vect[i].get_id()){
+            cout << message::lifeform_duplicated_id(id);
+            exit(EXIT_FAILURE);
+        }
+    }
+}
+
+void Simulation::existant_id(unsigned int id_corail_cible){
+    bool existant_id(false);
+    
+    for(size_t i(0); i < corail_vect.size(); i++){
+        if(id_corail_cible == corail_vect[i].get_id()){
+            existant_id = true;
+        }
+    }
+
+    if(existant_id == false){
+        cout << message::lifeform_invalid_id(id_corail_cible);
+        exit(EXIT_FAILURE);
+    }
+}
+
+void verifie_positive(int nbr){
+    if(nbr <0){
+        exit(EXIT_FAILURE);
+    }
 }
 
 void age_positif(int age){
@@ -193,3 +225,4 @@ void rayon_scavenger(unsigned int rayon){
     }
         
 }
+
