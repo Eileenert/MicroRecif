@@ -48,3 +48,7 @@ unsigned int Corail::get_id(){
 void Corail::add_seg_vector(double a, int s){
     seg_vector.push_back(Segments(x, y, a, s));
 }
+
+void Scavenger::init_corail_id_cible(unsigned int corail_id_cible1){
+    corail_id_cible = corail_id_cible1;
+}

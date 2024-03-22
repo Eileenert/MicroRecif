@@ -1,3 +1,5 @@
+#define _USE_MATH_DEFINES
+#include <cmath>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -11,6 +13,8 @@ using namespace std;
 
 void age_positif(int age);
 void longueur_segment(unsigned int s, unsigned int id);
+void angle_segment(double a, unsigned int id);
+void rayon_scavenger(unsigned int rayon);
 
 void Simulation::init_nbr_algue(int nbr){
     verifie_positive(nbr);
@@ -61,7 +65,7 @@ void Simulation::decodage_ligne(string line){
             decodage_corail(line);
             break;
 
-        case SCAVENGER:
+        case SCAVENGER:  
             decodage_scavenger(line);
             break;
 
@@ -100,16 +104,16 @@ void Simulation::decodage_corail(string line){
 
     if(nbr_corail == 0){
         data >> nbr_corail;
-        cout << corail_vect.size() << endl;
     }
-    else if((corail_vect.size() != 0) && (corail_vect.back().get_seg_vector().size() <= corail_vect.back().get_nbr_segments())){
+    else if((corail_vect.size() != 0) && (corail_vect.back().get_seg_vector().size() < corail_vect.back().get_nbr_segments())){
         data >> a;
+        angle_segment(a, corail_vect.back().get_id());
         data >> s;
         longueur_segment(s, corail_vect.back().get_id());
         corail_vect.back().add_seg_vector(a,s); 
         
     }
-    else if(corail_vect.size() <= nbr_corail){
+    else if(corail_vect.size() < nbr_corail){
         data >> x;
         data >> y;
         data >> age;
@@ -120,38 +124,45 @@ void Simulation::decodage_corail(string line){
         data >> statut_dev;
         data >> nbr_segments;
         corail_vect.push_back(Corail(x, y, age, id, statut, dir_rot, statut_dev, nbr_segments));
-
-
     }
-    else{
+    if(corail_vect.size() == nbr_corail){
         type = SCAVENGER;
     }
 }
 
 void Simulation::decodage_scavenger(string line){
     istringstream data(line);
-    double x, y, id_corail_cible, rayon;
+    double x, y;
+    unsigned int id_corail_cible;
+    unsigned int rayon;
     int age;
     bool statut;
+    
     if(nbr_scavenger == 0){
         data >> nbr_scavenger;
 
     }
-    else if(algue_vect.size() <= nbr_algue){
+    else if(scavenger_vect.size() < nbr_scavenger){
+        
         data >> x;
         data >> y;
         data >> age;
         age_positif(age);
         data >> rayon;
+        rayon_scavenger(rayon);
         data >> statut;
-        data >> id_corail_cible;
-        scavenger_vect.push_back(Scavenger(x, y, age, rayon, statut, id_corail_cible));
+        scavenger_vect.push_back(Scavenger(x, y, age, rayon, statut));
+
+        if(statut == 1){
+            data >> id_corail_cible;
+            scavenger_vect.back().init_corail_id_cible(id_corail_cible);
+        }
+        
     } 
 }
 
 void age_positif(int age){
     if(age <= 0){
-        cout << message::lifeform_age(age);
         exit(EXIT_FAILURE);
     }
 }
@@ -166,3 +177,19 @@ void longueur_segment(unsigned int s, unsigned int id){
         
 }
 
+void angle_segment(double a, unsigned int id){
+    if((a < -M_PI) || (a > M_PI)){
+        cout << message::segment_angle_outside(id,a);
+        exit(EXIT_FAILURE);
+    }
+}
+
+void rayon_scavenger(unsigned int rayon){
+    constexpr unsigned r_sca(3) ;
+    constexpr unsigned r_sca_repro(10) ;
+    if ((rayon < r_sca) || (rayon > r_sca_repro)){
+        cout << message::scavenger_radius_outside(rayon);
+        exit(EXIT_FAILURE);
+    }
+        
+}

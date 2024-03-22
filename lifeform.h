@@ -71,13 +71,15 @@ class Corail: public Lifeform{
 
 class Scavenger: public Lifeform{
     public:
-        Scavenger(double x1, double y1,int age1, double rayon1, bool statut_sca1, unsigned int corail_id_cible1)
+        Scavenger(double x1, double y1,int age1, unsigned int rayon1, bool statut_sca1)
         :Lifeform(x1, y1, age1), 
-        rayon(rayon1), statut_sca(statut_sca1), corail_id_cible(corail_id_cible1)
+        rayon(rayon1), statut_sca(statut_sca1)
         {}
 
+        void init_corail_id_cible(unsigned int corail_id_cible1);
+
     private:
-        double rayon;
+        unsigned int rayon;
         bool statut_sca; //0(LIBRE)    1(MANGE)
         unsigned int corail_id_cible;
         
