@@ -4,8 +4,6 @@
 #include <vector>
 #include "shape.h"
 
-
-
 class Lifeform{
     public:
 
@@ -64,9 +62,7 @@ class Corail: public Lifeform{
         bool is_alive;
         bool is_extend; // true = EXTEND et false = REPRO
         std::string color; //bleu = alive ou noir = dead pour un prochain rendu, string parce que ensuite on devra surement mettre un code couleur rgb
-        unsigned int cor_life_max; 
-        
-        
+        unsigned int cor_life_max;      
 };
 
 class Scavenger: public Lifeform{
@@ -82,7 +78,6 @@ class Scavenger: public Lifeform{
         unsigned int rayon;
         bool statut_sca; //0(LIBRE)    1(MANGE)
         unsigned int corail_id_cible;
-        
 };
 
 #endif

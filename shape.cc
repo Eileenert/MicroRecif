@@ -61,8 +61,7 @@ bool bool_superpo(double ecart){
     return superposition;
 }//section 2.1//shape à définir
 
-//bool bool_intersect_superpo(){
-//}//à finir ?? je sais pas si on doit faire ça aussi
+//bool_intersec_superpo ??
 
 bool onSegment(S2d p, S2d q, S2d r){
      //if (q.x <= max(p.x, r.x) && q.x >= min(p.x, r.x) && 

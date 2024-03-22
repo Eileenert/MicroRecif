@@ -8,7 +8,7 @@
 //3.1 il faut faire une classe simulation
 class Simulation{
     public:
-        Simulation(int nbr_al = 0, int nbr_co=0, int nbr_sca=0)
+        Simulation(int nbr_al = 0, int nbr_co = 0, int nbr_sca = 0)
         : nbr_algue(nbr_al), nbr_corail(nbr_co), nbr_scavenger(nbr_sca)
         {}
 

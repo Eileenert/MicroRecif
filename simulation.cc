@@ -30,11 +30,8 @@ void Simulation::init_nbr_scavenger(int nbr){
     nbr_scavenger = nbr;
 }
 
-
-
 // traite le fichier ligne par ligne.  
-void Simulation::lecture(char * nom_fichier)
-{
+void Simulation::lecture(char * nom_fichier){
     string line;
     ifstream fichier(nom_fichier); 
 
@@ -43,12 +40,10 @@ void Simulation::lecture(char * nom_fichier)
     while(getline(fichier >> ws, line)) 
     {
         // ligne de commentaire à ignorer, on passe à la suivante
-        if(line[0]=='#' || line[0]=='\n' || line[0]=='\r')  continue; 
+        if(line[0]=='#' || line[0]=='\n' || line[0]=='\r') continue; 
         decodage_ligne(line);
-
     }
     cout << message::success();
-
 }
 
 void Simulation::decodage_ligne(string line){
@@ -85,11 +80,9 @@ void Simulation::decodage_algue(string line){
         age_positif(age);
         algue_vect.push_back(Algue(x,y,age));
     }   
-
     if(algue_vect.size() == nbr_algue){
         type = CORAIL;
         }
-    
 }
 
 void Simulation::decodage_corail(string line){
@@ -156,12 +149,9 @@ void Simulation::decodage_scavenger(string line){
                 existant_id(id_corail_cible);
             }
             scavenger_vect.back().init_corail_id_cible(id_corail_cible);
-        }
-        
+        } 
     } 
 }
-
-
 
 void Simulation::unique_id(unsigned int id){
     for(size_t i(0); i < corail_vect.size(); i++){
@@ -205,8 +195,7 @@ void longueur_segment(unsigned int s, unsigned int id){
     if ((s < (l_repro-l_seg_interne)) || (s > l_repro)){
         cout << message::segment_length_outside(id, s);
         exit(EXIT_FAILURE);
-    }
-        
+    }    
 }
 
 void angle_segment(double a, unsigned int id){
@@ -222,7 +211,6 @@ void rayon_scavenger(unsigned int rayon){
     if ((rayon < r_sca) || (rayon > r_sca_repro)){
         cout << message::scavenger_radius_outside(rayon);
         exit(EXIT_FAILURE);
-    }
-        
+    } 
 }
 

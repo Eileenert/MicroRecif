@@ -17,9 +17,10 @@ MicroRecif project EPFL
 
 - j'ai rien fais de conscient dans la section 3 ._. je vais relire le truc et voir si je peux avancer qqch
 
-- ne pas oublier d'enlever le main dans simulation
 - j'ai une question pour le Makefile
 
 - pas oublier la syntaxe pour les classes !! et autres...
+
+- epsil_zero
 
 
