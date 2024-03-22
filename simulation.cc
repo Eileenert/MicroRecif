@@ -77,8 +77,6 @@ void Simulation::decodage_ligne(string line){
             if(nbr_corail == 0){
                     data >> nbr_corail;
                 }
-            //mettre une condition --> si on a un nbr de segment initialisé segments sinon la condition en dessous
-            //FAUTE ICI
             else if((corail_vect.size() != 0) && (corail_vect.back().get_seg_vector().size() <= corail_vect.back().get_nbr_segments())){
                 data >> s;
                 data >> a;
