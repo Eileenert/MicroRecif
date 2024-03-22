@@ -41,6 +41,10 @@ unsigned int Corail::get_nbr_segments(){
     return nbr_segments;
 }
 
+unsigned int Corail::get_id(){
+    return id;
+}
+
 void Corail::add_seg_vector(double a, int s){
     seg_vector.push_back(Segments(x, y, a, s));
 }

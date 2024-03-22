@@ -12,7 +12,7 @@ bool onSegment(S2d p, S2d q, S2d r);
 double orientation(S2d p, S2d q, S2d r);
 bool doIntersect(S2d p1, S2d q1, S2d p2, S2d q2);
 
-Segments::Segments(double x, double y, double a, int s)
+Segments::Segments(double x, double y, double a, unsigned s)
         :angle(a), longueur(s)
         {
             S2d base_temp;

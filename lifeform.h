@@ -34,7 +34,7 @@ class Algue: public Lifeform{
 
 class Corail: public Lifeform{
     public:
-        Corail(double x1, double y1,int age1,int id1, bool statut_cor1, bool dir_rot1, bool statut_dev1, unsigned int nbr_segments1)
+        Corail(double x1, double y1,int age1,unsigned int id1, bool statut_cor1, bool dir_rot1, bool statut_dev1, unsigned int nbr_segments1)
         :Lifeform(x1, y1, age1), 
         id(id1), statut_cor(statut_cor1), dir_rot(dir_rot1), statut_dev(statut_dev1), nbr_segments(nbr_segments1)
         {}
@@ -44,6 +44,7 @@ class Corail: public Lifeform{
         void angle_segment(double& angle_seg, double base_x, double base_y,double extr_x, double extr_y);
         std::vector<Segments> get_seg_vector();
         unsigned int get_nbr_segments();
+        unsigned int get_id();
         void add_seg_vector(double a, int s);
 
     private:
@@ -55,7 +56,7 @@ class Corail: public Lifeform{
         bool est mieux que 0 ou 1 -_('')_- mais il nous donne aussi le nom de certaines variable et 
         peut-être que string c'est bien aussi, jsp a regarder
         */
-        int id;
+        unsigned int id;
         bool statut_cor;
         bool dir_rot;   //direction rotation 0(TRIGO) ou 1(INVTRIGO)
         bool statut_dev; // 0(EXTEND) 1(REPRO)
@@ -70,7 +71,7 @@ class Corail: public Lifeform{
 
 class Scavenger: public Lifeform{
     public:
-        Scavenger(double x1, double y1,int age1, double rayon1, bool statut_sca1, int corail_id_cible1)
+        Scavenger(double x1, double y1,int age1, double rayon1, bool statut_sca1, unsigned int corail_id_cible1)
         :Lifeform(x1, y1, age1), 
         rayon(rayon1), statut_sca(statut_sca1), corail_id_cible(corail_id_cible1)
         {}
@@ -78,7 +79,7 @@ class Scavenger: public Lifeform{
     private:
         double rayon;
         bool statut_sca; //0(LIBRE)    1(MANGE)
-        int corail_id_cible;
+        unsigned int corail_id_cible;
         
 };
 

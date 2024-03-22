@@ -5,10 +5,12 @@
 #include "simulation.h"
 #include "message.h"
 #include "shape.h"
+#include "lifeform.h"
 
 using namespace std;
 
 void age_positif(int age);
+void longueur_segment(unsigned int s, unsigned int id);
 
 void Simulation::init_nbr_algue(int nbr){
     verifie_positive(nbr);
@@ -91,18 +93,20 @@ void Simulation::decodage_algue(string line){
 
 void Simulation::decodage_corail(string line){
     istringstream data(line);
-    double x, y, id, a;
-    int age, s;
+    double x, y, a;
+    int age;
     bool statut, dir_rot, statut_dev;
-    unsigned int nbr_segments;
+    unsigned int nbr_segments, id, s;
 
     if(nbr_corail == 0){
         data >> nbr_corail;
+        cout << corail_vect.size() << endl;
     }
     else if((corail_vect.size() != 0) && (corail_vect.back().get_seg_vector().size() <= corail_vect.back().get_nbr_segments())){
-        data >> s;
         data >> a;
-        corail_vect.back().add_seg_vector(s,a); 
+        data >> s;
+        longueur_segment(s, corail_vect.back().get_id());
+        corail_vect.back().add_seg_vector(a,s); 
         
     }
     else if(corail_vect.size() <= nbr_corail){
@@ -119,7 +123,7 @@ void Simulation::decodage_corail(string line){
 
 
     }
-    if(corail_vect.size() == nbr_corail){
+    else{
         type = SCAVENGER;
     }
 }
@@ -150,5 +154,15 @@ void age_positif(int age){
         cout << message::lifeform_age(age);
         exit(EXIT_FAILURE);
     }
+}
+
+void longueur_segment(unsigned int s, unsigned int id){
+    constexpr unsigned l_repro (40) ;
+    constexpr unsigned l_seg_interne (28) ;
+    if ((s < (l_repro-l_seg_interne)) || (s > l_repro)){
+        cout << message::segment_length_outside(id, s);
+        exit(EXIT_FAILURE);
+    }
+        
 }
 

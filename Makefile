@@ -1,8 +1,8 @@
 # Definitions de macros
 CXX     = g++
 CXXFLAGS = -g -Wall -std=c++11
-CXXFILES = projet.cc lifeform.cc message.cc shape.cc simulation.cc constantes.cc
-OFILES = projet.o lifeform.o constantes.o message.o shape.o simulation.o
+CXXFILES = projet.cc lifeform.cc message.cc shape.cc simulation.cc
+OFILES = projet.o lifeform.o message.o shape.o simulation.o
 
 # Definition de la premiere regle
 
@@ -32,4 +32,3 @@ lifeform.o: lifeform.cc message.h lifeform.h shape.h
 message.o: message.cc message.h
 shape.o: shape.cc shape.h
 simulation.o: simulation.cc simulation.h lifeform.h shape.h message.h
-constantes.o: constantes.cc constantes.h shape.h

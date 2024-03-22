@@ -6,7 +6,7 @@ struct S2d {double x=0.; double y=0.;};
 
 class Segments{
     public:
-        Segments(double x, double y, double a, int s);
+        Segments(double x, double y, double a, unsigned int s);
         double get_angle();
         double get_longueur();
         S2d get_extr();
@@ -14,7 +14,7 @@ class Segments{
     private:
         S2d base;
         double angle;
-        int longueur;
+        unsigned int longueur;
 };
 
 #endif
