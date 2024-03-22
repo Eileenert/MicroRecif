@@ -30,6 +30,9 @@ double Segments::get_longueur(){
     return longueur;
 }
 
+//void Segments::set_angle(double ){ //je suis pas sûre de tout ça mmmmm... 
+//}
+
 S2d Segments::get_extr(){
     S2d extr;
     extr.x = base.x + longueur*cos(angle);
@@ -51,19 +54,16 @@ void ecart_angulaire(double& ecart, double angle1, double angle2){ //section 2.1
 bool bool_superpo(double ecart){
     double a1(0.), a2(0.);//ou est-ce que je dois prendre les angles ?
     constexpr double delta_rot(0.0625);
-    bool superposition(0);
 
     ecart_angulaire(ecart, a1, a2);
 
-    if (ecart == 0){
-        superposition = 1;
-    }
-    if ((ecart >= -delta_rot) && (ecart <= delta_rot)){
-        superposition = 1;
-    }
+    if (ecart == 0)
+        return true;
+    if ((ecart >= -delta_rot) && (ecart <= delta_rot))
+        return true;
 
-    return superposition;
-}//section 2.1 et 3.2.3
+    return false;
+}//section 2.1 et 3.2.3 true = superposition
 
 bool onSegment(S2d p, S2d q, S2d r){
      //if (q.x <= max(p.x, r.x) && q.x >= min(p.x, r.x) && 
@@ -111,6 +111,14 @@ bool doIntersect(S2d p1, S2d q1, S2d p2, S2d q2){
     if (o4 == 0 && onSegment(p2, q1, q2)) return true; 
   
     return false; 
-} 
+}
+
+bool appartenance_récipient(){
+    if((centre >= 1) && (centre <= max-1))
+        return true;
+    if((autres centres et bras > espil_zero) && (autres centres et bras < max - espil_zero))
+        return true;
+    return false;
+}
 
 // TESTS ==============================

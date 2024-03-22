@@ -24,12 +24,13 @@ void Corail::verifie_longueur(size_t index_segment, unsigned id, unsigned l){
     }
 }
 
-void Corail::angle_segment(double& angle_seg, double base_x, double base_y,double extr_x, double extr_y){ //trouve l'angle qu'un segment fait avec l'axe x, section 3.1
+void Corail::angle_segment(/*size_t index_segment,*/ double& angle_seg, double base_x, double base_y,double extr_x, double extr_y){ //trouve l'angle qu'un segment fait avec l'axe x, section 3.1
     extr_x = extr_x - base_x;
     extr_y = extr_y - base_y;
     angle_seg = atan2(extr_y, extr_x);
+    //seg_vector[index_segment].set_angle() = angle_seg;
 }//je met une référence pour angle_seg ??
-
+/////A CHANGER !!!
 
 vector<Segments> Corail::get_seg_vector(){
     return seg_vector;
