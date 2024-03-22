@@ -7,6 +7,10 @@ using namespace std;
 
 constexpr double epsil_zero(0.5);
 void ecart_angulaire(double angle1, double angle2);//section 2.1
+bool bool_superpo(double ecart);
+bool onSegment(S2d p, S2d q, S2d r);
+double orientation(S2d p, S2d q, S2d r);
+bool doIntersect(S2d p1, S2d q1, S2d p2, S2d q2);
 
 Segments::Segments(double x, double y, double a, int s)
         :angle(a), longueur(s)

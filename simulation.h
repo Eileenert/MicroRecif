@@ -15,6 +15,10 @@ class Simulation{
         void lecture(char * nom_fichier);
         void decodage_ligne(std::string line);
 
+        void decodage_algue(std::string data);
+        void decodage_corail(std::string line);
+        void decodage_scavenger(std::string line);
+
         void init_nbr_algue(int nbr);
         void init_nbr_corail(int nbr);
         void init_nbr_scavenger(int nbr);

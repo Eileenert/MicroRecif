@@ -10,5 +10,5 @@ int main(int argc, char * argv[]){
 
     Simulation s1;
     s1.lecture(argv[1]);
-    return 0; //surement a changer
+    exit(0); //surement a changer
 }
