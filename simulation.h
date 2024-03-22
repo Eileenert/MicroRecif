@@ -19,15 +19,14 @@ class Simulation{
         void init_nbr_corail(int nbr);
         void init_nbr_scavenger(int nbr);
         void verifie_positive(int nbr);
-        void get_vector(); // a supprimer, juste pour tester
         
     private:
         enum TYPE_lecture {ALGUE, CORAIL, SCAVENGER};
         int type;
 
-        int nbr_algue;
-        int nbr_corail;
-        int nbr_scavenger;
+        unsigned int nbr_algue;
+        unsigned int nbr_corail;
+        unsigned int nbr_scavenger;
 
         std::vector<Corail> corail_vect; 
         std::vector<Scavenger> scavenger_vect;

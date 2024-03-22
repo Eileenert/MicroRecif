@@ -1,13 +1,12 @@
 # Definitions de macros
-
 CXX     = g++
 CXXFLAGS = -g -Wall -std=c++11
 CXXFILES = projet.cc lifeform.cc message.cc shape.cc simulation.cc constantes.cc
-OFILES = lifeform.o constantes.o message.o shape.o simulation.o
+OFILES = projet.o lifeform.o constantes.o message.o shape.o simulation.o
 
 # Definition de la premiere regle
 
-prog: $(OFILES)
+projet: $(OFILES)
 	$(CXX) $(OFILES) -o projet
 
 # Definitions de cibles particulieres

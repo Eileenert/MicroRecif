@@ -11,7 +11,9 @@ void ecart_angulaire(double angle1, double angle2);//section 2.1
 Segments::Segments(double x, double y, double a, int s)
         :angle(a), longueur(s)
         {
-            S2d base_temp{x,y};
+            S2d base_temp;
+            base_temp.x = x;
+            base_temp.y = y;
             base = base_temp;
         }
 

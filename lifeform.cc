@@ -10,16 +10,16 @@ using namespace std;
 
 
 
-void Corail::verifie_angle(size_t index_segment){
+void Corail::verifie_angle(size_t index_segment, unsigned id, double a){
     if(seg_vector[index_segment].get_angle() < -M_PI || seg_vector[index_segment].get_angle() > M_PI){
-        cout << message::segment_angle_outside;
+        cout << message::segment_angle_outside(id, a);
         exit(EXIT_FAILURE); //Pour le rendu 1 seulement
     }
 }
 
-void Corail::verifie_longueur(size_t index_segment){
+void Corail::verifie_longueur(size_t index_segment, unsigned id, unsigned l){
     if (seg_vector[index_segment].get_longueur() < 0){
-            cout << message::segment_length_outside;
+            cout << message::segment_length_outside(id, l);
             exit(EXIT_FAILURE); //Pour le rendu 1 seulement
         }
 }

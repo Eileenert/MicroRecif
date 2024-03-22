@@ -7,12 +7,6 @@
 
 using namespace std;
 
-void Simulation::get_vector(){
-    for(Corail co: corail_vect){
-        cout << co.get_nbr_segments();
-    }
-}
-
 void Simulation::init_nbr_algue(int nbr){
     verifie_positive(nbr);
     nbr_algue = nbr;
@@ -39,7 +33,6 @@ void Simulation::lecture(char * nom_fichier)
     ifstream fichier(nom_fichier); 
 
     type = ALGUE;
-
     // l’appel de getline filtre aussi les séparateurs
     while(getline(fichier >> ws, line)) 
     {
@@ -85,10 +78,11 @@ void Simulation::decodage_ligne(string line){
                     data >> nbr_corail;
                 }
             //mettre une condition --> si on a un nbr de segment initialisé segments sinon la condition en dessous
-            else if(corail_vect.back().get_seg_vector().size() <= corail_vect.back().get_nbr_segments()){
+            //FAUTE ICI
+            else if((corail_vect.size() != 0) && (corail_vect.back().get_seg_vector().size() <= corail_vect.back().get_nbr_segments())){
                 data >> s;
                 data >> a;
-                corail_vect.back().add_seg_vector(s,a);
+                corail_vect.back().add_seg_vector(s,a); 
                 
             }
             else if(corail_vect.size() <= nbr_corail){
