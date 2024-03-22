@@ -60,7 +60,6 @@ void Simulation::decodage_ligne(string line){
         case SCAVENGER:  
             decodage_scavenger(line);
             break;
-
     } 
 }
 

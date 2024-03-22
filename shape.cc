@@ -49,7 +49,8 @@ void ecart_angulaire(double& ecart, double angle1, double angle2){ //section 2.1
 }
 
 bool bool_superpo(double ecart){
-    double a1(0.), a2(0.);
+    double a1(0.), a2(0.);//ou est-ce que je dois prendre les angles ?
+    constexpr double delta_rot(0.0625);
     bool superposition(0);
 
     ecart_angulaire(ecart, a1, a2);
@@ -57,11 +58,12 @@ bool bool_superpo(double ecart){
     if (ecart == 0){
         superposition = 1;
     }
+    if ((ecart >= -delta_rot) && (ecart <= delta_rot)){
+        superposition = 1;
+    }
 
     return superposition;
-}//section 2.1//shape à définir
-
-//bool_intersec_superpo ??
+}//section 2.1 et 3.2.3
 
 bool onSegment(S2d p, S2d q, S2d r){
      //if (q.x <= max(p.x, r.x) && q.x >= min(p.x, r.x) && 

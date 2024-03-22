@@ -37,7 +37,6 @@ class Simulation{
         std::vector<Corail> corail_vect; 
         std::vector<Scavenger> scavenger_vect;
         std::vector<Algue> algue_vect;
-
 };
 
 
