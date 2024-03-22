@@ -10,6 +10,7 @@ class Segments{
         double get_angle();
         double get_longueur();
         S2d get_extr();
+        bool superposition(bool lecture, Segments s);
 
     private:
         S2d base;

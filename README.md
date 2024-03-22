@@ -1,26 +1,27 @@
 # MicroRecif
 MicroRecif project EPFL
 
-- je me suis occupée de la section 2.1, j'ai une question pour l'assistant pour le signe de l'ecart angulaire, acctuellement on a l'ecart sans le signe mais dans la simulation le prof veut qu'on mette le signe, mais je crois pas que c'est pour le rendu 1
+syntaxe:
 
-- fonction bool_intersect_superpo //que faire ??
+- classes
 
-- en passant j'aimerai savoir se que pense l'assistant de la fonction bool_superpo parce que j'ai l'impression que y'a plus simple
 
-- indef endef
+Les choses à enlever ?:
 
-- 2.2 j'ai pas vraiment fini cette section, je vais juste demander à l'assistant si j'ai bien réussi à introduire epsil_zero comme le prof le voulait
+- dans le lifeform, est-ce que la fonction qui utilise atan2 est utile ???
+- dans le shape.cc il y'a des prototypes au début du document
 
-- la section 2.2.1 je compte la faire avant vendredi, ça concerne la fonction orientation
+Les choses à vérifier :
 
-- Je crois que la section 2.2.2 est finie, c'est tjrs mieux si on arrive à faire corriger par l'assistant, est-ce que les initialisations sont trop dègues ?
+- epsil_zero 
+- incohérence : partie 4.2 du projet et 3.2.4 du rendu1 
 
-- j'ai rien fais de conscient dans la section 3 ._. je vais relire le truc et voir si je peux avancer qqch
 
-- j'ai une question pour le Makefile
+Les fonctions qui sont encore à finaliser:
 
-- pas oublier la syntaxe pour les classes !! et autres...
+- "bool Segments::superposition" (shape.cc) : 3.2.3 "s'il appartient à l'intervalle et change de signe lors de la mise à jour", j'ai pas        fait le truc du changement de signe 
+- "double orientation" (shape.cc) : est-ce que je garde la ligne return (val > 0)? 1: 2;  
+- "bool Lifeform::appartenance_recipient()" (Lifeform) : à finir 3.2.2, c'est quoi un effecteur ?
 
-- epsil_zero
 
 

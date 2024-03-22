@@ -10,6 +10,7 @@ class Lifeform{
         Lifeform(double x1, double y1, int age1)
         :x(x1), y(y1), age(age1)
         {}
+        bool appartenance_recipient();
     protected:
         double x;
         double y;

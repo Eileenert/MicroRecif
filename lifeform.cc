@@ -8,7 +8,14 @@
 #include "lifeform.h"
 using namespace std;
 
-
+bool Lifeform::appartenance_recipient(){
+    constexpr double max(256.);
+    if(((x && y) >= 1) && ((x && y) <= max-1)) //verifie que les centres des algues, scavenger et la base des coraux sont dans le domaine
+        return true;
+    if((autres centres et bras > espil_zero) && (autres centres et bras < max - espil_zero))
+        return true;
+    return false;
+}
 
 void Corail::verifie_angle(size_t index_segment, unsigned id, double a){
     if(seg_vector[index_segment].get_angle() < -M_PI || seg_vector[index_segment].get_angle() > M_PI){
@@ -24,13 +31,11 @@ void Corail::verifie_longueur(size_t index_segment, unsigned id, unsigned l){
     }
 }
 
-void Corail::angle_segment(/*size_t index_segment,*/ double& angle_seg, double base_x, double base_y,double extr_x, double extr_y){ //trouve l'angle qu'un segment fait avec l'axe x, section 3.1
+void Corail::angle_segment(double& angle_seg, double base_x, double base_y,double extr_x, double extr_y){
     extr_x = extr_x - base_x;
     extr_y = extr_y - base_y;
     angle_seg = atan2(extr_y, extr_x);
-    //seg_vector[index_segment].set_angle() = angle_seg;
-}//je met une référence pour angle_seg ??
-/////A CHANGER !!!
+}//je met une référence pour angle_seg //trouve l'angle qu'un segment fait avec l'axe x, section 3.1 //est-ce vraiment utile ???
 
 vector<Segments> Corail::get_seg_vector(){
     return seg_vector;
