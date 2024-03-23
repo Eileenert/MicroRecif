@@ -8,14 +8,14 @@
 #include "lifeform.h"
 using namespace std;
 
-bool Lifeform::appartenance_recipient(){
+/* bool Lifeform::appartenance_recipient(){
     constexpr double max(256.);
     if(((x && y) >= 1) && ((x && y) <= max-1)) //verifie que les centres des algues, scavenger et la base des coraux sont dans le domaine
         return true;
     if((autres centres et bras > espil_zero) && (autres centres et bras < max - espil_zero))
         return true;
     return false;
-}
+} */
 
 void Corail::verifie_angle(size_t index_segment, unsigned id, double a){
     if(seg_vector[index_segment].get_angle() < -M_PI || seg_vector[index_segment].get_angle() > M_PI){

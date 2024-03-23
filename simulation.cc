@@ -184,6 +184,7 @@ void verifie_positive(int nbr){
 
 void age_positif(int age){
     if(age <= 0){
+        cout << message::lifeform_age(age);
         exit(EXIT_FAILURE);
     }
 }
@@ -191,7 +192,7 @@ void age_positif(int age){
 void longueur_segment(unsigned int s, unsigned int id){
     constexpr unsigned l_repro (40) ;
     constexpr unsigned l_seg_interne (28) ;
-    if ((s < (l_repro-l_seg_interne)) || (s > l_repro)){
+    if ((s < (l_repro-l_seg_interne)) || (s >= l_repro)){
         cout << message::segment_length_outside(id, s);
         exit(EXIT_FAILURE);
     }    

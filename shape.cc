@@ -6,10 +6,9 @@
 using namespace std;
 
 constexpr double epsil_zero(0.5);
-void ecart_angulaire(double& ecart, double angle1, double angle2);//section 2.1
-bool onSegment(S2d p, S2d q, S2d r);
+bool onSegment(bool use_epsil_zero, S2d p, S2d q, S2d r);
 double orientation(S2d p, S2d q, S2d r);
-bool doIntersect(S2d p1, S2d q1, S2d p2, S2d q2);
+bool doIntersect(bool use_epsil_zero, S2d p1, S2d q1, S2d p2, S2d q2);
 
 Segments::Segments(double x, double y, double a, unsigned s)
         :angle(a), longueur(s)
@@ -36,24 +35,13 @@ S2d Segments::get_extr(){
     return extr;
 }
 
-void ecart_angulaire(double& ecart, double angle1, double angle2){ //calcul l'ecart angulaire entre deux segments 
-    
-    if (angle2 >= 0){
-        ecart = M_PI - (angle2-angle1);
-    }
-
-    if (angle2 < 0){
-        ecart = M_PI - (angle1+angle2); 
-    }
-}
 
 // en parametres 1 segment à comparé avec le segment actuel (on met la fonction comme méthode de la classe segment)
 bool Segments::superposition(bool lecture, Segments s){//booléen lecture 1 = on est en lecture de fichier
-    double a2 = s.get_angle();
+    
     constexpr double delta_rot(0.0625);
-    double ecart(0.);
 
-    ecart_angulaire(ecart, angle, a2);//a2 c'est l'angle de la 2eme partie du segment qui partage la même extremitée
+    double ecart = ecart_angulaire(s);//a2 c'est l'angle de la 2eme partie du segment qui partage la même extremitée
 
     if ((ecart == 0) && (lecture == 1)) //si l'ecart est nul en lecture de fichier il y'a superposition
         return true;
@@ -63,13 +51,32 @@ bool Segments::superposition(bool lecture, Segments s){//booléen lecture 1 = on
     return false;
 }//section 2.1 et 3.2.3 true = superposition
 
-bool onSegment(bool use_epsil, S2d p, S2d q, S2d r){
+
+//calcul ecart angulaire entre angle du segment et celui de l'autre segment passé en paramètre
+double Segments::ecart_angulaire(Segments s){ 
+    double angle2 = s.get_angle();
+    double ecart;
+
+    if (angle2 >= 0){
+        ecart = M_PI - (angle2 - angle);
+    }
+
+    if (angle2 < 0){
+        ecart = M_PI - (angle + angle2); 
+    }
+
+    return ecart;
+}
+
+
+
+bool onSegment(bool use_epsil_zero, S2d p, S2d q, S2d r){
     double s((r.x-p.x)*(q.x-p.x)+(r.y-p.y)*(q.y-p.y));
     double c(pow((r.x-p.x),2)+pow((r.y-p.y),2)); //c c'est le (X^2 + Y^2) du vecteur pr
     double pr(pow(c,1/2));// pr c'est la norme du vecteur pr
     double x(s/pr); //x c'est le truc que le prof veut qu'on calcul dans la section 2.2.2 (tkt on a pas besoin de comprendre exactement le pourquoi du calcul, c'est donné)
 
-    if ((-epsil_zero*use_epsil <= x) && (x <= (pr+use_epsil*epsil_zero)))
+    if ((-epsil_zero*use_epsil_zero<= x) && (x <= (pr + epsil_zero*use_epsil_zero))) 
         return true; 
   
     return false; 
@@ -86,7 +93,7 @@ double orientation(S2d p, S2d q, S2d r){
     return (val > 0)? 1: 2; //je garde cette ligne ?? question assistant
 }
 
-bool doIntersect(S2d p1, S2d q1, S2d p2, S2d q2){ 
+bool doIntersect(bool use_epsil_zero,S2d p1, S2d q1, S2d p2, S2d q2){ 
     int o1 = orientation(p1, q1, p2); 
     int o2 = orientation(p1, q1, q2); 
     int o3 = orientation(p2, q2, p1); 
@@ -95,13 +102,13 @@ bool doIntersect(S2d p1, S2d q1, S2d p2, S2d q2){
     if (o1 != o2 && o3 != o4) 
         return true; 
   
-    if (o1 == 0 && onSegment(p1, p2, q1)) return true; 
+    if (o1 == 0 && onSegment(use_epsil_zero, p1, p2, q1)) return true; 
    
-    if (o2 == 0 && onSegment(p1, q2, q1)) return true; 
+    if (o2 == 0 && onSegment(use_epsil_zero, p1, q2, q1)) return true; 
    
-    if (o3 == 0 && onSegment(p2, p1, q2)) return true; 
+    if (o3 == 0 && onSegment(use_epsil_zero,p2, p1, q2)) return true; 
   
-    if (o4 == 0 && onSegment(p2, q1, q2)) return true; 
+    if (o4 == 0 && onSegment(use_epsil_zero, p2, q1, q2)) return true; 
   
     return false; 
 }
