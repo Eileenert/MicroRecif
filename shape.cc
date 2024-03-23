@@ -37,17 +37,13 @@ S2d Segments::get_extr(){
 
 
 // en parametres 1 segment à comparé avec le segment actuel (on met la fonction comme méthode de la classe segment)
-bool Segments::superposition(bool lecture, Segments s){//booléen lecture 1 = on est en lecture de fichier
-    
-    constexpr double delta_rot(0.0625);
-
+bool Segments::superposition(bool lecture, Segments s){
     double ecart = ecart_angulaire(s);//a2 c'est l'angle de la 2eme partie du segment qui partage la même extremitée
+    constexpr double epsilon = (1.0E-50); //j'ai pris cette valeur parce qu'il a dit qu'il fallait prendre qqch de bien plus petit que delta_rot
 
-    if ((ecart == 0) && (lecture == 1)) //si l'ecart est nul en lecture de fichier il y'a superposition
+    for 
+    if ((lecture == 1) && (abs(ecart) <= epsilon)) //si l'ecart est nul en lecture de fichier il y'a superposition
         return true;
-    if ((ecart >= -delta_rot) && (ecart <= delta_rot)) //s'il appartient à l'intervalle et change de signe lors de la mise à jour en simulation
-        return true;
-
     return false;
 }//section 2.1 et 3.2.3 true = superposition
 
@@ -90,7 +86,7 @@ double orientation(S2d p, S2d q, S2d r){
     if (abs(d) <= epsil_zero) 
         return 0;
 
-    return (val > 0)? 1: 2; //je garde cette ligne ?? question assistant
+    return (val > 0)? 1: 2;
 }
 
 bool doIntersect(bool use_epsil_zero,S2d p1, S2d q1, S2d p2, S2d q2){ 

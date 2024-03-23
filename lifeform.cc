@@ -1,5 +1,5 @@
 #define _USE_MATH_DEFINES
-#include <random> //section 3.1, util pour la gestion des probabilités
+//#include <random> //section 3.1, utile pour la gestion des probabilités, pas pour le rendu1
 #include <cmath>
 #include <iostream>
 #include <string>
@@ -12,7 +12,7 @@ using namespace std;
     constexpr double max(256.);
     if(((x && y) >= 1) && ((x && y) <= max-1)) //verifie que les centres des algues, scavenger et la base des coraux sont dans le domaine
         return true;
-    if((autres centres et bras > espil_zero) && (autres centres et bras < max - espil_zero))
+    if(( > espil_zero) && (autres centres et bras < max - espil_zero))
         return true;
     return false;
 } */
@@ -31,11 +31,11 @@ void Corail::verifie_longueur(size_t index_segment, unsigned id, unsigned l){
     }
 }
 
-void Corail::angle_segment(double& angle_seg, double base_x, double base_y,double extr_x, double extr_y){
+/*void Corail::angle_segment(double& angle_seg, double base_x, double base_y,double extr_x, double extr_y){
     extr_x = extr_x - base_x;
     extr_y = extr_y - base_y;
     angle_seg = atan2(extr_y, extr_x);
-}//je met une référence pour angle_seg //trouve l'angle qu'un segment fait avec l'axe x, section 3.1 //est-ce vraiment utile ???
+} //trouve l'angle qu'un segment fait avec l'axe x, section 3.1 //pas utile pour l'instant*/
 
 vector<Segments> Corail::get_seg_vector(){
     return seg_vector;

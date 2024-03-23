@@ -33,7 +33,7 @@ class Algue: public Lifeform{
 
 class Corail: public Lifeform{
     public:
-        Corail(double x1, double y1,int age1,unsigned int id1, bool statut_cor1, bool dir_rot1, bool statut_dev1, unsigned int nbr_segments1)
+        Corail(double x1, double y1,int age1, unsigned int id1, bool statut_cor1, bool dir_rot1, bool statut_dev1, unsigned int nbr_segments1)
         :Lifeform(x1, y1, age1), 
         id(id1), statut_cor(statut_cor1), dir_rot(dir_rot1), statut_dev(statut_dev1), nbr_segments(nbr_segments1)
         {}
