@@ -36,31 +36,28 @@ S2d Segments::get_extr(){
 }
 
 
-// en parametres 1 segment à comparé avec le segment actuel (on met la fonction comme méthode de la classe segment)
+//en paramètre 1 segment à comparer avec le segment actuel (on met la fonction comme méthode de la classe segment)
 bool Segments::superposition(bool lecture, Segments s){
-    double ecart = ecart_angulaire(s);//a2 c'est l'angle de la 2eme partie du segment qui partage la même extremitée
-    constexpr double epsilon = (1.0E-50); //j'ai pris cette valeur parce qu'il a dit qu'il fallait prendre qqch de bien plus petit que delta_rot
+    constexpr double epsilon = (0.0625/10); //constante 10 fois plus petit que delta_r(0.0625) (j'ai vu sur moodle que le gars avait un ecart angulaire de 10^-16 et que le prof a dit que c'était sensé détecter une spuperposition)
+    double ecart = ecart_angulaire(s);
 
-    for 
-    if ((lecture == 1) && (abs(ecart) <= epsilon)) //si l'ecart est nul en lecture de fichier il y'a superposition
-        return true;
+        if ((lecture == 1) && (abs(ecart) <= epsilon)) //si l'ecart est nul en lecture de fichier il y'a superposition
+            return true;
     return false;
 }//section 2.1 et 3.2.3 true = superposition
 
 
-//calcul ecart angulaire entre angle du segment et celui de l'autre segment passé en paramètre
+//calcul l'ecart angulaire entre l'angle du segment et celui du segment passé en paramètre
 double Segments::ecart_angulaire(Segments s){ 
-    double angle2 = s.get_angle();
     double ecart;
+    double angle2 = s.get_angle();
 
     if (angle2 >= 0){
         ecart = M_PI - (angle2 - angle);
     }
-
     if (angle2 < 0){
         ecart = M_PI - (angle + angle2); 
     }
-
     return ecart;
 }
 
