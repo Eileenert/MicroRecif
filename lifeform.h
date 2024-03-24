@@ -41,9 +41,9 @@ class Corail: public Lifeform{
         void verifie_angle(size_t index_segment, unsigned id, double a1);
         void verifie_longueur(size_t index_segment, unsigned id, unsigned l);
         void angle_segment(double& angle_seg, double base_x, double base_y,double extr_x, double extr_y);
-        std::vector<Segments> get_seg_vector();
-        unsigned int get_nbr_segments();
-        unsigned int get_id();
+        std::vector<Segments> get_seg_vector() const;
+        unsigned int get_nbr_segments() const;
+        unsigned int get_id() const;
         void add_seg_vector(double a, int s);
 
     private:

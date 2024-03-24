@@ -75,6 +75,7 @@ void Simulation::decodage_algue(string line){
     else if(algue_vect.size() <= nbr_algue){
         data >> x;
         data >> y;
+        appartenance_recipient(x, y);
         data >> age;
         age_positif(age);
         algue_vect.push_back(Algue(x,y,age));
@@ -99,12 +100,15 @@ void Simulation::decodage_corail(string line){
         angle_segment(a, corail_vect.back().get_id());
         data >> s;
         longueur_segment(s, corail_vect.back().get_id());
+        extr_appartenance_recipient(x, y, s, a, id);
         corail_vect.back().add_seg_vector(a,s); 
+        collision();
         
     }
     else if(corail_vect.size() < nbr_corail){
         data >> x;
         data >> y;
+        appartenance_recipient(x, y);
         data >> age;
         age_positif(age);
         data >> id;
@@ -136,6 +140,7 @@ void Simulation::decodage_scavenger(string line){
         
         data >> x;
         data >> y;
+        appartenance_recipient(x, y);
         data >> age;
         age_positif(age);
         data >> rayon;
@@ -150,6 +155,28 @@ void Simulation::decodage_scavenger(string line){
             scavenger_vect.back().init_corail_id_cible(id_corail_cible);
         } 
     } 
+}
+
+//section 3.2.2 du rendu1
+void Simulation::appartenance_recipient(double x, double y){//quand on est en lecture, simulation = 0 et epsil_zero est donc désactivé
+    constexpr double max(256.);
+    
+    if((x < 1) || (y < 1) || (x > max-1) || (y > max-1)){ //verifie que les centres des algues, scavenger et la base des coraux sont dans le domaine
+        cout << message::lifeform_center_outside(x, y);
+        exit(EXIT_FAILURE);
+    }
+}
+
+void Simulation::extr_appartenance_recipient(double x, double y, unsigned int s, double a, unsigned int id){
+    constexpr double max(256.);
+    constexpr double epsil_zero(0.5);
+    //j'ai utilisé ce que tu as mis dans get_extr
+    x = x + s*cos(a);
+    y = y + s*sin(a);
+    if((x <= epsil_zero) || (x >= max - epsil_zero) || (y <= epsil_zero) || (y >= max - epsil_zero)){//vérifie pendant la simulation
+        cout << message::lifeform_computed_outside(id, x, y); //je crois que c'est pas ce message d erreur
+        exit(EXIT_FAILURE);
+    }
 }
 
 void Simulation::unique_id(unsigned int id){
@@ -175,6 +202,16 @@ void Simulation::existant_id(unsigned int id_corail_cible){
         exit(EXIT_FAILURE);
     }
 }
+
+
+void Simulation::collision(){
+    constexpr double delta_rot(0.0625) ;
+    bool col(false);
+
+
+    
+}
+
 
 void verifie_positive(int nbr){
     if(nbr <0){
@@ -208,7 +245,7 @@ void angle_segment(double a, unsigned int id){
 void rayon_scavenger(unsigned int rayon){
     constexpr unsigned r_sca(3) ;
     constexpr unsigned r_sca_repro(10) ;
-    if ((rayon < r_sca) || (rayon > r_sca_repro)){
+    if ((rayon < r_sca) || (rayon >= r_sca_repro)){
         cout << message::scavenger_radius_outside(rayon);
         exit(EXIT_FAILURE);
     } 

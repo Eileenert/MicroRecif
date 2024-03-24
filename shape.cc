@@ -41,8 +41,8 @@ bool Segments::superposition(bool simulation, Segments s){
     constexpr double epsilon = (0.0625/10); //constante 10 fois plus petit que delta_r(0.0625) (j'ai vu sur moodle que le gars avait un ecart angulaire de 10^-16 et que le prof a dit que c'était sensé détecter une spuperposition)
     double ecart = ecart_angulaire(s);
 
-        if ((simulation == 0) && (abs(ecart) <= epsilon)) //si l'ecart est nul en lecture de fichier il y'a superposition
-            return true;
+    if ((simulation == 0) && (abs(ecart) <= epsilon)) //si l'ecart est nul en lecture de fichier il y'a superposition
+        return true;
     return false;
 }//section 2.1 et 3.2.3 true = superposition
 
