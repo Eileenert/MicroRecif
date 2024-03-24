@@ -2,7 +2,7 @@
 #define SHAPE_H
 
 struct S2d {double x=0.; double y=0.;};
-
+bool do_intersect(bool simulation, S2d p1, S2d q1, S2d p2, S2d q2);
 
 class Segments{
     public:

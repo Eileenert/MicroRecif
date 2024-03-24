@@ -11,6 +11,7 @@ class Lifeform{
         :x(x1), y(y1), age(age1)
         {}
         bool appartenance_recipient(bool simulation);
+        S2d get_coord() const;
     protected:
         double x;
         double y;

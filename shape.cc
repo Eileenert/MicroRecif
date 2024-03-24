@@ -1,15 +1,14 @@
 #define _USE_MATH_DEFINES
 #include <iostream>
-#include <cmath>
 #include <vector>
 #include <cmath>
 #include "shape.h"
 using namespace std;
 
 constexpr double epsil_zero(0.5);
-bool onSegment(bool simulation, S2d p, S2d q, S2d r);
+bool on_segment(bool simulation, S2d p, S2d q, S2d r);
 double orientation(S2d p, S2d q, S2d r);
-bool doIntersect(bool simulation, S2d p1, S2d q1, S2d p2, S2d q2);
+
 
 Segments::Segments(double x, double y, double a, unsigned s)
         :angle(a), longueur(s)
@@ -63,7 +62,7 @@ double Segments::ecart_angulaire(Segments s){
 }
 
 
-bool onSegment(bool simulation, S2d p, S2d q, S2d r){
+bool on_segment(bool simulation, S2d p, S2d q, S2d r){
     double s((r.x-p.x)*(q.x-p.x)+(r.y-p.y)*(q.y-p.y));
     double c(pow((r.x-p.x),2)+pow((r.y-p.y),2)); //c c'est le (X^2 + Y^2) du vecteur pr
     double pr(pow(c,1/2));// pr c'est la norme du vecteur pr
@@ -86,7 +85,7 @@ double orientation(S2d p, S2d q, S2d r){
     return (val > 0)? 1: 2;
 }
 
-bool doIntersect(bool simulation, S2d p1, S2d q1, S2d p2, S2d q2){ 
+bool do_intersect(bool simulation, S2d p1, S2d q1, S2d p2, S2d q2){ 
     int o1 = orientation(p1, q1, p2); 
     int o2 = orientation(p1, q1, q2); 
     int o3 = orientation(p2, q2, p1); 
@@ -94,13 +93,13 @@ bool doIntersect(bool simulation, S2d p1, S2d q1, S2d p2, S2d q2){
   
     if (o1 != o2 && o3 != o4) return true; 
   
-    if (o1 == 0 && onSegment(simulation, p1, p2, q1)) return true; 
+    if (o1 == 0 && on_segment(simulation, p1, p2, q1)) return true; 
    
-    if (o2 == 0 && onSegment(simulation, p1, q2, q1)) return true; 
+    if (o2 == 0 && on_segment(simulation, p1, q2, q1)) return true; 
    
-    if (o3 == 0 && onSegment(simulation,p2, p1, q2)) return true; 
+    if (o3 == 0 && on_segment(simulation,p2, p1, q2)) return true; 
   
-    if (o4 == 0 && onSegment(simulation, p2, q1, q2)) return true; 
+    if (o4 == 0 && on_segment(simulation, p2, q1, q2)) return true; 
   
     return false; 
 }

@@ -210,7 +210,7 @@ void Simulation::seg_superposition(){
     bool col(false);
     constexpr double delta_rot(0.0625) ;
     vector<Segments> seg_vector = corail_vect.back().get_seg_vector();
-    unsigned int s1(seg_vector.size());
+    unsigned int s1(seg_vector.size()-1);
     unsigned int s2(s1+1);
 
     Segments s =seg_vector.back();
@@ -221,13 +221,34 @@ void Simulation::seg_superposition(){
         cout << seg_vector.end()[-1].get_angle() << endl;
         col = s.superposition(0, seg_vector.end()[-1] );
     }
-    else if( ecart >= -delta_rot || ecart <= delta_rot) col = true;
+    else if( ecart >= -delta_rot || ecart <= delta_rot) col = true; //+ changement de signe j'ai oublié
     
     if(col == true){
         cout << message::segment_superposition(corail_vect.back().get_id(), s1, s2);
         exit(EXIT_FAILURE);
     }
     
+}
+
+//jsp si c'est correct
+void Simulation::collision(){
+    vector<Segments> seg_vector = corail_vect.back().get_seg_vector();
+
+    S2d coord1 = corail_vect.back().get_coord();
+    S2d coord2 = corail_vect.end()[-1].get_coord();
+    S2d extr1 = seg_vector.back().get_extr();
+    S2d extr2 = seg_vector.end()[-1].get_extr();
+
+    bool col(do_intersect(0, coord1, extr1, coord2, extr2));
+    
+    if(col == true){
+        cout << message::segment_collision(corail_vect.back().get_id(), seg_vector.size(),
+								  corail_vect.back().get_id(), seg_vector.size());  //changer valeur des deux derniers
+            
+        exit(EXIT_FAILURE);
+    }
+    
+
 }
 
 
