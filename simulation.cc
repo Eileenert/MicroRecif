@@ -101,8 +101,9 @@ void Simulation::decodage_corail(string line){
         data >> s;
         longueur_segment(s, corail_vect.back().get_id());
         extr_appartenance_recipient(x, y, s, a, id);
-        corail_vect.back().add_seg_vector(a,s); 
-        collision();
+        
+        corail_vect.back().add_seg_vector(a,s);
+        seg_superposition();
         
     }
     else if(corail_vect.size() < nbr_corail){
@@ -118,6 +119,7 @@ void Simulation::decodage_corail(string line){
         data >> statut_dev;
         data >> nbr_segments;
         corail_vect.push_back(Corail(x, y, age, id, statut, dir_rot, statut_dev, nbr_segments));
+        
     }
     if((corail_vect.size() == nbr_corail) && (corail_vect.back().get_seg_vector().size() == corail_vect.back().get_nbr_segments())){
         type = SCAVENGER;
@@ -204,11 +206,27 @@ void Simulation::existant_id(unsigned int id_corail_cible){
 }
 
 
-void Simulation::collision(){
-    constexpr double delta_rot(0.0625) ;
+void Simulation::seg_superposition(){
     bool col(false);
+    constexpr double delta_rot(0.0625) ;
+    vector<Segments> seg_vector = corail_vect.back().get_seg_vector();
+    unsigned int s1(seg_vector.size());
+    unsigned int s2(s1+1);
 
+    Segments s =seg_vector.back();
 
+    double ecart = s.ecart_angulaire(seg_vector.end()[-1]);
+    
+    if(seg_vector.size() >= 2){ 
+        cout << seg_vector.end()[-1].get_angle() << endl;
+        col = s.superposition(0, seg_vector.end()[-1] );
+    }
+    else if( ecart >= -delta_rot || ecart <= delta_rot) col = true;
+    
+    if(col == true){
+        cout << message::segment_superposition(corail_vect.back().get_id(), s1, s2);
+        exit(EXIT_FAILURE);
+    }
     
 }
 

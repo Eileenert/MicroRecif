@@ -27,7 +27,7 @@ class Simulation{
         void extr_appartenance_recipient(double x, double y, unsigned int s, double a, unsigned int id);
         void unique_id(unsigned int id);
         void existant_id(unsigned int id_corail_cible);
-        void collision();
+        void seg_superposition();
         
     private:
         enum TYPE_lecture {ALGUE, CORAIL, SCAVENGER};

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cmath>
 #include <vector>
+#include <cmath>
 #include "shape.h"
 using namespace std;
 
@@ -60,7 +61,6 @@ double Segments::ecart_angulaire(Segments s){
     }
     return ecart;
 }
-
 
 
 bool onSegment(bool simulation, S2d p, S2d q, S2d r){
