@@ -8,14 +8,19 @@
 #include "lifeform.h"
 using namespace std;
 
-/* bool Lifeform::appartenance_recipient(){
+//section 3.2.2 du rendu1
+bool Lifeform::appartenance_recipient(bool simulation){//quand on est en lecture, simulation = 0 et epsil_zero est donc désactivé
     constexpr double max(256.);
-    if(((x && y) >= 1) && ((x && y) <= max-1)) //verifie que les centres des algues, scavenger et la base des coraux sont dans le domaine
+    constexpr double epsil_zero(0.5);
+
+    if((simulation == 0) && (x >= 1) && (y >= 1) && (x <= max-1) && (y <= max-1)) //verifie que les centres des algues, scavenger et la base des coraux sont dans le domaine
         return true;
-    if(( > espil_zero) && (autres centres et bras < max - espil_zero))
+
+    //cette deuxième partie il faut la faire que quand on est avec les coraux, pas besoin de tester les scavengers et les algues
+    if((simulation == 1) && (x > epsil_zero) && (x < max - epsil_zero) && (y > epsil_zero) && (y < max - epsil_zero))//vérifie pendant la simulation
         return true;
     return false;
-} */
+}
 
 void Corail::verifie_angle(size_t index_segment, unsigned id, double a){
     if(seg_vector[index_segment].get_angle() < -M_PI || seg_vector[index_segment].get_angle() > M_PI){

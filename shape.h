@@ -11,7 +11,7 @@ class Segments{
         double get_longueur();
         S2d get_extr();
 
-        bool superposition(bool lecture, Segments s);
+        bool superposition(bool simulation, Segments s);
         double ecart_angulaire(Segments s);
         
 
