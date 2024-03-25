@@ -104,7 +104,7 @@ void Simulation::decodage_corail(string line){
         
         corail_vect.back().add_seg_vector(a,s);   
         collision();
-        seg_superposition();
+        seg_superposition(); //du coup en mode lecture, pour chaque nouveau segemtn, il sera vérifié avec celui qui le précéde ? on a donc pas besoin de fair ed e boucle ?
         
     }
     else if(corail_vect.size() < nbr_corail){
@@ -177,7 +177,7 @@ void Simulation::extr_appartenance_recipient(double x, double y, unsigned int s,
     x = x + s*cos(a);
     y = y + s*sin(a);
     if((x <= epsil_zero) || (x >= max - epsil_zero) || (y <= epsil_zero) || (y >= max - epsil_zero)){//vérifie pendant la simulation
-        cout << message::lifeform_computed_outside(id, x, y); //je crois que c'est pas ce message d erreur
+        cout << message::lifeform_computed_outside(id, x, y); //je crois que c'est pas ce message d erreur, je pense que c'est le bon ._.
         exit(EXIT_FAILURE);
     }
 }
@@ -211,15 +211,15 @@ void Simulation::seg_superposition(){
     bool col(false);
     //constexpr double delta_rot(0.0625) ;
     vector<Segments> seg_vector = corail_vect.back().get_seg_vector();
-    unsigned int s1(seg_vector.size()-1);
-    unsigned int s2(s1+1);
+    unsigned int s1(seg_vector.size()-1); //s1 c'est le nombre d'éléments du vecteur - 1 ?
+    unsigned int s2(s1+1);//s2 c'est le nombre d'éléments du vecteur ?
 
-    Segments s =seg_vector.back();
+    Segments s = seg_vector.back();// accès au dernier élément
 
     //double ecart = s.ecart_angulaire(seg_vector.end()[-1]);
     
-    if(seg_vector.size() >= 2){ 
-        col = s.superposition(0, seg_vector.end()[-1] );
+    if(seg_vector.size() >= 2){ //s'il y'a plus d'un segment dans le corail
+        col = s.superposition(0, seg_vector.end()[-1] );//vérification en mode lecture//end() element qui vient après le dernier element, et on point avant (pourquoi ne pas utiliser back() ?)
     }
     //else if( ecart >= -delta_rot || ecart <= delta_rot) col = true; //+ changement de signe j'ai oublié
     
@@ -227,8 +227,7 @@ void Simulation::seg_superposition(){
         cout << message::segment_superposition(corail_vect.back().get_id(), s1, s2);
         exit(EXIT_FAILURE);
     }
-    
-}
+}//donc tous ça fait qu'en mode lecture on sait si y'a une superposition
 
 //jsp si c'est correct
 void Simulation::collision(){
@@ -256,12 +255,8 @@ void Simulation::collision(){
                 
                 exit(EXIT_FAILURE);
             }
-            
-
         }
     }
-   
-
 }
 
 

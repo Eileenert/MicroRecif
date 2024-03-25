@@ -6,11 +6,6 @@ syntaxe:
 - classes
 
 
-Les choses à enlever ?:
-
-- dans le shape.cc il y'a des prototypes au début du document
-
-
 Les choses à vérifier :
 
 - epsil_zero 
@@ -28,5 +23,7 @@ Dans le module simulation : donc bool simulation = 1
 - "bool Lifeform::appartenance_recipient(bool simulation)" (Lifeform) : à finir 3.2.2, c'est quoi un effecteur ?
 (- "double orientation" (shape.cc) : j'ai gardé la ligne, ça me parait plus logique)
 
+voir :
+shape.cc ligne 12
 
 

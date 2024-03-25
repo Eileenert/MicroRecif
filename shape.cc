@@ -9,8 +9,7 @@ constexpr double epsil_zero(0.5);
 bool on_segment(bool simulation, S2d p, S2d q, S2d r);
 double orientation(S2d p, S2d q, S2d r);
 
-
-Segments::Segments(double x, double y, double a, unsigned s)
+Segments::Segments(double x, double y, double a, unsigned int s) //pourquoi ce n'est pas unsigned int comme dans shape.h ? (j'ai rajouté le int du coup)
         :angle(a), longueur(s)
         {
             S2d base_temp;
