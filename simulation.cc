@@ -70,7 +70,6 @@ void Simulation::decodage_algue(string line){
 
     if(nbr_algue == 0){
         data >> nbr_algue;
-
     }
     else if(algue_vect.size() <= nbr_algue){
         data >> x;
@@ -209,21 +208,20 @@ void Simulation::existant_id(unsigned int id_corail_cible){
 
 void Simulation::seg_superposition(){
     bool col(false);
-    //constexpr double delta_rot(0.0625) ;
+
     vector<Segments> seg_vector = corail_vect.back().get_seg_vector();
     unsigned int s1(seg_vector.size()-1); //s1 c'est le nombre d'éléments du vecteur - 1 ?
     unsigned int s2(s1+1);//s2 c'est le nombre d'éléments du vecteur ?
 
     Segments s = seg_vector.back();// accès au dernier élément
 
-    //double ecart = s.ecart_angulaire(seg_vector.end()[-1]);
+    //double ecart = s.ecart_angulaire(seg_vector[seg_vector.size() - 2]);
     
     if(seg_vector.size() >= 2){ //s'il y'a plus d'un segment dans le corail
-        col = s.superposition(0, seg_vector.end()[-1] );//vérification en mode lecture//end() element qui vient après le dernier element, et on point avant (pourquoi ne pas utiliser back() ?)
+        col = s.superposition(seg_vector[seg_vector.size() - 2]);//vérification en mode lecture// col = true superposition
     }
-    //else if( ecart >= -delta_rot || ecart <= delta_rot) col = true; //+ changement de signe j'ai oublié
-    
-    if(col == true){
+
+    if(col == 1){
         cout << message::segment_superposition(corail_vect.back().get_id(), s1, s2);
         exit(EXIT_FAILURE);
     }

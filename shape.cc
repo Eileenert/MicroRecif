@@ -9,7 +9,7 @@ constexpr double epsil_zero(0.5);
 bool on_segment(bool simulation, S2d p, S2d q, S2d r);
 double orientation(S2d p, S2d q, S2d r);
 
-Segments::Segments(double x, double y, double a, unsigned int s) //pourquoi ce n'est pas unsigned int comme dans shape.h ? (j'ai rajouté le int du coup)
+Segments::Segments(double x, double y, double a, unsigned int s)
         :angle(a), longueur(s)
         {
             S2d base_temp;
@@ -35,12 +35,11 @@ S2d Segments::get_extr(){
 }
 
 
-//en paramètre 1 segment à comparer avec le segment actuel (on met la fonction comme méthode de la classe segment)
-bool Segments::superposition(bool simulation, Segments s){
-    constexpr double epsilon = (0.0625/10); //constante 10 fois plus petit que delta_r(0.0625) (j'ai vu sur moodle que le gars avait un ecart angulaire de 10^-16 et que le prof a dit que c'était sensé détecter une spuperposition)
+//en paramètre 1 segment à comparer avec le segment actuel (on met la fonction comme méthode de la classe segment)//
+bool Segments::superposition(Segments s){
     double ecart = ecart_angulaire(s);
 
-    if ((simulation == 0) && (abs(ecart) <= epsilon)) //si l'ecart est nul en lecture de fichier il y'a superposition
+    if (abs(ecart) <= 0) //si l'ecart est nul en lecture de fichier il y'a superposition//j'ai enlevé mon epsilon car c'est pas util pour le 1er rendu
         return true;
     return false;
 }//section 2.1 et 3.2.3 true = superposition
