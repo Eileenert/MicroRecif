@@ -57,8 +57,8 @@ void Simulation::decodage_ligne(string line){
             decodage_corail(line);
             break;
 
-        case SCAVENGER:  
-            decodage_scavenger(line);
+        case SCAVENGER:
+            decodage_scavenger(line);//jsp si c'était là
             break;
     } 
 }
@@ -102,9 +102,8 @@ void Simulation::decodage_corail(string line){
         extr_appartenance_recipient(x, y, s, a, id);
         
         corail_vect.back().add_seg_vector(a,s);   
+        //seg_superposition(); //du coup en mode lecture, pour chaque nouveau segemtn, il sera vérifié avec celui qui le précéde ? on a donc pas besoin de fair ed e boucle ?
         collision();
-        seg_superposition(); //du coup en mode lecture, pour chaque nouveau segemtn, il sera vérifié avec celui qui le précéde ? on a donc pas besoin de fair ed e boucle ?
-        
     }
     else if(corail_vect.size() < nbr_corail){
         data >> x;
@@ -172,9 +171,10 @@ void Simulation::appartenance_recipient(double x, double y){//quand on est en le
 void Simulation::extr_appartenance_recipient(double x, double y, unsigned int s, double a, unsigned int id){
     constexpr double max(256.);
     constexpr double epsil_zero(0.5);
-    //j'ai utilisé ce que tu as mis dans get_extr
+
     x = x + s*cos(a);
     y = y + s*sin(a);
+
     if((x <= epsil_zero) || (x >= max - epsil_zero) || (y <= epsil_zero) || (y >= max - epsil_zero)){//vérifie pendant la simulation
         cout << message::lifeform_computed_outside(id, x, y); //je crois que c'est pas ce message d erreur, je pense que c'est le bon ._.
         exit(EXIT_FAILURE);
@@ -198,7 +198,6 @@ void Simulation::existant_id(unsigned int id_corail_cible){
             existant_id = true;
         }
     }
-
     if(existant_id == false){
         cout << message::lifeform_invalid_id(id_corail_cible);
         exit(EXIT_FAILURE);
@@ -208,19 +207,14 @@ void Simulation::existant_id(unsigned int id_corail_cible){
 
 void Simulation::seg_superposition(){
     bool col(false);
-
     vector<Segments> seg_vector = corail_vect.back().get_seg_vector();
     unsigned int s1(seg_vector.size()-1); //s1 c'est le nombre d'éléments du vecteur - 1 ?
     unsigned int s2(s1+1);//s2 c'est le nombre d'éléments du vecteur ?
-
     Segments s = seg_vector.back();// accès au dernier élément
-
-    //double ecart = s.ecart_angulaire(seg_vector[seg_vector.size() - 2]);
     
     if(seg_vector.size() >= 2){ //s'il y'a plus d'un segment dans le corail
         col = s.superposition(seg_vector[seg_vector.size() - 2]);//vérification en mode lecture// col = true superposition
     }
-
     if(col == 1){
         cout << message::segment_superposition(corail_vect.back().get_id(), s1, s2);
         exit(EXIT_FAILURE);
@@ -228,25 +222,29 @@ void Simulation::seg_superposition(){
 }//donc tous ça fait qu'en mode lecture on sait si y'a une superposition
 
 //jsp si c'est correct
+//NE PAS COMPARER AVEC LES SEGMENTS A COTE
 void Simulation::collision(){
     bool col(false);
     
     vector<Segments> seg1_vector = corail_vect.back().get_seg_vector();
+
     S2d coord1 = corail_vect.back().get_coord();
     S2d extr1 = seg1_vector.back().get_extr();
     
     for(size_t i(0); i < corail_vect.size(); i++){
         S2d coord2 = corail_vect[i].get_coord();
         vector<Segments> seg2_vector = corail_vect[i].get_seg_vector();
-
+        
         for(size_t j(0); j < seg2_vector.size(); j++){
-            
+
             if((i == corail_vect.size()-1) && (j == seg2_vector.size()-1)) continue ;
-            
+            if((i == corail_vect.size()-1) && (j == seg2_vector.size()-2)) continue ;
+            if((i == corail_vect.size()-1) && (j == seg2_vector.size())) continue ;
+
             S2d extr2 = seg2_vector[j].get_extr();
             
             col = do_intersect(0, coord1, extr1, coord2, extr2);
-            
+
             if(col == true){
                 cout << message::segment_collision(corail_vect.back().get_id(), seg1_vector.size()-1,
                                         corail_vect[i].get_id(), j);  //changer valeur des deux derniers
