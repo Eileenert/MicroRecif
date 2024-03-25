@@ -58,7 +58,6 @@ void Simulation::decodage_ligne(string line){
             break;
 
         case SCAVENGER:  
-            decodage_scavenger(line);
             break;
     } 
 }
@@ -103,9 +102,8 @@ void Simulation::decodage_corail(string line){
         extr_appartenance_recipient(x, y, s, a, id);
         
         corail_vect.back().add_seg_vector(a,s);   
+        //seg_superposition(); //du coup en mode lecture, pour chaque nouveau segemtn, il sera vérifié avec celui qui le précéde ? on a donc pas besoin de fair ed e boucle ?
         collision();
-        seg_superposition(); //du coup en mode lecture, pour chaque nouveau segemtn, il sera vérifié avec celui qui le précéde ? on a donc pas besoin de fair ed e boucle ?
-        
     }
     else if(corail_vect.size() < nbr_corail){
         data >> x;
@@ -219,7 +217,7 @@ void Simulation::seg_superposition(){
     //double ecart = s.ecart_angulaire(seg_vector.end()[-1]);
     
     if(seg_vector.size() >= 2){ //s'il y'a plus d'un segment dans le corail
-        col = s.superposition(0, seg_vector.end()[-1] );//vérification en mode lecture//end() element qui vient après le dernier element, et on point avant (pourquoi ne pas utiliser back() ?)
+        col = s.superposition(0, seg_vector[seg_vector.size() - 2]);//vérification en mode lecture//end() element qui vient après le dernier element, et on point avant (pourquoi ne pas utiliser back() ?)
     }
     //else if( ecart >= -delta_rot || ecart <= delta_rot) col = true; //+ changement de signe j'ai oublié
     
@@ -230,25 +228,29 @@ void Simulation::seg_superposition(){
 }//donc tous ça fait qu'en mode lecture on sait si y'a une superposition
 
 //jsp si c'est correct
+//NE PAS COMPARER AVEC LES SEGMENTS A COTE
 void Simulation::collision(){
     bool col(false);
     
     vector<Segments> seg1_vector = corail_vect.back().get_seg_vector();
+
     S2d coord1 = corail_vect.back().get_coord();
     S2d extr1 = seg1_vector.back().get_extr();
     
     for(size_t i(0); i < corail_vect.size(); i++){
         S2d coord2 = corail_vect[i].get_coord();
         vector<Segments> seg2_vector = corail_vect[i].get_seg_vector();
-
+        
         for(size_t j(0); j < seg2_vector.size(); j++){
-            
+
             if((i == corail_vect.size()-1) && (j == seg2_vector.size()-1)) continue ;
-            
+            if((i == corail_vect.size()-1) && (j == seg2_vector.size()-2)) continue ;
+            if((i == corail_vect.size()-1) && (j == seg2_vector.size())) continue ;
+
             S2d extr2 = seg2_vector[j].get_extr();
             
             col = do_intersect(0, coord1, extr1, coord2, extr2);
-            
+
             if(col == true){
                 cout << message::segment_collision(corail_vect.back().get_id(), seg1_vector.size()-1,
                                         corail_vect[i].get_id(), j);  //changer valeur des deux derniers
