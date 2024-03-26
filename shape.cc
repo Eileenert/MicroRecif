@@ -68,7 +68,6 @@ bool on_segment(bool simulation, S2d p, S2d q, S2d r){
 
     if ((-epsil_zero*simulation <= x) && (x <= (pr + epsil_zero*simulation))) 
         return true; 
-  
     return false; 
 }
 
@@ -80,10 +79,7 @@ double orientation(S2d p, S2d q, S2d r){
 
     if (abs(d) <= epsil_zero){
         return 0;
-
     }
-        
-
     return (val > 0)? 1: 2;
 }
 

@@ -10,7 +10,7 @@ class Lifeform{
         Lifeform(double x1, double y1, int age1)
         :x(x1), y(y1), age(age1)
         {}
-        bool appartenance_recipient(bool simulation);
+        void appartenance_recipient(double x, double y);//jsp si c'est nécessaire ici
         S2d get_coord() const;
     protected:
         double x;

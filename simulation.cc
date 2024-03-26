@@ -102,7 +102,7 @@ void Simulation::decodage_corail(string line){
         extr_appartenance_recipient(x, y, s, a, id);
         
         corail_vect.back().add_seg_vector(a,s);   
-        //seg_superposition(); //du coup en mode lecture, pour chaque nouveau segemtn, il sera vérifié avec celui qui le précéde ? on a donc pas besoin de fair ed e boucle ?
+        seg_superposition();
         collision();
     }
     else if(corail_vect.size() < nbr_corail){
