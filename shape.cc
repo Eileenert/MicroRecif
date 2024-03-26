@@ -37,9 +37,10 @@ S2d Segments::get_extr(){
 
 //en paramètre 1 segment à comparer avec le segment actuel (on met la fonction comme méthode de la classe segment)//
 bool Segments::superposition(Segments s){
+    constexpr double epsilon(0.0625/1000);//introduction d'une tolérance inférieur à delta_rot
     double ecart = ecart_angulaire(s);
 
-    if (abs(ecart) <= 0) //si l'ecart est nul en lecture de fichier il y'a superposition//j'ai enlevé mon epsilon car c'est pas util pour le 1er rendu
+    if (abs(ecart) <= epsilon) //si l'ecart est nul en lecture de fichier il y'a superposition
         return true;
     return false;
 }//section 2.1 et 3.2.3 true = superposition
