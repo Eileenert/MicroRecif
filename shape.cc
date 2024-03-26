@@ -37,26 +37,26 @@ S2d Segments::get_extr(){
 
 //en paramètre 1 segment à comparer avec le segment actuel (on met la fonction comme méthode de la classe segment)//
 bool Segments::superposition(Segments s){
-    constexpr double epsilon(0.0625/1000);//introduction d'une tolérance inférieur à delta_rot
     double ecart = ecart_angulaire(s);
-
-    if (abs(ecart) <= epsilon) //si l'ecart est nul en lecture de fichier il y'a superposition
-        return true;
+    
+    if (abs(ecart) <= 0) return true;
     return false;
-}//section 2.1 et 3.2.3 true = superposition
+}
 
 
 //calcul l'ecart angulaire entre l'angle du segment et celui du segment passé en paramètre
 double Segments::ecart_angulaire(Segments s){ 
-    double ecart;
-    double angle2 = s.get_angle();
+    double ecart(0.);
+    double angle2(s.get_angle());
+    double difference(angle - angle2);
 
-    if (angle2 >= 0){
-        ecart = M_PI - (angle2 - angle);
+    if (difference > M_PI){
+        ecart = difference - 360;
     }
-    if (angle2 < 0){
-        ecart = M_PI - (angle + angle2); 
+    if (difference < -M_PI){
+        ecart = difference + 2*M_PI;
     }
+
     return ecart;
 }
 
