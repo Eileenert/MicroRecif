@@ -19,34 +19,31 @@ Segments::Segments(double x, double y, double a, unsigned int s)
         }
 
 
-double Segments::get_angle(){
+double Segments::get_angle() const{
     return angle;
 }
 
-double Segments::get_longueur(){
+double Segments::get_longueur() const{
     return longueur;
 }
 
-S2d Segments::get_extr(){
+S2d Segments::get_extr() const{
     S2d extr;
     extr.x = base.x + longueur*cos(angle);
     extr.y = base.y + longueur*sin(angle);
     return extr;
 }
 
-/*S2d Segments::get_base(){
-    S2d base;
-    base.x = extr.x - longueur*cos(angle);
-    base.y = extr.y - longueur*cos(angle);
+S2d Segments::get_base() const{
     return base;
-}*/
+}
 
 
 //en paramètre 1 segment à comparer avec le segment actuel (on met la fonction comme méthode de la classe segment)//
 bool Segments::superposition(Segments s){
     double ecart = ecart_angulaire(s);
     cout << ecart << endl;
-    if (abs(ecart) <= 0) return true;
+    if (ecart <= 0) return true;
     return false;
 }
 
@@ -54,23 +51,14 @@ bool Segments::superposition(Segments s){
 //calcul l'ecart angulaire entre l'angle du segment et celui du segment passé en paramètre
 double Segments::ecart_angulaire(Segments s){ 
 
-    S2d c = s.get_extr();
-    S2d p;
-    p.x = c.x - s.get_longueur()*cos(s.get_angle());
-    p.y = c.y - s.get_longueur()*cos(s.get_angle());
-
-    cout << base.x <<" et "<<base.y<<" / "<< p.x <<" et "<<p.y<<" / "<< c.x <<" et "<<c.y<<" fin ";
-
-    double v1(base.x - p.x);
-    double v2(base.y - p.y);
-    double u1(c.x - p.x);
-    double u2(c.y - p.y);
+    double v1(get_extr().x - base.x);
+    double v2(get_extr().y - base.y);
+    double u1(s.get_extr().x - s.get_base().x);
+    double u2(s.get_extr().x - s.get_base().x);
     double produit(v1*u2 + v2*u1);
-    double norme_v(pow((pow(v1,2)+pow(v2,2)), 1/2));
-    double norme_u(pow((pow(u1,2)+pow(u2,2)), 1/2));
-    double ecart = (acos(produit/(norme_v*norme_u)));
+    double prod_norm(longueur * s.get_longueur());
 
-    return ecart;
+    return produit / prod_norm;
 }
 
 

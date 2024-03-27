@@ -7,10 +7,10 @@ bool do_intersect(bool simulation, S2d p1, S2d q1, S2d p2, S2d q2);
 class Segments{
     public:
         Segments(double x, double y, double a, unsigned int s);
-        double get_angle();
-        double get_longueur();
-        S2d get_extr();
-        //S2d get_base();
+        double get_angle() const;
+        double get_longueur() const;
+        S2d get_extr() const;
+        S2d get_base() const;
 
         bool superposition(Segments s);
         double ecart_angulaire(Segments s);
