@@ -14,7 +14,7 @@ using namespace std;
 void verifie_positive(int nbr);
 void age_positif(int age);
 void longueur_segment(unsigned int s, unsigned int id);
-void angle_segment(double a, unsigned int id);
+void verifie_angle(double a, unsigned int id);
 void rayon_scavenger(unsigned int rayon);
 
 void Simulation::init_nbr_algue(int nbr){
@@ -30,7 +30,6 @@ void Simulation::init_nbr_scavenger(int nbr){
     nbr_scavenger = nbr;
 }
 
-//traite le fichier ligne par ligne.  
 void Simulation::lecture(char * nom_fichier){
     string line;
     ifstream fichier(nom_fichier); 
@@ -91,15 +90,15 @@ void Simulation::decodage_corail(string line){
         data >> nbr_corail;
     }
     else if((corail_vect.size() != 0) && 
-        (corail_vect.back().get_seg_vector().size() < 
-            corail_vect.back().get_nbr_segments())){
+        (corail_vect.back().get_seg_vector().size() 
+            < corail_vect.back().get_nbr_segments())){
+
         data >> a;
-        angle_segment(a, corail_vect.back().get_id());
+        verifie_angle(a, corail_vect.back().get_id());
         data >> s;
         longueur_segment(s, corail_vect.back().get_id());
         extr_appartenance_recipient(x, y, s, a, id);
-        
-        corail_vect.back().add_seg_vector(a, s);   
+        corail_vect.back().add_seg_vector(a,s);   
         seg_superposition();
         collision();
     }
@@ -111,12 +110,14 @@ void Simulation::decodage_corail(string line){
         data >> id;
         unique_id(id);
         data >> statut >> dir_rot >> statut_dev >> nbr_segments;
-        corail_vect.push_back(Corail(x, y, age, id, statut, dir_rot, 
-            statut_dev, nbr_segments));
+        verifie_positive(nbr_segments);
+        corail_vect.push_back(
+            Corail(x, y, age, id, statut, dir_rot, statut_dev, nbr_segments));
+
     }
-    if((corail_vect.size() == nbr_corail) && 
-        (corail_vect.back().get_seg_vector().size() == 
-            corail_vect.back().get_nbr_segments())){
+    if((corail_vect.size() == nbr_corail) 
+        && (corail_vect.back().get_seg_vector().size() 
+            == corail_vect.back().get_nbr_segments())){
         type = SCAVENGER;
     }
 }
@@ -134,8 +135,8 @@ void Simulation::decodage_scavenger(string line){
 
     }
     else if(scavenger_vect.size() < nbr_scavenger){
-        
-        data >> x >> y;
+        data >> x;
+        data >> y;
         appartenance_recipient(x, y);
         data >> age;
         age_positif(age);
@@ -162,8 +163,10 @@ void Simulation::appartenance_recipient(double x, double y){
     }
 }
 
-void Simulation::extr_appartenance_recipient(double x, double y,
-         unsigned int s, double a, unsigned int id){
+
+void Simulation::extr_appartenance_recipient(double x, double y, 
+    unsigned int s, double a, unsigned int id){
+
     constexpr double max(256.);
     constexpr double epsil_zero(0.5);
 
@@ -208,7 +211,7 @@ void Simulation::seg_superposition(){
     unsigned int s2(s1-1);
     Segments s = seg_vector.back();
     
-    if(seg_vector.size() >= 2){
+    if(seg_vector.size() >= 2){ 
         col = s.superposition(seg_vector[seg_vector.size() - 2]);
     }
     if(col == 1){
@@ -217,6 +220,7 @@ void Simulation::seg_superposition(){
         exit(EXIT_FAILURE);
     }
 }
+
 
 void Simulation::collision(){
     bool col(false);
@@ -228,24 +232,28 @@ void Simulation::collision(){
     
     for(size_t i(0); i < corail_vect.size(); i++){
         S2d coord2 = corail_vect[i].get_coord();
+        
         vector<Segments> seg2_vector = corail_vect[i].get_seg_vector();
         
         for(size_t j(0); j < seg2_vector.size(); j++){
 
             if((i == corail_vect.size()-1) && (j == seg2_vector.size()-1)){
-                continue ;}
+                continue ;
+            }
             if((i == corail_vect.size()-1) && (j == seg2_vector.size()-2)){
-                continue ;}
-            if((i == corail_vect.size()-1) && (j == seg2_vector.size())) {
-                continue ;}
+                continue ;
+            }
+            if((i == corail_vect.size()-1) && (j == seg2_vector.size())){
+                continue ;
+            }
 
             S2d extr2 = seg2_vector[j].get_extr();
             col = do_intersect(0, coord1, extr1, coord2, extr2);
 
             if(col == true){
                 cout << message::segment_collision(corail_vect.back().get_id(), 
-                    seg1_vector.size()-1,
-                                        corail_vect[i].get_id(), j); 
+                    seg1_vector.size()-1, corail_vect[i].get_id(), j);
+                
                 exit(EXIT_FAILURE);
             }
         }
@@ -275,7 +283,7 @@ void longueur_segment(unsigned int s, unsigned int id){
     }    
 }
 
-void angle_segment(double a, unsigned int id){
+void verifie_angle(double a, unsigned int id){
     if((a < -M_PI) || (a > M_PI)){
         cout << message::segment_angle_outside(id,a);
         exit(EXIT_FAILURE);

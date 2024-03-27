@@ -9,6 +9,7 @@ constexpr double epsil_zero(0.5);
 bool on_segment(bool simulation, S2d p, S2d q, S2d r);
 double orientation(S2d p, S2d q, S2d r);
 
+
 Segments::Segments(double x, double y, double a, unsigned int s)
         :angle(a), longueur(s)
         {
@@ -37,7 +38,7 @@ S2d Segments::get_base() const{
     return base;
 }
 
-//en paramètre 1 segment à comparer avec le segment actuel (on met la fonction comme méthode de la classe segment)//
+
 bool Segments::superposition(Segments s){
     double ecart = ecart_angulaire(s);
     if (abs(ecart) <= 0) return true;
@@ -47,6 +48,7 @@ bool Segments::superposition(Segments s){
 //calcul l'ecart angulaire entre l'angle du segment et celui du segment passé en paramètre
 double Segments::ecart_angulaire(Segments s){ 
     double ecart(0.);
+
     double v1(base.x - get_extr().x);
     double v2(base.y - get_extr().y);
     double u1(s.get_extr().x - s.get_base().x);
@@ -70,7 +72,7 @@ double Segments::ecart_angulaire(Segments s){
 
 bool on_segment(bool simulation, S2d p, S2d q, S2d r){
     double s((r.x-p.x)*(q.x-p.x)+(r.y-p.y)*(q.y-p.y));
-    double c(pow((r.x-p.x),2) + pow((r.y-p.y), 2));
+    double c(pow((r.x-p.x),2) + pow((r.y-p.y), 2)); 
     double pr(pow(c,1/2));
     double x(s/pr);
 
@@ -96,6 +98,7 @@ bool do_intersect(bool simulation, S2d p1, S2d q1, S2d p2, S2d q2){
     int o4 = orientation(p2, q2, q1); 
 
     if (o1 != o2 && o3 != o4) return true; 
+
     if (o1 == 0 && on_segment(simulation, p1, p2, q1)) return true; 
     if (o2 == 0 && on_segment(simulation, p1, q2, q1)) return true; 
     if (o3 == 0 && on_segment(simulation,p2, p1, q2)) return true; 
