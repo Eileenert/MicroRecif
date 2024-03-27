@@ -1,8 +1,8 @@
 #define _USE_MATH_DEFINES
+
 #include <iostream>
 #include <string>
 #include <vector>
-//#include <cmath>
 #include "message.h"
 #include "lifeform.h"
 #include "shape.h"

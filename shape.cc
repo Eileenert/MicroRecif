@@ -58,6 +58,7 @@ double Segments::ecart_angulaire(Segments s){
     double produit(v1*u1 + v2*u2);
     double prod_norm(longueur * s.get_longueur());
     double div(produit / prod_norm);
+
     if(div <= -1){
         ecart = acos(-1);
     }
@@ -67,6 +68,7 @@ double Segments::ecart_angulaire(Segments s){
     else{
         ecart = acos(div);
     }
+
     return  ecart;
 }
 

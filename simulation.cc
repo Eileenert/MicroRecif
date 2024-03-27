@@ -92,9 +92,8 @@ void Simulation::decodage_corail(string line){
     if(nbr_corail == 0){
         data >> nbr_corail;
     }
-    else if((corail_vect.size() != 0) && 
-        (corail_vect.back().get_seg_vector().size() 
-            < corail_vect.back().get_nbr_segments())){
+    else if((corail_vect.size() != 0) && (corail_vect.back().get_seg_vector().size() < corail_vect.back().get_nbr_segments())){
+
         data >> a;
         verifie_angle(a, corail_vect.back().get_id());
         data >> s;
@@ -115,6 +114,7 @@ void Simulation::decodage_corail(string line){
         verifie_positive(nbr_segments);
         corail_vect.push_back(
             Corail(x, y, age, id, statut, dir_rot, statut_dev, nbr_segments));
+
     }
     if((corail_vect.size() == nbr_corail) 
         && (corail_vect.back().get_seg_vector().size() 
@@ -163,6 +163,7 @@ void Simulation::appartenance_recipient(double x, double y){
         exit(EXIT_FAILURE);
     }
 }
+
 
 void Simulation::extr_appartenance_recipient(double x, double y, 
     unsigned int s, double a, unsigned int id){
