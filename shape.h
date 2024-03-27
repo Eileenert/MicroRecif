@@ -10,6 +10,7 @@ class Segments{
         double get_angle();
         double get_longueur();
         S2d get_extr();
+        //S2d get_base();
 
         bool superposition(Segments s);
         double ecart_angulaire(Segments s);
