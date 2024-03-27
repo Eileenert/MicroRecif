@@ -55,10 +55,10 @@ bool Segments::superposition(Segments s){
 double Segments::ecart_angulaire(Segments s){ 
     S2d c = s.get_extr();
     S2d p;
-    p.x = base.x + longueur*cos(angle);
-    p.y = base.y + longueur*cos(angle);
+    p.x = c.x - s.get_longueur()*cos(s.get_angle());
+    p.y = c.y - s.get_longueur()*cos(s.get_angle());
 
-    //cout << base.x <<"et"<<base.y<<"/"<< p.x <<"et"<<p.y<<"/"<< c.x <<"et"<<c.y<<"fin";
+    cout << base.x <<" et "<<base.y<<" / "<< p.x <<" et "<<p.y<<" / "<< c.x <<" et "<<c.y<<" fin ";
 
     double v1(base.x - p.x);
     double v2(base.y - p.y);
