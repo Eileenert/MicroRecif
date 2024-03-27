@@ -4,8 +4,6 @@
 #include <vector>
 #include <string>
 
-
-//3.1 il faut faire une classe simulation
 class Simulation{
     public:
         Simulation(int nbr_al = 0, int nbr_co = 0, int nbr_sca = 0)
@@ -24,7 +22,8 @@ class Simulation{
         void init_nbr_scavenger(int nbr);
 
         void appartenance_recipient(double x, double y);
-        void extr_appartenance_recipient(double x, double y, unsigned int s, double a, unsigned int id);
+        void extr_appartenance_recipient(double x, double y, unsigned int s, 
+            double a, unsigned int id);
         void unique_id(unsigned int id);
         void existant_id(unsigned int id_corail_cible);
         void seg_superposition();
@@ -33,7 +32,6 @@ class Simulation{
     private:
         enum TYPE_lecture {ALGUE, CORAIL, SCAVENGER};
         int type;
-
         unsigned int nbr_algue;
         unsigned int nbr_corail;
         unsigned int nbr_scavenger;
