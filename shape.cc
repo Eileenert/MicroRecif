@@ -43,7 +43,7 @@ S2d Segments::get_base() const{
 bool Segments::superposition(Segments s){
     double ecart = ecart_angulaire(s);
     cout << ecart << endl;
-    if (ecart <= 0) return true;
+    if (abs(ecart) <= epsil_zero) return true;
     return false;
 }
 
@@ -55,7 +55,7 @@ double Segments::ecart_angulaire(Segments s){
     double v2(get_extr().y - base.y);
     double u1(s.get_extr().x - s.get_base().x);
     double u2(s.get_extr().x - s.get_base().x);
-    double produit(v1*u2 + v2*u1);
+    double produit(v1*u1 + v2*u2);
     double prod_norm(longueur * s.get_longueur());
 
     return produit / prod_norm;
