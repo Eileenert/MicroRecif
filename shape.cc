@@ -42,22 +42,42 @@ S2d Segments::get_base() const{
 //en paramètre 1 segment à comparer avec le segment actuel (on met la fonction comme méthode de la classe segment)//
 bool Segments::superposition(Segments s){
     double ecart = ecart_angulaire(s);
-    if (abs(ecart) <= epsil_zero) return true;
+    if (abs(ecart) <= 0) return true;
     return false;
 }
 
 
 //calcul l'ecart angulaire entre l'angle du segment et celui du segment passé en paramètre
 double Segments::ecart_angulaire(Segments s){ 
+    double ecart(0.);
 
     double v1(get_extr().x - base.x);
     double v2(get_extr().y - base.y);
     double u1(s.get_extr().x - s.get_base().x);
-    double u2(s.get_extr().x - s.get_base().x);
+    double u2(s.get_extr().y -  s.get_base().y);
     double produit(v1*u1 + v2*u2);
     double prod_norm(longueur * s.get_longueur());
-
-    return produit / prod_norm;
+    /*cout << get_extr().x << "/" << get_extr().y <<endl;
+    cout <<base.x<<"/"<<base.y<<endl;
+    cout <<s.get_base().x<<"/"<<s.get_base().y<<"fin"<<endl;
+    cout << prod_norm<<endl;
+    cout <<"le produit : "<< produit<<endl;
+    ecart = acos(((produit / prod_norm)*M_PI/180));
+    cout << ecart<<endl;
+    double a(produit / prod_norm);
+    cout <<"le rapport : "<< a <<endl;*/
+    double div(produit / prod_norm);
+    if(div <= -1){
+        ecart = acos(-1);
+    }
+    else if(div >= 1){
+        ecart = acos(1);
+    }
+    else{
+        ecart = acos(div);
+    }
+    cout << ecart << endl;
+    return  ecart;
 }
 
 
