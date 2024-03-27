@@ -9,6 +9,7 @@ constexpr double epsil_zero(0.5);
 bool on_segment(bool simulation, S2d p, S2d q, S2d r);
 double orientation(S2d p, S2d q, S2d r);
 
+
 Segments::Segments(double x, double y, double a, unsigned int s)
         :angle(a), longueur(s)
         {
@@ -39,7 +40,6 @@ S2d Segments::get_base() const{
 }
 
 
-//en paramètre 1 segment à comparer avec le segment actuel (on met la fonction comme méthode de la classe segment)//
 bool Segments::superposition(Segments s){
     double ecart = ecart_angulaire(s);
     if (abs(ecart) <= 0) return true;
@@ -51,21 +51,12 @@ bool Segments::superposition(Segments s){
 double Segments::ecart_angulaire(Segments s){ 
     double ecart(0.);
 
-    double v1(get_extr().x - base.x);
-    double v2(get_extr().y - base.y);
+    double v1(base.x - get_extr().x);
+    double v2(base.y - get_extr().y);
     double u1(s.get_extr().x - s.get_base().x);
     double u2(s.get_extr().y -  s.get_base().y);
     double produit(v1*u1 + v2*u2);
     double prod_norm(longueur * s.get_longueur());
-    /*cout << get_extr().x << "/" << get_extr().y <<endl;
-    cout <<base.x<<"/"<<base.y<<endl;
-    cout <<s.get_base().x<<"/"<<s.get_base().y<<"fin"<<endl;
-    cout << prod_norm<<endl;
-    cout <<"le produit : "<< produit<<endl;
-    ecart = acos(((produit / prod_norm)*M_PI/180));
-    cout << ecart<<endl;
-    double a(produit / prod_norm);
-    cout <<"le rapport : "<< a <<endl;*/
     double div(produit / prod_norm);
     if(div <= -1){
         ecart = acos(-1);
@@ -76,16 +67,15 @@ double Segments::ecart_angulaire(Segments s){
     else{
         ecart = acos(div);
     }
-    cout << ecart << endl;
     return  ecart;
 }
 
 
 bool on_segment(bool simulation, S2d p, S2d q, S2d r){
     double s((r.x-p.x)*(q.x-p.x)+(r.y-p.y)*(q.y-p.y));
-    double c(pow((r.x-p.x),2) + pow((r.y-p.y), 2)); //c c'est le (X^2 + Y^2) du vecteur pr
-    double pr(pow(c,1/2));// pr c'est la norme du vecteur pr
-    double x(s/pr); //x c'est le truc que le prof veut qu'on calcul dans la section 2.2.2 (tkt on a pas besoin de comprendre exactement le pourquoi du calcul, c'est donné)
+    double c(pow((r.x-p.x),2) + pow((r.y-p.y), 2)); 
+    double pr(pow(c,1/2));
+    double x(s/pr);
 
     if ((-epsil_zero*simulation <= x) && (x <= (pr + epsil_zero*simulation))) 
         return true; 
@@ -93,19 +83,16 @@ bool on_segment(bool simulation, S2d p, S2d q, S2d r){
 }
 
 double orientation(S2d p, S2d q, S2d r){ 
-
     double val = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y); 
     double norme = sqrt((pow((q.x - p.x), 2) + pow((q.y - p.y), 2)));
     double d = val/norme;
 
-    if (abs(d) <= epsil_zero){
-        return 0;
-    }
+    if (abs(d) <= epsil_zero) return 0;
+    
     return (val > 0)? 1: 2;
 }
 
 bool do_intersect(bool simulation, S2d p1, S2d q1, S2d p2, S2d q2){ 
-   
     int o1 = orientation(p1, q1, p2); 
     int o2 = orientation(p1, q1, q2); 
     int o3 = orientation(p2, q2, p1); 
@@ -113,16 +100,10 @@ bool do_intersect(bool simulation, S2d p1, S2d q1, S2d p2, S2d q2){
 
     if (o1 != o2 && o3 != o4) return true; 
 
-
     if (o1 == 0 && on_segment(simulation, p1, p2, q1)) return true; 
-   
     if (o2 == 0 && on_segment(simulation, p1, q2, q1)) return true; 
-   
     if (o3 == 0 && on_segment(simulation,p2, p1, q2)) return true; 
-  
     if (o4 == 0 && on_segment(simulation, p2, q1, q2)) return true; 
   
     return false; 
 }
-
-// TESTS ==============================

@@ -14,7 +14,7 @@ using namespace std;
 void verifie_positive(int nbr);
 void age_positif(int age);
 void longueur_segment(unsigned int s, unsigned int id);
-void angle_segment(double a, unsigned int id);
+void verifie_angle(double a, unsigned int id);
 void rayon_scavenger(unsigned int rayon);
 
 void Simulation::init_nbr_algue(int nbr){
@@ -30,7 +30,6 @@ void Simulation::init_nbr_scavenger(int nbr){
     nbr_scavenger = nbr;
 }
 
-// traite le fichier ligne par ligne.  
 void Simulation::lecture(char * nom_fichier){
     string line;
     ifstream fichier(nom_fichier); 
@@ -47,7 +46,6 @@ void Simulation::lecture(char * nom_fichier){
 }
 
 void Simulation::decodage_ligne(string line){
-
     switch(type){
         case ALGUE:
             decodage_algue(line);
@@ -58,7 +56,7 @@ void Simulation::decodage_ligne(string line){
             break;
 
         case SCAVENGER:
-            decodage_scavenger(line);//jsp si c'était là
+            decodage_scavenger(line);
             break;
     } 
 }
@@ -94,33 +92,33 @@ void Simulation::decodage_corail(string line){
     if(nbr_corail == 0){
         data >> nbr_corail;
     }
-    else if((corail_vect.size() != 0) && (corail_vect.back().get_seg_vector().size() < corail_vect.back().get_nbr_segments())){
+    else if((corail_vect.size() != 0) && 
+        (corail_vect.back().get_seg_vector().size() 
+            < corail_vect.back().get_nbr_segments())){
         data >> a;
-        angle_segment(a, corail_vect.back().get_id());
+        verifie_angle(a, corail_vect.back().get_id());
         data >> s;
         longueur_segment(s, corail_vect.back().get_id());
         extr_appartenance_recipient(x, y, s, a, id);
-        
         corail_vect.back().add_seg_vector(a,s);   
         seg_superposition();
         collision();
     }
     else if(corail_vect.size() < nbr_corail){
-        data >> x;
-        data >> y;
+        data >> x >> y;
         appartenance_recipient(x, y);
         data >> age;
         age_positif(age);
         data >> id;
         unique_id(id);
-        data >> statut; //statut corail
-        data >> dir_rot;
-        data >> statut_dev;
-        data >> nbr_segments;
-        corail_vect.push_back(Corail(x, y, age, id, statut, dir_rot, statut_dev, nbr_segments));
-        
+        data >> statut >> dir_rot >> statut_dev >> nbr_segments;
+        verifie_positive(nbr_segments);
+        corail_vect.push_back(
+            Corail(x, y, age, id, statut, dir_rot, statut_dev, nbr_segments));
     }
-    if((corail_vect.size() == nbr_corail) && (corail_vect.back().get_seg_vector().size() == corail_vect.back().get_nbr_segments())){
+    if((corail_vect.size() == nbr_corail) 
+        && (corail_vect.back().get_seg_vector().size() 
+            == corail_vect.back().get_nbr_segments())){
         type = SCAVENGER;
     }
 }
@@ -138,7 +136,6 @@ void Simulation::decodage_scavenger(string line){
 
     }
     else if(scavenger_vect.size() < nbr_scavenger){
-        
         data >> x;
         data >> y;
         appartenance_recipient(x, y);
@@ -158,25 +155,27 @@ void Simulation::decodage_scavenger(string line){
     } 
 }
 
-//section 3.2.2 du rendu1
-void Simulation::appartenance_recipient(double x, double y){//quand on est en lecture, simulation = 0 et epsil_zero est donc désactivé
+void Simulation::appartenance_recipient(double x, double y){
     constexpr double max(256.);
     
-    if((x < 1) || (y < 1) || (x > max-1) || (y > max-1)){ //verifie que les centres des algues, scavenger et la base des coraux sont dans le domaine
+    if((x < 1) || (y < 1) || (x > max-1) || (y > max-1)){
         cout << message::lifeform_center_outside(x, y);
         exit(EXIT_FAILURE);
     }
 }
 
-void Simulation::extr_appartenance_recipient(double x, double y, unsigned int s, double a, unsigned int id){
+void Simulation::extr_appartenance_recipient(double x, double y, 
+    unsigned int s, double a, unsigned int id){
+
     constexpr double max(256.);
     constexpr double epsil_zero(0.5);
 
     x = x + s*cos(a);
     y = y + s*sin(a);
 
-    if((x <= epsil_zero) || (x >= max - epsil_zero) || (y <= epsil_zero) || (y >= max - epsil_zero)){//vérifie pendant la simulation
-        cout << message::lifeform_computed_outside(id, x, y); //je crois que c'est pas ce message d erreur, je pense que c'est le bon ._.
+    if((x <= epsil_zero) || (x >= max - epsil_zero) || (y <= epsil_zero) || 
+        (y >= max - epsil_zero)){
+        cout << message::lifeform_computed_outside(id, x, y); 
         exit(EXIT_FAILURE);
     }
 }
@@ -208,21 +207,21 @@ void Simulation::existant_id(unsigned int id_corail_cible){
 void Simulation::seg_superposition(){
     bool col(false);
     vector<Segments> seg_vector = corail_vect.back().get_seg_vector();
-    unsigned int s1(seg_vector.size()-1); //s1 c'est le nombre d'éléments du vecteur - 1 ?
-    unsigned int s2(s1-1);//s2 c'est le nombre d'éléments du vecteur ?
-    Segments s = seg_vector.back();// accès au dernier élément
+    unsigned int s1(seg_vector.size()-1);
+    unsigned int s2(s1-1);
+    Segments s = seg_vector.back();
     
-    if(seg_vector.size() >= 2){ //s'il y'a plus d'un segment dans le corail
-        col = s.superposition(seg_vector[seg_vector.size() - 2]);//vérification en mode lecture// col = true superposition
+    if(seg_vector.size() >= 2){ 
+        col = s.superposition(seg_vector[seg_vector.size() - 2]);
     }
     if(col == 1){
-        cout << message::segment_superposition(corail_vect.back().get_id(), s2, s1);
+        cout << message::segment_superposition(corail_vect.back().get_id(), 
+            s2, s1);
         exit(EXIT_FAILURE);
     }
-}//donc tous ça fait qu'en mode lecture on sait si y'a une superposition
+}
 
-//jsp si c'est correct
-//NE PAS COMPARER AVEC LES SEGMENTS A COTE
+
 void Simulation::collision(){
     bool col(false);
     
@@ -233,21 +232,28 @@ void Simulation::collision(){
     
     for(size_t i(0); i < corail_vect.size(); i++){
         S2d coord2 = corail_vect[i].get_coord();
+        
         vector<Segments> seg2_vector = corail_vect[i].get_seg_vector();
         
         for(size_t j(0); j < seg2_vector.size(); j++){
 
-            if((i == corail_vect.size()-1) && (j == seg2_vector.size()-1)) continue ;
-            if((i == corail_vect.size()-1) && (j == seg2_vector.size()-2)) continue ;
-            if((i == corail_vect.size()-1) && (j == seg2_vector.size())) continue ;
+            if((i == corail_vect.size()-1) && (j == seg2_vector.size()-1)){
+                continue ;
+            }
+            if((i == corail_vect.size()-1) && (j == seg2_vector.size()-2)){
+                continue ;
+            }
+            if((i == corail_vect.size()-1) && (j == seg2_vector.size())){
+                continue ;
+            }
 
             S2d extr2 = seg2_vector[j].get_extr();
             
             col = do_intersect(0, coord1, extr1, coord2, extr2);
 
             if(col == true){
-                cout << message::segment_collision(corail_vect.back().get_id(), seg1_vector.size()-1,
-                                        corail_vect[i].get_id(), j);  //changer valeur des deux derniers
+                cout << message::segment_collision(corail_vect.back().get_id(), 
+                    seg1_vector.size()-1, corail_vect[i].get_id(), j);
                 
                 exit(EXIT_FAILURE);
             }
@@ -278,7 +284,7 @@ void longueur_segment(unsigned int s, unsigned int id){
     }    
 }
 
-void angle_segment(double a, unsigned int id){
+void verifie_angle(double a, unsigned int id){
     if((a < -M_PI) || (a > M_PI)){
         cout << message::segment_angle_outside(id,a);
         exit(EXIT_FAILURE);
