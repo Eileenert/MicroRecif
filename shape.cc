@@ -38,7 +38,7 @@ S2d Segments::get_extr(){
 //en paramètre 1 segment à comparer avec le segment actuel (on met la fonction comme méthode de la classe segment)//
 bool Segments::superposition(Segments s){
     double ecart = ecart_angulaire(s);
-    
+    cout << ecart << endl;
     if (abs(ecart) <= 0) return true;
     return false;
 }
@@ -46,18 +46,11 @@ bool Segments::superposition(Segments s){
 
 //calcul l'ecart angulaire entre l'angle du segment et celui du segment passé en paramètre
 double Segments::ecart_angulaire(Segments s){ 
-    double ecart(0.);
-    double angle2(s.get_angle());
-    double difference(angle - angle2);
-
-    if (difference > M_PI){
-        ecart = difference - 360;
-    }
-    if (difference < -M_PI){
-        ecart = difference + 2*M_PI;
-    }
-
-    return ecart;
+    
+    double prod_scal(get_extr().x *  s.get_extr().x + get_extr().y *  s.get_extr().y);
+    double prod_norme(longueur * s.get_longueur());
+    
+    return acos(prod_scal / prod_norme);
 }
 
 
