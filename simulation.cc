@@ -58,7 +58,7 @@ void Simulation::decodage_ligne(string line){
             break;
 
         case SCAVENGER:
-            decodage_scavenger(line);//jsp si c'était là
+            decodage_scavenger(line);
             break;
     } 
 }
@@ -94,7 +94,9 @@ void Simulation::decodage_corail(string line){
     if(nbr_corail == 0){
         data >> nbr_corail;
     }
-    else if((corail_vect.size() != 0) && (corail_vect.back().get_seg_vector().size() < corail_vect.back().get_nbr_segments())){
+    else if((corail_vect.size() != 0) && 
+            (corail_vect.back().get_seg_vector().size() 
+                < corail_vect.back().get_nbr_segments())){
         data >> a;
         angle_segment(a, corail_vect.back().get_id());
         data >> s;
@@ -117,7 +119,8 @@ void Simulation::decodage_corail(string line){
         data >> dir_rot;
         data >> statut_dev;
         data >> nbr_segments;
-        corail_vect.push_back(Corail(x, y, age, id, statut, dir_rot, statut_dev, nbr_segments));
+        corail_vect.push_back(Corail(x, y, age, id, statut, dir_rot, 
+                                        statut_dev, nbr_segments));
         
     }
     if((corail_vect.size() == nbr_corail) && (corail_vect.back().get_seg_vector().size() == corail_vect.back().get_nbr_segments())){
@@ -159,7 +162,7 @@ void Simulation::decodage_scavenger(string line){
 }
 
 //section 3.2.2 du rendu1
-void Simulation::appartenance_recipient(double x, double y){//quand on est en lecture, simulation = 0 et epsil_zero est donc désactivé
+void Simulation::appartenance_recipient(double x, double y){
     constexpr double max(256.);
     
     if((x < 1) || (y < 1) || (x > max-1) || (y > max-1)){ //verifie que les centres des algues, scavenger et la base des coraux sont dans le domaine
@@ -168,7 +171,8 @@ void Simulation::appartenance_recipient(double x, double y){//quand on est en le
     }
 }
 
-void Simulation::extr_appartenance_recipient(double x, double y, unsigned int s, double a, unsigned int id){
+void Simulation::extr_appartenance_recipient(double x, double y,
+         unsigned int s, double a, unsigned int id){
     constexpr double max(256.);
     constexpr double epsil_zero(0.5);
 

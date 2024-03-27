@@ -6,18 +6,15 @@
 
 class Lifeform{
     public:
-
         Lifeform(double x1, double y1, int age1)
         :x(x1), y(y1), age(age1)
         {}
-        void appartenance_recipient(double x, double y);//jsp si c'est nécessaire ici
         S2d get_coord() const;
+
     protected:
         double x;
         double y;
         int age;
-
-        
 };
 
 
@@ -26,9 +23,6 @@ class Algue: public Lifeform{
         Algue(double x1, double y1, unsigned int age1)
         :Lifeform(x1, y1, age1)
         {}
-
-    private:
-
 };
 
 
@@ -39,9 +33,9 @@ class Corail: public Lifeform{
         id(id1), statut_cor(statut_cor1), dir_rot(dir_rot1), statut_dev(statut_dev1), nbr_segments(nbr_segments1)
         {}
 
-        void verifie_angle(size_t index_segment, unsigned id, double a1);
-        void verifie_longueur(size_t index_segment, unsigned id, unsigned l);
-        void angle_segment(double& angle_seg, double base_x, double base_y,double extr_x, double extr_y);
+       // void verifie_angle(size_t index_segment, unsigned id, double a1);
+       // void verifie_longueur(size_t index_segment, unsigned id, unsigned l);
+       // void angle_segment(double& angle_seg, double base_x, double base_y,double extr_x, double extr_y);
         std::vector<Segments> get_seg_vector() const;
         unsigned int get_nbr_segments() const;
         unsigned int get_id() const;

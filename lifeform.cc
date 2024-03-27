@@ -1,5 +1,4 @@
 #define _USE_MATH_DEFINES
-//#include <random> //section 3.1, utile pour la gestion des probabilités, pas pour le rendu1
 #include <cmath>
 #include <iostream>
 #include <string>
@@ -37,12 +36,12 @@ unsigned int Corail::get_id() const{
 
 void Corail::add_seg_vector(double a, int s){
     if (seg_vector.size() >=1){
-        seg_vector.push_back(Segments(seg_vector.back().get_extr().x, seg_vector.back().get_extr().y, a, s));
+        seg_vector.push_back(Segments(seg_vector.back().get_extr().x, 
+        seg_vector.back().get_extr().y, a, s));
     }
     else{
         seg_vector.push_back(Segments(x, y, a, s));
     }
-    
 }
 
 void Scavenger::init_corail_id_cible(unsigned int corail_id_cible1){

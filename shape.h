@@ -15,7 +15,6 @@ class Segments{
         bool superposition(Segments s);
         double ecart_angulaire(Segments s);
         
-
     private:
         S2d base;
         double angle;
