@@ -92,7 +92,9 @@ void Simulation::decodage_corail(string line){
     if(nbr_corail == 0){
         data >> nbr_corail;
     }
-    else if((corail_vect.size() != 0) && (corail_vect.back().get_seg_vector().size() < corail_vect.back().get_nbr_segments())){
+    else if((corail_vect.size() != 0) && 
+        (corail_vect.back().get_seg_vector().size() 
+            < corail_vect.back().get_nbr_segments())){
 
         data >> a;
         verifie_angle(a, corail_vect.back().get_id());
