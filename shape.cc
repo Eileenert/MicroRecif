@@ -42,7 +42,6 @@ S2d Segments::get_base() const{
 //en paramètre 1 segment à comparer avec le segment actuel (on met la fonction comme méthode de la classe segment)//
 bool Segments::superposition(Segments s){
     double ecart = ecart_angulaire(s);
-    cout << ecart << endl;
     if (abs(ecart) <= epsil_zero) return true;
     return false;
 }

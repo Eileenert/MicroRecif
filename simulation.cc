@@ -209,14 +209,14 @@ void Simulation::seg_superposition(){
     bool col(false);
     vector<Segments> seg_vector = corail_vect.back().get_seg_vector();
     unsigned int s1(seg_vector.size()-1); //s1 c'est le nombre d'éléments du vecteur - 1 ?
-    unsigned int s2(s1+1);//s2 c'est le nombre d'éléments du vecteur ?
+    unsigned int s2(s1-1);//s2 c'est le nombre d'éléments du vecteur ?
     Segments s = seg_vector.back();// accès au dernier élément
     
     if(seg_vector.size() >= 2){ //s'il y'a plus d'un segment dans le corail
         col = s.superposition(seg_vector[seg_vector.size() - 2]);//vérification en mode lecture// col = true superposition
     }
     if(col == 1){
-        cout << message::segment_superposition(corail_vect.back().get_id(), s1, s2);
+        cout << message::segment_superposition(corail_vect.back().get_id(), s2, s1);
         exit(EXIT_FAILURE);
     }
 }//donc tous ça fait qu'en mode lecture on sait si y'a une superposition
