@@ -135,8 +135,7 @@ void Simulation::decodage_scavenger(string line){
 
     }
     else if(scavenger_vect.size() < nbr_scavenger){
-        data >> x;
-        data >> y;
+        data >> x >> y;
         appartenance_recipient(x, y);
         data >> age;
         age_positif(age);
@@ -166,7 +165,6 @@ void Simulation::appartenance_recipient(double x, double y){
 
 void Simulation::extr_appartenance_recipient(double x, double y, 
     unsigned int s, double a, unsigned int id){
-
     constexpr double max(256.);
     constexpr double epsil_zero(0.5);
 
