@@ -13,7 +13,6 @@ S2d Lifeform::get_coord() const{
     coord.x = x;
     coord.y = y;
     return coord;
-
 }
 /*void Corail::angle_segment(double& angle_seg, double base_x, double base_y,
     double extr_x, double extr_y){

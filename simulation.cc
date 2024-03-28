@@ -35,10 +35,8 @@ void Simulation::lecture(char * nom_fichier){
     ifstream fichier(nom_fichier); 
 
     type = ALGUE;
-    // l’appel de getline filtre aussi les séparateurs
     while(getline(fichier >> ws, line)) 
     {
-        // ligne de commentaire à ignorer, on passe à la suivante
         if(line[0]=='#' || line[0]=='\n' || line[0]=='\r') continue; 
         decodage_ligne(line);
     }
@@ -70,12 +68,11 @@ void Simulation::decodage_algue(string line){
         data >> nbr_algue;
     }
     else if(algue_vect.size() <= nbr_algue){
-        data >> x;
-        data >> y;
+        data >> x >> y;
         appartenance_recipient(x, y);
         data >> age;
         age_positif(age);
-        algue_vect.push_back(Algue(x,y,age));
+        algue_vect.push_back(Algue(x, y, age));
     }   
     if(algue_vect.size() == nbr_algue){
         type = CORAIL;
@@ -138,8 +135,7 @@ void Simulation::decodage_scavenger(string line){
 
     }
     else if(scavenger_vect.size() < nbr_scavenger){
-        data >> x;
-        data >> y;
+        data >> x >> y;
         appartenance_recipient(x, y);
         data >> age;
         age_positif(age);
@@ -169,7 +165,6 @@ void Simulation::appartenance_recipient(double x, double y){
 
 void Simulation::extr_appartenance_recipient(double x, double y, 
     unsigned int s, double a, unsigned int id){
-
     constexpr double max(256.);
     constexpr double epsil_zero(0.5);
 
@@ -251,7 +246,6 @@ void Simulation::collision(){
             }
 
             S2d extr2 = seg2_vector[j].get_extr();
-            
             col = do_intersect(0, coord1, extr1, coord2, extr2);
 
             if(col == true){

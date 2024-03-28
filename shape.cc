@@ -19,7 +19,6 @@ Segments::Segments(double x, double y, double a, unsigned int s)
             base = base_temp;
         }
 
-
 double Segments::get_angle() const{
     return angle;
 }
@@ -69,7 +68,6 @@ double Segments::ecart_angulaire(Segments s){
 
     return  ecart;
 }
-
 
 bool on_segment(bool simulation, S2d p, S2d q, S2d r){
     double s((r.x-p.x)*(q.x-p.x)+(r.y-p.y)*(q.y-p.y));
