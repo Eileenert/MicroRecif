@@ -46,8 +46,6 @@ bool Segments::superposition(Segments s){
     return false;
 }
 
-
-//calcul l'ecart angulaire entre l'angle du segment et celui du segment passé en paramètre
 double Segments::ecart_angulaire(Segments s){ 
     double ecart(0.);
 

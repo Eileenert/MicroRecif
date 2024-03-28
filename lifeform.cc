@@ -15,11 +15,12 @@ S2d Lifeform::get_coord() const{
     return coord;
 
 }
-/*void Corail::angle_segment(double& angle_seg, double base_x, double base_y,double extr_x, double extr_y){
+/*void Corail::angle_segment(double& angle_seg, double base_x, double base_y,
+    double extr_x, double extr_y){
     extr_x = extr_x - base_x;
     extr_y = extr_y - base_y;
     angle_seg = atan2(extr_y, extr_x);
-} //trouve l'angle qu'un segment fait avec l'axe x, section 3.1 //pas utile pour l'instant*/
+} //trouve l'angle qu'un segment fait avec l'axe x, section 3.1 */
 
 vector<Segments> Corail::get_seg_vector() const{
     return seg_vector;

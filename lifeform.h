@@ -36,7 +36,8 @@ class Corail: public Lifeform{
             statut_dev(statut_dev1), nbr_segments(nbr_segments1)
         {}
 
-        //void angle_segment(double& angle_seg, double base_x, double base_y,double extr_x, double extr_y);
+        //void angle_segment(double& angle_seg, double base_x,
+            // double base_y,double extr_x, double extr_y);
         std::vector<Segments> get_seg_vector() const;
         unsigned int get_nbr_segments() const;
         unsigned int get_id() const;
@@ -49,10 +50,10 @@ class Corail: public Lifeform{
         bool statut_cor;
         bool dir_rot;   //direction rotation 0(TRIGO) ou 1(INVTRIGO)
         bool statut_dev; // 0(EXTEND) 1(REPRO)
-        unsigned int nbr_segments;   //doit être strictement positif --> verifier dans une méthode à l'initialisation
+        unsigned int nbr_segments;   
         bool is_alive;
         bool is_extend; // true = EXTEND et false = REPRO
-        std::string color; //bleu = alive ou noir = dead pour un prochain rendu, string parce que ensuite on devra surement mettre un code couleur rgb
+        std::string color; //bleu = alive ou noir = dead
         unsigned int cor_life_max;      
 };
 
