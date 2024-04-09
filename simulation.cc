@@ -17,6 +17,14 @@ void longueur_segment(unsigned int s, unsigned int id);
 void verifie_angle(double a, unsigned int id);
 void rayon_scavenger(unsigned int rayon);
 
+
+//RENDU 2 À COMPLETER  
+
+//void sauvegarde(char * nom_fichier);
+//void execution();
+//void dessin();
+
+
 void Simulation::init_nbr_algue(int nbr){
     verifie_positive(nbr);
     nbr_algue = nbr;
@@ -30,7 +38,10 @@ void Simulation::init_nbr_scavenger(int nbr){
     nbr_scavenger = nbr;
 }
 
-void Simulation::lecture(char * nom_fichier){
+bool Simulation::lecture(char * nom_fichier){
+
+    // ici ajout fct de reintialisation
+
     string line;
     ifstream fichier(nom_fichier); 
 
@@ -41,6 +52,7 @@ void Simulation::lecture(char * nom_fichier){
         decodage_ligne(line);
     }
     cout << message::success();
+    return true;
 }
 
 void Simulation::decodage_ligne(string line){

@@ -10,7 +10,7 @@ class Simulation{
         : nbr_algue(nbr_al), nbr_corail(nbr_co), nbr_scavenger(nbr_sca)
         {}
 
-        void lecture(char * nom_fichier);
+        bool lecture(char * nom_fichier);
         void decodage_ligne(std::string line);
 
         void decodage_algue(std::string line);
