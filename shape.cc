@@ -3,6 +3,7 @@
 #include <vector>
 #include <cmath>
 #include "shape.h"
+#include "graphic.h"
 using namespace std;
 
 constexpr double epsil_zero(0.5);

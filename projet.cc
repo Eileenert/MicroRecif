@@ -1,5 +1,6 @@
 #include <iostream>
 #include "simulation.h"
+#include "gui.h"
 using namespace std;
 
 int main(int argc, char * argv[]){

@@ -1,8 +1,8 @@
 # Definitions de macros
 CXX     = g++
 CXXFLAGS = -g -Wall -std=c++11
-CXXFILES = projet.cc lifeform.cc message.cc shape.cc simulation.cc
-OFILES = projet.o lifeform.o message.o shape.o simulation.o
+CXXFILES = projet.cc lifeform.cc message.cc shape.cc simulation.cc gui.cc graphic.cc
+OFILES = projet.o lifeform.o message.o shape.o simulation.o gui.o graphic.o
 
 # Definition de la premiere regle
 
@@ -27,8 +27,10 @@ clean:
 # -- Regles de dependances generees automatiquement
 #
 # DO NOT DELETE THIS LINE
-projet.o: projet.cc simulation.h lifeform.h shape.h
+projet.o: projet.cc simulation.h lifeform.h shape.h gui.h
 lifeform.o: lifeform.cc message.h lifeform.h shape.h
 message.o: message.cc message.h
-shape.o: shape.cc shape.h
+shape.o: shape.cc shape.h graphic.h
 simulation.o: simulation.cc simulation.h lifeform.h shape.h message.h
+gui.o: gui.cc simulation.h lifeform.h shape.h graphic.h
+graphic.o: graphic.cc
