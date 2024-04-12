@@ -72,7 +72,7 @@ void MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int hei
 
 Gui::Gui(): 
     m_Main_Box(Gtk::Orientation::VERTICAL, 0),
-	m_Buttons_Box(Gtk::Orientation::HORIZONTAL, 5),
+	m_Buttons_Box(Gtk::Orientation::VERTICAL, 5),
 	
     // Création des boutons
     m_Button_exit("Exit"),
