@@ -10,9 +10,11 @@ class Gui : public Gtk::Window{
     public:
 
     protected:
-        Gtk::Button m_Button_start;
-        Gtk::Button m_Button_step;
+        //Gtk::Button m_Button_start;
+        //Gtk::Button m_Button_step;
 
 };
 
-#endif
+
+
+#endif 
