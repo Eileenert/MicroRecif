@@ -96,6 +96,8 @@ bool Simulation::decodage_algue(string line){
     if(algue_vect.size() == nbr_algue){
         type = CORAIL;
         }
+
+    return 0;//ça me fait une erreur parce qu'il y'a pas de return
 }
 
 bool Simulation::decodage_corail(string line){
@@ -139,6 +141,7 @@ bool Simulation::decodage_corail(string line){
             == corail_vect.back().get_nbr_segments())){
         type = SCAVENGER;
     }
+    return 0; //j'ai rajoué ça parce que ça me faisait une erreur
 }
 
 bool Simulation::decodage_scavenger(string line){
@@ -169,7 +172,8 @@ bool Simulation::decodage_scavenger(string line){
             }
             scavenger_vect.back().init_corail_id_cible(id_corail_cible);
         } 
-    } 
+    }
+    return 0; // sinon ça me faisait une erreur
 }
 
 void Simulation::appartenance_recipient(double x, double y){
