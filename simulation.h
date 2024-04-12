@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 
+void start_simulation(char * nom_fichier);
+
 class Simulation{
     public:
         Simulation(int nbr_al = 0, int nbr_co = 0, int nbr_sca = 0)
@@ -11,11 +13,11 @@ class Simulation{
         {}
 
         bool lecture(char * nom_fichier);
-        void decodage_ligne(std::string line);
+        bool decodage_ligne(std::string line);
 
-        void decodage_algue(std::string line);
-        void decodage_corail(std::string line);
-        void decodage_scavenger(std::string line);
+        bool decodage_algue(std::string line);
+        bool decodage_corail(std::string line);
+        bool decodage_scavenger(std::string line);
 
         void init_nbr_algue(int nbr);
         void init_nbr_corail(int nbr);
@@ -28,6 +30,8 @@ class Simulation{
         void existant_id(unsigned int id_corail_cible);
         void seg_superposition();
         void collision();
+
+        void reinitialisation();
         
     private:
         enum TYPE_lecture {ALGUE, CORAIL, SCAVENGER};
@@ -40,6 +44,5 @@ class Simulation{
         std::vector<Scavenger> scavenger_vect;
         std::vector<Algue> algue_vect;
 };
-
 
 #endif

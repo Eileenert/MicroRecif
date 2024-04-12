@@ -25,6 +25,8 @@ void rayon_scavenger(unsigned int rayon);
 //void dessin();
 
 
+
+
 void Simulation::init_nbr_algue(int nbr){
     verifie_positive(nbr);
     nbr_algue = nbr;
@@ -55,23 +57,28 @@ bool Simulation::lecture(char * nom_fichier){
     return true;
 }
 
-void Simulation::decodage_ligne(string line){
+bool Simulation::decodage_ligne(string line){
+    bool decodage_ok = true;
     switch(type){
         case ALGUE:
-            decodage_algue(line);
+            decodage_ok = decodage_algue(line);
+            if (!decodage_ok) return false;
             break;
 
         case CORAIL:
-            decodage_corail(line);
+            decodage_ok = decodage_corail(line);
+            if (!decodage_ok) return false;
             break;
 
         case SCAVENGER:
-            decodage_scavenger(line);
+            decodage_ok = decodage_scavenger(line);
+            if (!decodage_ok) return false;
             break;
     } 
+    return true;
 }
 
-void Simulation::decodage_algue(string line){
+bool Simulation::decodage_algue(string line){
     istringstream data(line);
     double x, y;
     int age;
@@ -91,7 +98,7 @@ void Simulation::decodage_algue(string line){
         }
 }
 
-void Simulation::decodage_corail(string line){
+bool Simulation::decodage_corail(string line){
     istringstream data(line);
     double x, y, a;
     int age;
@@ -134,7 +141,7 @@ void Simulation::decodage_corail(string line){
     }
 }
 
-void Simulation::decodage_scavenger(string line){
+bool Simulation::decodage_scavenger(string line){
     istringstream data(line);
     double x, y;
     unsigned int id_corail_cible;
@@ -269,6 +276,8 @@ void Simulation::collision(){
         }
     }
 }
+
+
 
 
 void verifie_positive(int nbr){
