@@ -5,7 +5,7 @@
 #include "graphic.h"
 #include <iostream>
 
-constexpr int area_side(200);
+constexpr int area_side(200); // taille de notre récipient
 
 MyArea::MyArea(): empty(false)
 {
@@ -44,6 +44,7 @@ void MyArea::step()
 	queue_draw();
 }
 
+//on dessine dans my area en fonction de la taille de myarea définit plus haut (enfaite myarea c'est notre récipient je crois)
 void MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height)
 {
 	/*if(not empty)
@@ -83,7 +84,7 @@ Gui::Gui():
 {
     //titre, taille et permission de modifier la taille d ela fenêtre
     set_title("MicroRecif");
-    //set_default_size(200,200);
+    //set_default_size(400,400); on a choisi déjà une taille pour myarea plus haut
 	set_resizable(true);
     set_child(m_Main_Box);
 
@@ -112,6 +113,19 @@ Gui::Gui():
 		sigc::mem_fun(*this, &Gui::on_button_clicked_step));
 		
 }
+
+/*bool Gui::on_window_key_pressed(guint keyval, guint, Gdk::ModifierType state)
+{
+	switch(gdk_keyval_to_unicode(keyval))
+    {
+		case 's':
+        std::cout << "Action sur la lable bouton start" << std::endl;
+        m_Button_start.set_label("start");
+        return true;
+    }
+	return false;
+}*/
+
 
 void Gui::on_button_clicked_exit()
 {

@@ -37,6 +37,10 @@ protected:
     void on_button_clicked_start();
     void on_button_clicked_step();
 
+    // pour cliquer depuis le clavier
+    bool on_window_key_pressed(guint keyval, guint keycode, 
+        Gdk::ModifierType state);
+
     MyArea m_Area;
     
     Gtk::Box m_Main_Box;
