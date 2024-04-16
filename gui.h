@@ -6,6 +6,8 @@
 #include <gtkmm/button.h>
 #include <gtkmm/drawingarea.h>
 
+void start_simulation(char * nom_fichier);
+
 class MyArea : public Gtk::DrawingArea{
 public:
     MyArea();

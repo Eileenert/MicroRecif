@@ -4,7 +4,6 @@
 #include <vector>
 #include <string>
 
-void start_simulation(char * nom_fichier);
 
 class Simulation{
     public:
