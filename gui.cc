@@ -159,6 +159,10 @@ void Gui::on_button_clicked_step()
 }
 
 
+void reintialise_simulation(){
+    //ici on devra supprimer tout l'affichage de la simulation
+}
+
 void start_simulation(char * nom_fichier){
     bool simulation_ok = true;
     Simulation s ;
@@ -167,7 +171,5 @@ void start_simulation(char * nom_fichier){
 }
 
 
-void reintialise_simulation(){
-    //ici on devra supprimer tout l'affichage de la simulation
-}
+
 
