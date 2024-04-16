@@ -19,10 +19,6 @@ class Simulation{
         bool decodage_corail(std::string line);
         bool decodage_scavenger(std::string line);
 
-        void init_nbr_algue(int nbr);
-        void init_nbr_corail(int nbr);
-        void init_nbr_scavenger(int nbr);
-
         bool appartenance_recipient(double x, double y);
         bool extr_appartenance_recipient(double x, double y, unsigned int s,
             double a, unsigned int id);

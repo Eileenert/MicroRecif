@@ -27,10 +27,10 @@ bool rayon_scavenger(unsigned int rayon);
 
 bool Simulation::lecture(char * nom_fichier){
 
+    bool lecture_ok(true);
     string line;
     ifstream fichier(nom_fichier); 
-    bool lecture_ok(true);
-
+    
     type = ALGUE;
     while(getline(fichier >> ws, line)) // ICI NE FONCTIONNE PLUS
     {   
