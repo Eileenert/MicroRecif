@@ -24,6 +24,9 @@ bool rayon_scavenger(unsigned int rayon);
 //void execution();
 //void dessin();
 
+Simulation::Simulation(int nbr_al = 0, int nbr_co = 0, int nbr_sca = 0)
+        : nbr_algue(nbr_al), nbr_corail(nbr_co), nbr_scavenger(nbr_sca)
+{}
 
 bool Simulation::lecture(char * nom_fichier){
 

@@ -6,9 +6,8 @@
 
 class Lifeform{
     public:
-        Lifeform(double x1, double y1, int age1)
-        :x(x1), y(y1), age(age1)
-        {}
+        Lifeform(double x1, double y1, int age1);
+
         S2d get_coord() const;
 
     protected:
@@ -30,11 +29,7 @@ class Corail: public Lifeform{
     public:
         Corail(double x1, double y1, int age1, unsigned int id1,
             bool statut_cor1, bool dir_rot1, bool statut_dev1, 
-                unsigned int nbr_segments1)
-        :Lifeform(x1, y1, age1), 
-        id(id1), statut_cor(statut_cor1), dir_rot(dir_rot1), 
-            statut_dev(statut_dev1), nbr_segments(nbr_segments1)
-        {}
+                unsigned int nbr_segments1);
 
         //void angle_segment(double& angle_seg, double base_x,
             // double base_y,double extr_x, double extr_y);
@@ -60,10 +55,7 @@ class Corail: public Lifeform{
 class Scavenger: public Lifeform{
     public:
         Scavenger(double x1, double y1,int age1, unsigned int rayon1,
-            bool statut_sca1)
-        :Lifeform(x1, y1, age1), 
-        rayon(rayon1), statut_sca(statut_sca1)
-        {}
+            bool statut_sca1);
 
         void init_corail_id_cible(unsigned int corail_id_cible1);
 

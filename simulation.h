@@ -7,9 +7,7 @@
 
 class Simulation{
     public:
-        Simulation(int nbr_al = 0, int nbr_co = 0, int nbr_sca = 0)
-        : nbr_algue(nbr_al), nbr_corail(nbr_co), nbr_scavenger(nbr_sca)
-        {}
+        Simulation(int nbr_al = 0, int nbr_co = 0, int nbr_sca = 0);
 
         bool lecture(char * nom_fichier);
         bool decodage_ligne(std::string line);

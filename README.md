@@ -6,6 +6,3 @@ syntaxe:
 - classes
 
 
-
-
-
