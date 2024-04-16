@@ -5,12 +5,12 @@
 using namespace std;
 
 //int main(int argc, char * argv[]){  //ce que tu as fait
-int main(int argc, char** argv){
-   // if(argc != 2){
-    //    exit(EXIT_FAILURE);
-   // };
+int main(int argc, char * argv[]){
+    if(argc != 2){
+        exit(EXIT_FAILURE);
+    };
 
-    //start_simulation(argv[1]);
+    start_simulation(argv[1]);
 
     auto app = Gtk::Application::create();
 

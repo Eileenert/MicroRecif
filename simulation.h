@@ -23,15 +23,14 @@ class Simulation{
         void init_nbr_corail(int nbr);
         void init_nbr_scavenger(int nbr);
 
-        void appartenance_recipient(double x, double y);
-        void extr_appartenance_recipient(double x, double y, unsigned int s,
+        bool appartenance_recipient(double x, double y);
+        bool extr_appartenance_recipient(double x, double y, unsigned int s,
             double a, unsigned int id);
-        void unique_id(unsigned int id);
-        void existant_id(unsigned int id_corail_cible);
-        void seg_superposition();
-        void collision();
+        bool unique_id(unsigned int id);
+        bool existant_id(unsigned int id_corail_cible);
+        bool seg_superposition();
+        bool collision();
 
-        void reinitialisation();
         
     private:
         enum TYPE_lecture {ALGUE, CORAIL, SCAVENGER};

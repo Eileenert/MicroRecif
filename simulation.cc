@@ -11,11 +11,11 @@
 
 using namespace std;
 
-void verifie_positive(int nbr);
-void age_positif(int age);
-void longueur_segment(unsigned int s, unsigned int id);
-void verifie_angle(double a, unsigned int id);
-void rayon_scavenger(unsigned int rayon);
+bool verifie_positive(int nbr);
+bool age_positif(int age);
+bool longueur_segment(unsigned int s, unsigned int id);
+bool verifie_angle(double a, unsigned int id);
+bool rayon_scavenger(unsigned int rayon);
 
 
 //RENDU 2 À COMPLETER  
@@ -24,7 +24,6 @@ void rayon_scavenger(unsigned int rayon);
 //void execution();
 //void dessin();
 
-//FINIR DE FAIRE LE TRUC QUI RENVOIE FALSE SI ERREUR DE LECTURE
 
 void Simulation::init_nbr_algue(int nbr){
     verifie_positive(nbr);
@@ -41,19 +40,20 @@ void Simulation::init_nbr_scavenger(int nbr){
 
 bool Simulation::lecture(char * nom_fichier){
 
-    // ici ajout fct de reintialisation
-
     string line;
     ifstream fichier(nom_fichier); 
+    bool lecture_ok(true);
 
     type = ALGUE;
-    while(getline(fichier >> ws, line)) 
-    {
+    while(getline(fichier >> ws, line)) // ICI NE FONCTIONNE PLUS
+    {   
         if(line[0]=='#' || line[0]=='\n' || line[0]=='\r') continue; 
-        decodage_ligne(line);
+        lecture_ok = decodage_ligne(line);
     }
-    cout << message::success();
-    return true;
+
+    if(lecture_ok) cout << message::success();
+
+    return lecture_ok;
 }
 
 bool Simulation::decodage_ligne(string line){
@@ -87,16 +87,16 @@ bool Simulation::decodage_algue(string line){
     }
     else if(algue_vect.size() <= nbr_algue){
         data >> x >> y;
-        appartenance_recipient(x, y);
+        if(!appartenance_recipient(x, y)) return false;
         data >> age;
-        age_positif(age);
+        if(!age_positif(age)) return false;
         algue_vect.push_back(Algue(x, y, age));
     }   
     if(algue_vect.size() == nbr_algue){
         type = CORAIL;
         }
 
-    return 0;//ça me fait une erreur parce qu'il y'a pas de return
+    return true;
 }
 
 bool Simulation::decodage_corail(string line){
@@ -114,23 +114,24 @@ bool Simulation::decodage_corail(string line){
             < corail_vect.back().get_nbr_segments())){
 
         data >> a;
-        verifie_angle(a, corail_vect.back().get_id());
+        if(!verifie_angle(a, corail_vect.back().get_id())) return false;
         data >> s;
-        longueur_segment(s, corail_vect.back().get_id());
-        extr_appartenance_recipient(x, y, s, a, id);
+        if(!longueur_segment(s, corail_vect.back().get_id())) return false;
+        if(!extr_appartenance_recipient(x, y, s, a, id)) return false;
         corail_vect.back().add_seg_vector(a,s);   
-        seg_superposition();
-        collision();
+        if(!seg_superposition()) return false;
+        if(!collision()) return false;
     }
     else if(corail_vect.size() < nbr_corail){
         data >> x >> y;
-        appartenance_recipient(x, y);
+        
+        if(!appartenance_recipient(x, y)) return false;
         data >> age;
-        age_positif(age);
+        if(!age_positif(age)) return false;
         data >> id;
-        unique_id(id);
+        if(!unique_id(id)) return false;
         data >> statut >> dir_rot >> statut_dev >> nbr_segments;
-        verifie_positive(nbr_segments);
+        if(!verifie_positive(nbr_segments)) return false;
         corail_vect.push_back(
             Corail(x, y, age, id, statut, dir_rot, statut_dev, nbr_segments));
 
@@ -140,7 +141,7 @@ bool Simulation::decodage_corail(string line){
             == corail_vect.back().get_nbr_segments())){
         type = SCAVENGER;
     }
-    return 0; //j'ai rajoué ça parce que ça me faisait une erreur
+    return true;
 }
 
 bool Simulation::decodage_scavenger(string line){
@@ -157,35 +158,35 @@ bool Simulation::decodage_scavenger(string line){
     }
     else if(scavenger_vect.size() < nbr_scavenger){
         data >> x >> y;
-        appartenance_recipient(x, y);
+        if(!appartenance_recipient(x, y)) return false;
         data >> age;
-        age_positif(age);
+        if(!age_positif(age)) return false;
         data >> rayon;
-        rayon_scavenger(rayon);
+        if(!rayon_scavenger(rayon)) return false;
         data >> statut;
         scavenger_vect.push_back(Scavenger(x, y, age, rayon, statut));
 
         if(statut == 1){
             if(data >> id_corail_cible){
-                existant_id(id_corail_cible);
+                if(!existant_id(id_corail_cible)) return false;
             }
             scavenger_vect.back().init_corail_id_cible(id_corail_cible);
         } 
     }
-    return 0; // sinon ça me faisait une erreur
+    return true;
 }
 
-void Simulation::appartenance_recipient(double x, double y){
+bool Simulation::appartenance_recipient(double x, double y){
     constexpr double max(256.);
-    
     if((x < 1) || (y < 1) || (x > max-1) || (y > max-1)){
         cout << message::lifeform_center_outside(x, y);
-        exit(EXIT_FAILURE);
+        return false;
     }
+    return true;
 }
 
 
-void Simulation::extr_appartenance_recipient(double x, double y, 
+bool Simulation::extr_appartenance_recipient(double x, double y, 
     unsigned int s, double a, unsigned int id){
     constexpr double max(256.);
     constexpr double epsil_zero(0.5);
@@ -196,20 +197,22 @@ void Simulation::extr_appartenance_recipient(double x, double y,
     if((x <= epsil_zero) || (x >= max - epsil_zero) || (y <= epsil_zero) || 
         (y >= max - epsil_zero)){
         cout << message::lifeform_computed_outside(id, x, y); 
-        exit(EXIT_FAILURE);
+        return false;
     }
+    return true;
 }
 
-void Simulation::unique_id(unsigned int id){
+bool Simulation::unique_id(unsigned int id){
     for(size_t i(0); i < corail_vect.size(); i++){
         if(id == corail_vect[i].get_id()){
             cout << message::lifeform_duplicated_id(id);
-            exit(EXIT_FAILURE);
+            return false;
         }
     }
+    return true;
 }
 
-void Simulation::existant_id(unsigned int id_corail_cible){
+bool Simulation::existant_id(unsigned int id_corail_cible){
     bool existant_id(false);
     
     for(size_t i(0); i < corail_vect.size(); i++){
@@ -219,12 +222,13 @@ void Simulation::existant_id(unsigned int id_corail_cible){
     }
     if(existant_id == false){
         cout << message::lifeform_invalid_id(id_corail_cible);
-        exit(EXIT_FAILURE);
+        return false;
     }
+    return true;
 }
 
 
-void Simulation::seg_superposition(){
+bool Simulation::seg_superposition(){
     bool col(false);
     vector<Segments> seg_vector = corail_vect.back().get_seg_vector();
     unsigned int s1(seg_vector.size()-1);
@@ -237,12 +241,14 @@ void Simulation::seg_superposition(){
     if(col == 1){
         cout << message::segment_superposition(corail_vect.back().get_id(), 
             s2, s1);
-        exit(EXIT_FAILURE);
+        return false;
     }
+
+    return true;
 }
 
 
-void Simulation::collision(){
+bool Simulation::collision(){
     bool col(false);
     
     vector<Segments> seg1_vector = corail_vect.back().get_seg_vector();
@@ -274,51 +280,57 @@ void Simulation::collision(){
                 cout << message::segment_collision(corail_vect.back().get_id(), 
                     seg1_vector.size()-1, corail_vect[i].get_id(), j);
                 
-                exit(EXIT_FAILURE);
+                return false;
             }
         }
     }
+    return true;
 }
 
 
 
 
-void verifie_positive(int nbr){
+bool verifie_positive(int nbr){
     if(nbr <0){
-        exit(EXIT_FAILURE);
+        return false;
     }
+    return true;
 }
 
-void age_positif(int age){
+bool age_positif(int age){
     if(age <= 0){
         cout << message::lifeform_age(age);
-        exit(EXIT_FAILURE);
+        return false;
     }
+    return true;
 }
 
-void longueur_segment(unsigned int s, unsigned int id){
+bool longueur_segment(unsigned int s, unsigned int id){
     constexpr unsigned l_repro (40) ;
     constexpr unsigned l_seg_interne (28) ;
     if ((s < (l_repro-l_seg_interne)) || (s >= l_repro)){
         cout << message::segment_length_outside(id, s);
-        exit(EXIT_FAILURE);
-    }    
+        return false;
+    }   
+    return true; 
 }
 
-void verifie_angle(double a, unsigned int id){
+bool verifie_angle(double a, unsigned int id){
     if((a < -M_PI) || (a > M_PI)){
         cout << message::segment_angle_outside(id,a);
-        exit(EXIT_FAILURE);
+        return false;
     }
+    return true;
 }
 
-void rayon_scavenger(unsigned int rayon){
+bool rayon_scavenger(unsigned int rayon){
     constexpr unsigned r_sca(3) ;
     constexpr unsigned r_sca_repro(10) ;
     if ((rayon < r_sca) || (rayon >= r_sca_repro)){
         cout << message::scavenger_radius_outside(rayon);
-        exit(EXIT_FAILURE);
+        return false;
     } 
+    return true;
 }
 
 
