@@ -25,19 +25,6 @@ bool rayon_scavenger(unsigned int rayon);
 //void dessin();
 
 
-void Simulation::init_nbr_algue(int nbr){
-    verifie_positive(nbr);
-    nbr_algue = nbr;
-}
-void Simulation::init_nbr_corail(int nbr){
-    verifie_positive(nbr);
-    nbr_corail = nbr;
-}
-void Simulation::init_nbr_scavenger(int nbr){
-    verifie_positive(nbr);
-    nbr_scavenger = nbr;
-}
-
 bool Simulation::lecture(char * nom_fichier){
 
     string line;
@@ -47,6 +34,7 @@ bool Simulation::lecture(char * nom_fichier){
     type = ALGUE;
     while(getline(fichier >> ws, line)) // ICI NE FONCTIONNE PLUS
     {   
+        cout << "ok" << endl;
         if(line[0]=='#' || line[0]=='\n' || line[0]=='\r') continue; 
         lecture_ok = decodage_ligne(line);
     }
