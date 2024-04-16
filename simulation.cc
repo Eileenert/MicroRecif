@@ -27,21 +27,20 @@ bool rayon_scavenger(unsigned int rayon);
 
 bool Simulation::lecture(char * nom_fichier){
 
-    bool lecture_ok(true);
     string line;
     ifstream fichier(nom_fichier); 
     
     type = ALGUE;
     while(getline(fichier >> ws, line)) // ICI NE FONCTIONNE PLUS
     {   
-        cout << "ok" << endl;
         if(line[0]=='#' || line[0]=='\n' || line[0]=='\r') continue; 
-        lecture_ok = decodage_ligne(line);
+        
+        if(!decodage_ligne(line)) return false;
     }
 
-    if(lecture_ok) cout << message::success();
+    cout << message::success();
 
-    return lecture_ok;
+    return true;
 }
 
 bool Simulation::decodage_ligne(string line){
@@ -49,7 +48,9 @@ bool Simulation::decodage_ligne(string line){
     switch(type){
         case ALGUE:
             decodage_ok = decodage_algue(line);
-            if (!decodage_ok) return false;
+            if (!decodage_ok){
+                return false;
+            } 
             break;
 
         case CORAIL:
@@ -75,7 +76,8 @@ bool Simulation::decodage_algue(string line){
     }
     else if(algue_vect.size() <= nbr_algue){
         data >> x >> y;
-        if(!appartenance_recipient(x, y)) return false;
+        if(!appartenance_recipient(x, y)) {
+            return false;}
         data >> age;
         if(!age_positif(age)) return false;
         algue_vect.push_back(Algue(x, y, age));
