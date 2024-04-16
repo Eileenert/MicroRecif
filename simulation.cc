@@ -24,8 +24,7 @@ void rayon_scavenger(unsigned int rayon);
 //void execution();
 //void dessin();
 
-
-
+//FINIR DE FAIRE LE TRUC QUI RENVOIE FALSE SI ERREUR DE LECTURE
 
 void Simulation::init_nbr_algue(int nbr){
     verifie_positive(nbr);
