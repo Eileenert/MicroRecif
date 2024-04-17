@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include "constantes.h"
 #include "simulation.h"
 #include "message.h"
 #include "shape.h"
@@ -24,7 +25,7 @@ bool rayon_scavenger(unsigned int rayon);
 //void execution();
 //void dessin();
 
-Simulation::Simulation(int nbr_al = 0, int nbr_co = 0, int nbr_sca = 0)
+Simulation::Simulation(int nbr_al, int nbr_co, int nbr_sca)
         : nbr_algue(nbr_al), nbr_corail(nbr_co), nbr_scavenger(nbr_sca)
 {}
 
@@ -170,8 +171,7 @@ bool Simulation::decodage_scavenger(string line){
 }
 
 bool Simulation::appartenance_recipient(double x, double y){
-    constexpr double max(256.);
-    if((x < 1) || (y < 1) || (x > max-1) || (y > max-1)){
+    if((x < 1) || (y < 1) || (x > maximum-1) || (y > maximum-1)){
         cout << message::lifeform_center_outside(x, y);
         return false;
     }
@@ -181,14 +181,12 @@ bool Simulation::appartenance_recipient(double x, double y){
 
 bool Simulation::extr_appartenance_recipient(double x, double y, 
     unsigned int s, double a, unsigned int id){
-    constexpr double max(256.);
-    constexpr double epsil_zero(0.5);
 
     x = x + s*cos(a);
     y = y + s*sin(a);
 
-    if((x <= epsil_zero) || (x >= max - epsil_zero) || (y <= epsil_zero) || 
-        (y >= max - epsil_zero)){
+    if((x <= epsil_zero) || (x >= maximum - epsil_zero) || (y <= epsil_zero) || 
+        (y >= maximum - epsil_zero)){
         cout << message::lifeform_computed_outside(id, x, y); 
         return false;
     }
@@ -299,8 +297,6 @@ bool age_positif(int age){
 }
 
 bool longueur_segment(unsigned int s, unsigned int id){
-    constexpr unsigned l_repro (40) ;
-    constexpr unsigned l_seg_interne (28) ;
     if ((s < (l_repro-l_seg_interne)) || (s >= l_repro)){
         cout << message::segment_length_outside(id, s);
         return false;
@@ -317,8 +313,6 @@ bool verifie_angle(double a, unsigned int id){
 }
 
 bool rayon_scavenger(unsigned int rayon){
-    constexpr unsigned r_sca(3) ;
-    constexpr unsigned r_sca_repro(10) ;
     if ((rayon < r_sca) || (rayon >= r_sca_repro)){
         cout << message::scavenger_radius_outside(rayon);
         return false;

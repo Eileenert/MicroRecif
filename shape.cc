@@ -6,7 +6,6 @@
 #include "graphic.h"
 using namespace std;
 
-constexpr double epsil_zero(0.5);
 bool on_segment(bool simulation, S2d p, S2d q, S2d r);
 double orientation(S2d p, S2d q, S2d r);
 
