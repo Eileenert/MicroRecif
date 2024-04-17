@@ -1,10 +1,12 @@
 #define _USE_MATH_DEFINES
+#include <cmath>
 #include <iostream>
 #include <string>
 #include <vector>
 #include "message.h"
 #include "lifeform.h"
 #include "shape.h"
+#include "constantes.h"
 using namespace std;
 
 Lifeform::Lifeform(double x1, double y1, int age1)
@@ -60,4 +62,44 @@ Scavenger::Scavenger(double x1, double y1,int age1, unsigned int rayon1,
 
 void Scavenger::init_corail_id_cible(unsigned int corail_id_cible1){
     corail_id_cible = corail_id_cible1;
+}
+
+
+bool verifie_positive(int nbr){
+    if(nbr <0){
+        return false;
+    }
+    return true;
+}
+
+bool age_positif(int age){
+    if(age <= 0){
+        cout << message::lifeform_age(age);
+        return false;
+    }
+    return true;
+}
+
+bool longueur_segment(unsigned int s, unsigned int id){
+    if ((s < (l_repro-l_seg_interne)) || (s >= l_repro)){
+        cout << message::segment_length_outside(id, s);
+        return false;
+    }   
+    return true; 
+}
+
+bool verifie_angle(double a, unsigned int id){
+    if((a < -M_PI) || (a > M_PI)){
+        cout << message::segment_angle_outside(id,a);
+        return false;
+    }
+    return true;
+}
+
+bool rayon_scavenger(unsigned int rayon){
+    if ((rayon < r_sca) || (rayon >= r_sca_repro)){
+        cout << message::scavenger_radius_outside(rayon);
+        return false;
+    } 
+    return true;
 }

@@ -12,11 +12,6 @@
 
 using namespace std;
 
-bool verifie_positive(int nbr);
-bool age_positif(int age);
-bool longueur_segment(unsigned int s, unsigned int id);
-bool verifie_angle(double a, unsigned int id);
-bool rayon_scavenger(unsigned int rayon);
 
 
 //RENDU 2 À COMPLETER  
@@ -280,44 +275,5 @@ bool Simulation::collision(){
 
 
 
-
-bool verifie_positive(int nbr){
-    if(nbr <0){
-        return false;
-    }
-    return true;
-}
-
-bool age_positif(int age){
-    if(age <= 0){
-        cout << message::lifeform_age(age);
-        return false;
-    }
-    return true;
-}
-
-bool longueur_segment(unsigned int s, unsigned int id){
-    if ((s < (l_repro-l_seg_interne)) || (s >= l_repro)){
-        cout << message::segment_length_outside(id, s);
-        return false;
-    }   
-    return true; 
-}
-
-bool verifie_angle(double a, unsigned int id){
-    if((a < -M_PI) || (a > M_PI)){
-        cout << message::segment_angle_outside(id,a);
-        return false;
-    }
-    return true;
-}
-
-bool rayon_scavenger(unsigned int rayon){
-    if ((rayon < r_sca) || (rayon >= r_sca_repro)){
-        cout << message::scavenger_radius_outside(rayon);
-        return false;
-    } 
-    return true;
-}
 
 

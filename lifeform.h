@@ -4,6 +4,14 @@
 #include <vector>
 #include "shape.h"
 
+
+bool verifie_positive(int nbr);
+bool age_positif(int age);
+bool longueur_segment(unsigned int s, unsigned int id);
+bool verifie_angle(double a, unsigned int id);
+bool rayon_scavenger(unsigned int rayon);
+
+
 class Lifeform{
     public:
         Lifeform(double x1, double y1, int age1);
