@@ -17,6 +17,7 @@ class Lifeform{
         Lifeform(double x1, double y1, int age1);
 
         S2d get_coord() const;
+        int get_age() const;
 
     protected:
         double x;
@@ -44,6 +45,9 @@ class Corail: public Lifeform{
         std::vector<Segments> get_seg_vector() const;
         unsigned int get_nbr_segments() const;
         unsigned int get_id() const;
+        bool get_statut_cor() const;
+        bool get_dir_rot() const;
+        bool get_statut_dev() const;
         void add_seg_vector(double a, int s);
 
     private:
@@ -66,6 +70,9 @@ class Scavenger: public Lifeform{
             bool statut_sca1);
 
         void init_corail_id_cible(unsigned int corail_id_cible1);
+        unsigned int get_rayon() const;
+        bool get_statut_sca() const;
+        unsigned int get_corail_id_cible() const;
 
     private:
         unsigned int rayon;

@@ -19,6 +19,11 @@ S2d Lifeform::get_coord() const{
     coord.y = y;
     return coord;
 }
+
+int Lifeform::get_age() const{
+    return age;
+}
+
 /*void Corail::angle_segment(double& angle_seg, double base_x, double base_y,
     double extr_x, double extr_y){
     extr_x = extr_x - base_x;
@@ -45,6 +50,18 @@ unsigned int Corail::get_id() const{
     return id;
 }
 
+bool Corail::get_statut_cor() const{
+    return statut_cor;
+}
+
+bool Corail::get_dir_rot() const{
+    return dir_rot;
+}
+
+bool Corail::get_statut_dev() const{
+    return statut_dev;
+}
+
 void Corail::add_seg_vector(double a, int s){
     if(seg_vector.size() >=1){
         seg_vector.push_back(Segments(seg_vector.back().get_extr().x, 
@@ -62,6 +79,16 @@ Scavenger::Scavenger(double x1, double y1,int age1, unsigned int rayon1,
 
 void Scavenger::init_corail_id_cible(unsigned int corail_id_cible1){
     corail_id_cible = corail_id_cible1;
+}
+
+unsigned int Scavenger::get_rayon() const{
+    return rayon;
+}
+bool Scavenger::get_statut_sca() const{
+    return statut_sca;
+};
+unsigned int Scavenger::get_corail_id_cible() const{
+    return corail_id_cible;
 }
 
 

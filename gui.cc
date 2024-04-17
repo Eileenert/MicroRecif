@@ -168,6 +168,7 @@ void start_simulation(char * nom_fichier){
     bool simulation_ok = true;
     Simulation s ;
     simulation_ok = s.lecture(nom_fichier);
+	s.sauvegarde("save.txt");
     if(!simulation_ok) reintialise_simulation();
 }
 

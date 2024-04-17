@@ -16,13 +16,54 @@ using namespace std;
 
 //RENDU 2 À COMPLETER  
 
-//void sauvegarde(char * nom_fichier);
 //void execution();
 //void dessin();
 
 Simulation::Simulation(int nbr_al, int nbr_co, int nbr_sca)
         : nbr_algue(nbr_al), nbr_corail(nbr_co), nbr_scavenger(nbr_sca)
 {}
+
+void Simulation::sauvegarde(string nom_fichier){
+    ofstream file(nom_fichier);
+
+    if (file.is_open()){
+        file << nbr_algue << endl;
+        Algue *a(nullptr);
+        Corail *c(nullptr);
+        Scavenger *s(nullptr);
+        for(size_t i(0); i < nbr_corail ; i++){
+            a = &algue_vect[i];
+            file << (*a).get_coord().x << " " << (*a).get_coord().y ;
+            file << " " << (*a).get_age() << endl;
+        }
+
+        file << nbr_corail << endl;
+        for(size_t i(0); i < nbr_corail ; i++){
+            c = &corail_vect[i];
+            file << (*c).get_coord().x << " "<< (*c).get_coord().y << " " ;
+            file << (*c).get_age() << " " << (*c).get_id() << " ";
+            file << (*c).get_statut_cor() << " " << (*c).get_dir_rot();
+            file << " " << (*c).get_statut_dev() << " " ;
+            file << (*c).get_nbr_segments() << endl;
+            for(size_t j(0); j < (*c).get_nbr_segments() ; j++){
+                file << (*c).get_seg_vector()[j].get_angle() << " ";
+                file << (*c).get_seg_vector()[j].get_longueur() << endl;
+            }
+        }
+
+        file << nbr_scavenger << endl;
+        for(size_t i(0); i < nbr_scavenger ; i++){
+            s = &scavenger_vect[i];
+            file << (*s).get_coord().x << " "<< (*s).get_coord().y << " " ;
+            file << (*s).get_age() << " " << (*s).get_rayon() << " ";
+            file << (*s).get_statut_sca() << " ";
+            file << (*s).get_corail_id_cible() << endl;
+        }
+        file.close();
+    }else{
+        cout << "failed to open the file" << endl;
+    }
+}
 
 bool Simulation::lecture(char * nom_fichier){
 

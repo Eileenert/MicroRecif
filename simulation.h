@@ -9,6 +9,8 @@ class Simulation{
     public:
         Simulation(int nbr_al = 0, int nbr_co = 0, int nbr_sca = 0);
 
+        void sauvegarde(std::string nom_fichier);
+
         bool lecture(char * nom_fichier);
         bool decodage_ligne(std::string line);
 
@@ -32,9 +34,9 @@ class Simulation{
         unsigned int nbr_corail;
         unsigned int nbr_scavenger;
 
+        std::vector<Algue> algue_vect;
         std::vector<Corail> corail_vect; 
         std::vector<Scavenger> scavenger_vect;
-        std::vector<Algue> algue_vect;
 };
 
 #endif
