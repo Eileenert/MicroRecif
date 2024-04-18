@@ -1,10 +1,10 @@
 #ifndef SIMULATION_H
 #define SIMULATION_H
-#include <random>
 #include "lifeform.h"
 #include "constantes.h"
 #include <vector>
 #include <string>
+#include <random>
 
 
 class Simulation{
@@ -42,8 +42,8 @@ class Simulation{
         std::vector<Corail> corail_vect; 
         std::vector<Scavenger> scavenger_vect;
 
-        default_random_engine e;
-        uniform_int_distribution<unsigned> u;
+        std::default_random_engine e;
+        std::uniform_int_distribution<unsigned> u;
 };
 
 #endif
