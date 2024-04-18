@@ -16,7 +16,7 @@ using namespace std;
 
 //RENDU 2 À COMPLETER  
 
-//void execution();
+
 //void dessin();
 
 Simulation::Simulation(int nbr_al, int nbr_co, int nbr_sca)
@@ -31,7 +31,7 @@ void Simulation::sauvegarde(string nom_fichier){
         Algue *a(nullptr);
         Corail *c(nullptr);
         Scavenger *s(nullptr);
-        for(size_t i(0); i < nbr_corail ; i++){
+        for(size_t i(0); i < nbr_algue ; i++){
             a = &algue_vect[i];
             file << (*a).get_coord().x << " " << (*a).get_coord().y ;
             file << " " << (*a).get_age() << endl;
@@ -63,6 +63,33 @@ void Simulation::sauvegarde(string nom_fichier){
     }else{
         cout << "failed to open the file" << endl;
     }
+}
+
+void Simulation::execution(bool naissance_algue){
+    for(size_t i(0); i< algue_vect.size(); i++){
+        algue_vect[i].older();
+
+        if (algue_vect[i].get_age() >= max_life_alg){
+            swap(algue_vect[i], algue_vect.back());
+            algue_vect.pop_back();
+        }
+    }
+
+    if(naissance_algue){
+
+    }
+
+}
+
+void Simulation::reintialise_simulation(){
+    nbr_algue = 0;
+    nbr_corail = 0;
+    nbr_scavenger = 0;
+
+    //je crois que ce n'est pas nécessaire mais au cas où
+    algue_vect.clear();
+    corail_vect.clear(); 
+    scavenger_vect.clear();
 }
 
 bool Simulation::lecture(char * nom_fichier){

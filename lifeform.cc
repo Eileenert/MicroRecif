@@ -24,6 +24,10 @@ int Lifeform::get_age() const{
     return age;
 }
 
+void Lifeform::older(){
+    age +=1;
+}
+
 /*void Corail::angle_segment(double& angle_seg, double base_x, double base_y,
     double extr_x, double extr_y){
     extr_x = extr_x - base_x;

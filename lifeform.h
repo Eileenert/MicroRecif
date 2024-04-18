@@ -18,6 +18,7 @@ class Lifeform{
 
         S2d get_coord() const;
         int get_age() const;
+        void older();
 
     protected:
         double x;
