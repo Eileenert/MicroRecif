@@ -4,7 +4,6 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-#include "constantes.h"
 #include "simulation.h"
 #include "message.h"
 #include "shape.h"
@@ -20,7 +19,8 @@ using namespace std;
 //void dessin();
 
 Simulation::Simulation(int nbr_al, int nbr_co, int nbr_sca)
-        : nbr_algue(nbr_al), nbr_corail(nbr_co), nbr_scavenger(nbr_sca)
+        : nbr_algue(nbr_al), nbr_corail(nbr_co), nbr_scavenger(nbr_sca), 
+            u(1, maximum-1)
 {}
 
 void Simulation::sauvegarde(string nom_fichier){
@@ -76,7 +76,11 @@ void Simulation::execution(bool naissance_algue){
     }
 
     if(naissance_algue){
-
+        double p(alg_birth_rate);
+        bernoulli_distribution b(p); //booléen true avec probabilité p … puis
+        if(b(e)){
+            algue_vect.push_back(Algue(u(e), u(e), 0));
+        }
     }
 
 }
@@ -96,6 +100,8 @@ bool Simulation::lecture(char * nom_fichier){
 
     string line;
     ifstream fichier(nom_fichier); 
+
+    e.seed(1); // ré-initialiser e à chaque lecture de fichier
     
     type = ALGUE;
     while(getline(fichier >> ws, line)) // ICI NE FONCTIONNE PLUS
