@@ -6,7 +6,6 @@
 #include <iostream>
 
 constexpr int area_side(200); // taille de notre récipient
-void reintialise_simulation();
 void start_simulation(char * nom_fichier);
 
 MyArea::MyArea(): empty(false)
