@@ -10,17 +10,19 @@ OFILES = projet.o lifeform.o message.o shape.o simulation.o gui.o graphic.o
 # Definition de la premiere regle
 all: $(OUT)
 
-projet.o: projet.cc simulation.h lifeform.h shape.h gui.h
+projet.o: projet.cc simulation.h lifeform.h shape.h constantes.h gui.h
 	$(CXX) $(CXXFLAGS) $(LINKING) -c $< -o $@ $(LINKING)
-lifeform.o: lifeform.cc message.h lifeform.h shape.h
+lifeform.o: lifeform.cc message.h lifeform.h shape.h constantes.h
 	$(CXX) $(CXXFLAGS) $(LINKING) -c $< -o $@ $(LINKING)
 message.o: message.cc message.h
 	$(CXX) $(CXXFLAGS) $(LINKING) -c $< -o $@ $(LINKING)
 shape.o: shape.cc shape.h graphic.h
 	$(CXX) $(CXXFLAGS) $(LINKING) -c $< -o $@ $(LINKING)
-simulation.o: simulation.cc simulation.h lifeform.h shape.h message.h
+simulation.o: simulation.cc simulation.h lifeform.h shape.h constantes.h \
+	message.h
 	$(CXX) $(CXXFLAGS) $(LINKING) -c $< -o $@ $(LINKING)
-gui.o: gui.cc gui.h simulation.h lifeform.h shape.h graphic.h
+gui.o: gui.cc gui.h simulation.h lifeform.h shape.h constantes.h \
+	graphic.h
 	$(CXX) $(CXXFLAGS) $(LINKING) -c $< -o $@ $(LINKING)
 graphic.o: graphic.cc graphic.h
 	$(CXX) $(CXXFLAGS) $(LINKING) -c $< -o $@ $(LINKING)

@@ -79,7 +79,7 @@ void Simulation::execution(bool naissance_algue){
         double p(alg_birth_rate);
         bernoulli_distribution b(p); //booléen true avec probabilité p … puis
         if(b(e)){
-            algue_vect.push_back(Algue(u(e), u(e), 0));
+            algue_vect.push_back(Algue(u(e), u(e), 1));
         }
     }
 
