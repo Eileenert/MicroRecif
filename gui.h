@@ -5,25 +5,35 @@
 #include <gtkmm/box.h>
 #include <gtkmm/button.h>
 #include <gtkmm/drawingarea.h>
+#include <gtkmm.h>
 
 void start_simulation(char * nom_fichier);
+
+struct Frame // Model Framing and window parameters
+{
+	double xMin; // frame parameters
+	double xMax;
+	double yMin;
+	double yMax;
+	double asp;  // frame aspect ratio
+	int height;  // window height
+	int width;   // window width
+};
 
 class MyArea : public Gtk::DrawingArea{
 public:
     MyArea();
     virtual ~MyArea();
 
-    void exit();
-    void open();
-    void save();
-    void start();
-    void step();
+    void setFrame(Frame x); 
+    void adjustFrame(int width, int height);
 
 protected:
     void on_draw(const Cairo::RefPtr<Cairo::Context>& cr, int width, 
         int height);
 
 private:
+    Frame frame;
     bool empty;
 };
 
@@ -32,8 +42,9 @@ class Gui : public Gtk::Window{
 public:
     // Constructeur de Gui
     Gui();
-
+    void change_button_name();
 protected:
+    bool name;
     void on_button_clicked_exit();
     void on_button_clicked_open();
     void on_button_clicked_save();
@@ -49,11 +60,11 @@ protected:
     Gtk::Box m_Main_Box;
     Gtk::Box m_Buttons_Box;
     
-    Gtk::Button m_Button_exit;
-    Gtk::Button m_Button_open;
-    Gtk::Button m_Button_save;
-    Gtk::Button m_Button_start;
-    Gtk::Button m_Button_step;
+    Gtk::Button m_Button_Exit;
+    Gtk::Button m_Button_Open;
+    Gtk::Button m_Button_Save;
+    Gtk::Button m_Button_Start;
+    Gtk::Button m_Button_Step;
 };
 
 #endif 
