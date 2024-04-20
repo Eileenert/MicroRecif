@@ -107,16 +107,35 @@ void MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int hei
 Gui::Gui(char * nom_fichier):
 	name(true),
 	open_or_save("open"),
-    m_Main_Box(Gtk::Orientation::HORIZONTAL, 0),
-	m_Buttons_Box(Gtk::Orientation::VERTICAL, 5),
+    m_Main_Box(Gtk::Orientation::HORIZONTAL),
+	m_General_Box(Gtk::Orientation::VERTICAL),
+	m_Buttons_Box(Gtk::Orientation::VERTICAL),
+	m_Naissance_Algue_Box(Gtk::Orientation::HORIZONTAL),
+	m_Info_Box(Gtk::Orientation::VERTICAL),
+	m_Maj_Box(Gtk::Orientation::HORIZONTAL),
+    m_Algue_Box(Gtk::Orientation::HORIZONTAL),
+    m_Corail_Box(Gtk::Orientation::HORIZONTAL),
+    m_Scavenger_Box(Gtk::Orientation::HORIZONTAL),
 
+
+	general_Label("General"),
 	
     // Création des boutons
     m_Button_Exit("Exit"),
     m_Button_Open("Open"),  
     m_Button_Save("Save"),
     m_Button_Start("Start"),
-    m_Button_Step("Step")
+    m_Button_Step("Step"),
+	m_Naissance_Algue_Label("Naissance d'algue"),
+	info_Label("info: nombre de ..."),
+    maj_Label("mise à jour:"),
+    maj_Data_Label("0"),
+    nbr_Algue_Label("algues:"),
+    nbr_Algue_Data_Label(to_string(s.get_nbr_algue())),
+    nbr_Corail_Label("corails:"),
+    nbr_Corail_Data_Label(to_string(s.get_nbr_corail())),
+    nbr_Scavenger_Label("charognards"),
+    nbr_Scavenger_Data_Label(to_string(s.get_nbr_scavenger()))
 {
 	bool simulation_ok = true;
     Simulation s ;
@@ -131,17 +150,41 @@ Gui::Gui(char * nom_fichier):
 	set_resizable(true);
     set_child(m_Main_Box);
 
-    m_Main_Box.append(m_Area);
-    m_Main_Box.append(m_Buttons_Box);
+	m_General_Box.append(m_Buttons_Box);
+	m_General_Box.append(info_Label);
+	m_General_Box.append(m_Info_Box);
 
+	m_Main_Box.append(m_General_Box);
+    m_Main_Box.append(m_Area);
+    
+	m_Info_Box.append(m_Maj_Box);
+	m_Info_Box.append(m_Algue_Box);
+	m_Info_Box.append(m_Corail_Box);
+	m_Info_Box.append(m_Scavenger_Box);
+
+	
 	// allow the drawingArea expand to the window size
 	m_Area.set_expand();
 
+	m_Buttons_Box.append(general_Label);
     m_Buttons_Box.append(m_Button_Exit);
     m_Buttons_Box.append(m_Button_Open);
     m_Buttons_Box.append(m_Button_Save);
     m_Buttons_Box.append(m_Button_Start);
     m_Buttons_Box.append(m_Button_Step);
+	m_Buttons_Box.append(m_Naissance_Algue_Box);
+	m_Naissance_Algue_Box.append(m_Naissance_Algue_CheckButton);
+	m_Naissance_Algue_Box.append(m_Naissance_Algue_Label);
+
+
+	m_Maj_Box.append(maj_Label);
+	m_Maj_Box.append(maj_Data_Label);
+	m_Algue_Box.append(nbr_Algue_Label);
+	m_Algue_Box.append(nbr_Algue_Data_Label);
+	m_Corail_Box.append(nbr_Corail_Label);
+	m_Corail_Box.append(nbr_Corail_Data_Label);
+	m_Scavenger_Box.append(nbr_Scavenger_Label);
+	m_Scavenger_Box.append(nbr_Scavenger_Data_Label);
 
     m_Button_Exit.signal_clicked().connect(
 		sigc::mem_fun(*this, &Gui::on_button_clicked_exit));
@@ -157,6 +200,7 @@ Gui::Gui(char * nom_fichier):
 
     m_Button_Step.signal_clicked().connect(
 		sigc::mem_fun(*this, &Gui::on_button_clicked_step));
+
 
 	auto controller = Gtk::EventControllerKey::create();
     controller->signal_key_pressed().connect(

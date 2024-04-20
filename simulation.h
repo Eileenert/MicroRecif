@@ -30,6 +30,9 @@ class Simulation{
         bool seg_superposition();
         bool collision();
 
+        unsigned int get_nbr_algue() const;
+        unsigned int get_nbr_corail() const;
+        unsigned int get_nbr_scavenger() const;
         
     private:
         enum TYPE_lecture {ALGUE, CORAIL, SCAVENGER};

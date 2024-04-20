@@ -147,8 +147,9 @@ bool Simulation::decodage_algue(string line){
 
     if(nbr_algue == 0){
         data >> nbr_algue;
+        
     }
-    else if(algue_vect.size() <= nbr_algue){
+    else if(algue_vect.size() < nbr_algue){
         data >> x >> y;
         if(!appartenance_recipient(x, y)) {
             return false;}
@@ -198,9 +199,11 @@ bool Simulation::decodage_corail(string line){
         if(!verifie_positive(nbr_segments)) return false;
         corail_vect.push_back(
             Corail(x, y, age, id, statut, dir_rot, statut_dev, nbr_segments));
+        
 
     }
-    if((corail_vect.size() == nbr_corail) 
+    
+    if((corail_vect.size()!=0) && (corail_vect.size() == nbr_corail) 
         && (corail_vect.back().get_seg_vector().size() 
             == corail_vect.back().get_nbr_segments())){
         type = SCAVENGER;
@@ -218,7 +221,6 @@ bool Simulation::decodage_scavenger(string line){
     
     if(nbr_scavenger == 0){
         data >> nbr_scavenger;
-
     }
     else if(scavenger_vect.size() < nbr_scavenger){
         data >> x >> y;
@@ -311,44 +313,50 @@ bool Simulation::seg_superposition(){
 
 bool Simulation::collision(){
     bool col(false);
-    
-    vector<Segments> seg1_vector = corail_vect.back().get_seg_vector();
 
-    S2d coord1 = corail_vect.back().get_coord();
+    //segment qu'on compare
+    vector<Segments> seg1_vector = corail_vect.back().get_seg_vector();
+    S2d coord1 = seg1_vector.back().get_base();
     S2d extr1 = seg1_vector.back().get_extr();
     
-    for(size_t i(0); i < corail_vect.size(); i++){
-        S2d coord2 = corail_vect[i].get_coord();
-        
+    for(size_t i(corail_vect.size()-1); i != SIZE_MAX; i--){
+
         vector<Segments> seg2_vector = corail_vect[i].get_seg_vector();
         
-        for(size_t j(0); j < seg2_vector.size(); j++){
-
-            if((i == corail_vect.size()-1) && (j == seg2_vector.size()-1)){
-                continue ;
+        for(size_t j(seg2_vector.size()-1); j != SIZE_MAX; j--){
+            
+            //pas comparer avec lui même et le segment avant
+            if(i ==corail_vect.size()-1 && (j == seg2_vector.size()-1)){
+                continue;
             }
-            if((i == corail_vect.size()-1) && (j == seg2_vector.size()-2)){
-                continue ;
+            //pas comparer avec lui même et le segment d'avant
+            else if (seg2_vector.size()>=2 && i==corail_vect.size()-1 && (j == seg2_vector.size()-2)){
+                continue;
             }
-            if((i == corail_vect.size()-1) && (j == seg2_vector.size())){
-                continue ;
-            }
-
+            S2d coord2 = seg2_vector[j].get_base();
             S2d extr2 = seg2_vector[j].get_extr();
-            col = do_intersect(0, coord1, extr1, coord2, extr2);
 
+            col = do_intersect(0, coord1, extr1, coord2, extr2);
             if(col == true){
                 cout << message::segment_collision(corail_vect.back().get_id(), 
-                    seg1_vector.size()-1, corail_vect[i].get_id(), j);
+                   seg1_vector.size()-1 , corail_vect[i].get_id(), j);
                 
                 return false;
             }
+
         }
     }
     return true;
 }
 
-
-
+unsigned int Simulation::get_nbr_algue() const{
+    return nbr_algue;
+}
+unsigned int Simulation::get_nbr_corail() const{
+    return nbr_corail;
+}
+unsigned int Simulation::get_nbr_scavenger() const{
+    return nbr_scavenger;
+}
 
 
