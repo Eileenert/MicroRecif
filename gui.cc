@@ -82,8 +82,8 @@ void MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int hei
 	
 	orthographic_projection(cr, frame); // set the transformation MODELE to GTKmm
 
-	cr->set_line_width(10);
-	cr->set_source_rgb(0., 0.8, 0.0);
+	cr->set_line_width(4);
+	cr->set_source_rgb(0., 0., 0.);
 
 	//dessin du cadre vert
 	cr->move_to(-250., -250.); 
