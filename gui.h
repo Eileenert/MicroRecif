@@ -35,7 +35,6 @@ protected:
 
 private:
     Frame frame;
-    bool empty;
 };
 
 class Gui : public Gtk::Window{

@@ -12,11 +12,10 @@ static Frame default_frame = {-150., 150., -100., 100., 1.5, 300, 200};
 constexpr unsigned int taille_dessin(500); // taille de notre récipient
 
 static void draw_frame(const Cairo::RefPtr<Cairo::Context>& cr, Frame frame);
-static void orthographic_projection(const Cairo::RefPtr<Cairo::Context>& cr, 
-									Frame frame);
-
-
-MyArea::MyArea(): empty(false)
+//static void orthographic_projection(const Cairo::RefPtr<Cairo::Context>& cr, 
+					//				Frame frame);
+//taille du récipient
+MyArea::MyArea()
 {
 	set_content_width(taille_dessin);
 	set_content_height(taille_dessin);
@@ -38,7 +37,7 @@ void MyArea::setFrame(Frame f)
 	}
 	else
 		std::cout << "incorrect Model framing or window parameters" << std::endl;
-} 
+}
 
 void MyArea::adjustFrame(int width, int height)
 {
@@ -77,25 +76,36 @@ void MyArea::adjustFrame(int width, int height)
 //on dessine dans my area en fonction de la taille de myarea définit plus haut (enfaite myarea c'est notre récipient je crois)
 void MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height)
 {
-	if(not empty)   // drawing in the Model space
-	{
-		// adjust the frame (cadrage) to prevent distortion 
-		adjustFrame(width, height);
-		draw_frame(cr, frame);              // drawing the drawingArea space
+    //drawing in the Model space // adjust the frame (cadrage) to prevent distortion 
+	adjustFrame(width, height);
+	draw_frame(cr, frame);  // drawing the drawingArea space
+	//orthographic_projection(cr, frame); // set the transformation MODELE to GTKmm
 	
-		orthographic_projection(cr, frame); // set the transformation MODELE to GTKmm
-	}
-	else
-	{
-		cout << "Empty !" << endl; //À GARDER ???
-	}
+	//set width and color
+	cr->set_line_width(10);
+	cr->set_source_rgb(0., 0.8, 0.0);
+
+	//dessin de la croix pour mieux voir comment ça fonctionne
+	cr->move_to(0., 0.);
+	cr->line_to(500., 0.);
+	cr->stroke();
+	cr->move_to(500., 0.);
+	cr->line_to(500. , 500.);
+	cr->stroke();
+	cr->move_to(500. , 500.);
+	cr->line_to(0.  ,500.);
+	cr->stroke();
+	cr->move_to(0. , 500.);
+	cr->line_to(0.  ,0.);
+	cr->stroke();
 }
 
 Gui::Gui(char * nom_fichier):
 	name(true),
 	open_or_save("open"),
-    m_Main_Box(Gtk::Orientation::VERTICAL, 0),
+    m_Main_Box(Gtk::Orientation::HORIZONTAL, 0),
 	m_Buttons_Box(Gtk::Orientation::VERTICAL, 5),
+
 	
     // Création des boutons
     m_Button_Exit("Exit"),
@@ -111,15 +121,17 @@ Gui::Gui(char * nom_fichier):
 		s.reintialise_simulation();
 	}
 
-
     //titre, taille et permission de modifier la taille d ela fenêtre
     set_title("MicroRecif");
-    //set_default_size(400,400); on a choisi déjà une taille pour myarea plus haut
+    set_default_size(700, 700); //taille du Main_Box
 	set_resizable(true);
     set_child(m_Main_Box);
 
     m_Main_Box.append(m_Area);
     m_Main_Box.append(m_Buttons_Box);
+
+	// allow the drawingArea expand to the window size
+	m_Area.set_expand();
 
     m_Buttons_Box.append(m_Button_Exit);
     m_Buttons_Box.append(m_Button_Open);
@@ -146,7 +158,7 @@ Gui::Gui(char * nom_fichier):
     controller->signal_key_pressed().connect(
                   sigc::mem_fun(*this, &Gui::on_window_key_pressed), false);
     add_controller(controller);
-		
+	
 }
 
 bool Gui::on_window_key_pressed(guint keyval, guint, Gdk::ModifierType state)
@@ -169,16 +181,16 @@ static void draw_frame(const Cairo::RefPtr<Cairo::Context>& cr, Frame frame)
 	//display a rectangular frame around the drawing area
 	cr->set_line_width(5.0);
 	// draw greenish lines
-	cr->set_source_rgb(0., 0., 0.);
+	cr->set_source_rgb(0., 0., 0.8);
 	cr->rectangle(0,0, frame.width, frame.height);
 	cr->stroke();
 }
 
-static void orthographic_projection(const Cairo::RefPtr<Cairo::Context>& cr, 
+/*static void orthographic_projection(const Cairo::RefPtr<Cairo::Context>& cr, 
 								    Frame frame)
 {
 	// déplace l'origine au centre de la fenêtre
-	cr->translate(frame.width/2, frame.height/2);
+	cr->translate(0, 0); //cr->translate(frame.width/2, frame.height/2);
   
 	// normalise la largeur et hauteur aux valeurs fournies par le cadrage
 	// ET inverse la direction de l'axe Y
@@ -187,7 +199,7 @@ static void orthographic_projection(const Cairo::RefPtr<Cairo::Context>& cr,
   
 	// décalage au centre du cadrage
 	cr->translate(-(frame.xMin + frame.xMax)/2, -(frame.yMin + frame.yMax)/2);
-}
+}*/
 
 
 void Gui::on_button_clicked_exit()
