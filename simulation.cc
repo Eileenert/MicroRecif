@@ -11,17 +11,14 @@
 
 using namespace std;
 
-
-
 //RENDU 2 À COMPLETER  
-
-
 //void dessin();
 
 Simulation::Simulation(int nbr_al, int nbr_co, int nbr_sca)
         : nbr_algue(nbr_al), nbr_corail(nbr_co), nbr_scavenger(nbr_sca), 
             u(1, maximum-1)
-{}
+{
+}
 
 void Simulation::sauvegarde(string nom_fichier){
     ofstream file(nom_fichier);
@@ -77,10 +74,14 @@ void Simulation::execution(bool naissance_algue){
 
     if(naissance_algue){
         double p(alg_birth_rate);
+
         bernoulli_distribution b(p); //booléen true avec probabilité p … puis
-        if(b(e)){
+        bool creer_algue = b(e);
+        cout << creer_algue  ;
+        if(creer_algue ){
             algue_vect.push_back(Algue(u(e), u(e), 1));
         }
+        
     }
 
 }

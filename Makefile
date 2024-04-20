@@ -41,8 +41,8 @@ depend:
 
 
 clean:
-	@echo "Cleaning compilation files"
-	@rm *.o $(OUT) *.cc~ *.h~
+	@echo " *** EFFACE MODULES OBJET ET EXECUTABLE ***"
+	@/bin/rm -f *.o *.x *.cc~ *.h~ $(OUT)
 
 #
 # -- Regles de dependances generees automatiquement

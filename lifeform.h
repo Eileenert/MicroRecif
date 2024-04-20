@@ -1,5 +1,6 @@
 #ifndef LIFEFORM_H
 #define LIFEFORM_H
+
 #include <string>
 #include <vector>
 #include "shape.h"
@@ -14,16 +15,16 @@ bool rayon_scavenger(unsigned int rayon);
 
 class Lifeform{
     public:
-        Lifeform(double x1, double y1, int age1);
+        Lifeform(double x1, double y1, unsigned int age1);
 
         S2d get_coord() const;
-        int get_age() const;
+        unsigned int get_age() const;
         void older();
 
     protected:
         double x;
         double y;
-        int age;
+        unsigned int age;
 };
 
 
