@@ -127,8 +127,9 @@ Gui::Gui(char * nom_fichier):
 	set_resizable(true);
     set_child(m_Main_Box);
 
+	m_Main_Box.append(m_Buttons_Box);
     m_Main_Box.append(m_Area);
-    m_Main_Box.append(m_Buttons_Box);
+    
 
 	// allow the drawingArea expand to the window size
 	m_Area.set_expand();
