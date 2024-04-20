@@ -1,13 +1,14 @@
 #ifndef GUI_H
 #define GUI_H
 
+#include <gtkmm.h>
 #include <gtkmm/window.h>
 #include <gtkmm/box.h>
 #include <gtkmm/button.h>
 #include <gtkmm/drawingarea.h>
-#include <gtkmm.h>
+#include "simulation.h"
+#include <string>
 
-void start_simulation(char * nom_fichier);
 
 struct Frame // Model Framing and window parameters
 {
@@ -41,15 +42,22 @@ class Gui : public Gtk::Window{
 
 public:
     // Constructeur de Gui
-    Gui();
+    Gui(char * nom_fichier);
     void change_button_name();
+    
+
 protected:
     bool name;
+    std::string open_or_save;
+    Simulation s ;
+
     void on_button_clicked_exit();
     void on_button_clicked_open();
     void on_button_clicked_save();
     void on_button_clicked_start();
     void on_button_clicked_step();
+
+    void on_file_dialog_response(int response_id, Gtk::FileChooserDialog* dialog);
 
     // pour cliquer depuis le clavier
     bool on_window_key_pressed(guint keyval, guint keycode, 

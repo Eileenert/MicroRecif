@@ -1,9 +1,9 @@
 #include "gui.h"
 #include <cairomm/context.h>
 #include <gtkmm/label.h>
-#include "simulation.h"
 #include "graphic.h"
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -87,12 +87,13 @@ void MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int hei
 	}
 	else
 	{
-		cout << "Empty !" << endl;
+		cout << "Empty !" << endl; //À GARDER ???
 	}
 }
 
-Gui::Gui(): 
+Gui::Gui(char * nom_fichier):
 	name(true),
+	open_or_save("open"),
     m_Main_Box(Gtk::Orientation::VERTICAL, 0),
 	m_Buttons_Box(Gtk::Orientation::VERTICAL, 5),
 	
@@ -103,6 +104,14 @@ Gui::Gui():
     m_Button_Start("Start"),
     m_Button_Step("Step")
 {
+	bool simulation_ok = true;
+    Simulation s ;
+    simulation_ok = s.lecture(nom_fichier);
+	if (!simulation_ok){
+		s.reintialise_simulation();
+	}
+
+
     //titre, taille et permission de modifier la taille d ela fenêtre
     set_title("MicroRecif");
     //set_default_size(400,400); on a choisi déjà une taille pour myarea plus haut
@@ -148,7 +157,7 @@ bool Gui::on_window_key_pressed(guint keyval, guint, Gdk::ModifierType state)
 		change_button_name();
 		return true;
 	case '1' :
-		cout << "clavier, step" <<endl;
+		cout << "clavier, step" << endl;
         m_Button_Step.set_label("Step");
         return true;
     }
@@ -190,11 +199,78 @@ void Gui::on_button_clicked_exit()
 void Gui::on_button_clicked_open()
 {
 	cout << "Open" << endl;
+	open_or_save = "open";
+
+	auto dialog = new Gtk::FileChooserDialog("Please choose a file",
+		  Gtk::FileChooser::Action::OPEN);
+	dialog->set_transient_for(*this);
+	dialog->set_modal(true);
+	dialog->signal_response().connect(sigc::bind(
+	sigc::mem_fun(*this, &Gui::on_file_dialog_response), dialog));
+	
+	//Add response buttons to the dialog:
+	dialog->add_button("_Cancel", Gtk::ResponseType::CANCEL);
+	dialog->add_button("_Open", Gtk::ResponseType::OK);
+	
+	//Add filters, so that only certain file types can be selected:
+	
+	auto filter_text = Gtk::FileFilter::create();
+	filter_text->set_name("Text files");
+	filter_text->add_mime_type("text/plain");
+	dialog->add_filter(filter_text);
+	
+	auto filter_cpp = Gtk::FileFilter::create();
+	filter_cpp->set_name("C/C++ files");
+	filter_cpp->add_mime_type("text/x-c");
+	filter_cpp->add_mime_type("text/x-c++");
+	filter_cpp->add_mime_type("text/x-c-header");
+	dialog->add_filter(filter_cpp);
+	
+	auto filter_any = Gtk::FileFilter::create();
+	filter_any->set_name("Any files");
+	filter_any->add_pattern("*");
+	dialog->add_filter(filter_any);
+	
+	//Show the dialog and wait for a user response:
+	dialog->show();
 }
 
 void Gui::on_button_clicked_save()
 {
 	cout << "Save" << endl;
+	open_or_save = "save";
+	auto dialog = new Gtk::FileChooserDialog("Please choose a file",
+		  Gtk::FileChooser::Action::SAVE);
+	dialog->set_transient_for(*this);
+	dialog->set_modal(true);
+	dialog->signal_response().connect(sigc::bind(
+	sigc::mem_fun(*this, &Gui::on_file_dialog_response), dialog));
+	
+	//Add response buttons to the dialog:
+	dialog->add_button("_Cancel", Gtk::ResponseType::CANCEL);
+	dialog->add_button("_Save", Gtk::ResponseType::OK);
+	
+	//Add filters, so that only certain file types can be selected:
+	
+	auto filter_text = Gtk::FileFilter::create();
+	filter_text->set_name("Text files");
+	filter_text->add_mime_type("text/plain");
+	dialog->add_filter(filter_text);
+	
+	auto filter_cpp = Gtk::FileFilter::create();
+	filter_cpp->set_name("C/C++ files");
+	filter_cpp->add_mime_type("text/x-c");
+	filter_cpp->add_mime_type("text/x-c++");
+	filter_cpp->add_mime_type("text/x-c-header");
+	dialog->add_filter(filter_cpp);
+	
+	auto filter_any = Gtk::FileFilter::create();
+	filter_any->set_name("Any files");
+	filter_any->add_pattern("*");
+	dialog->add_filter(filter_any);
+	
+	//Show the dialog
+	dialog->show();
 }
 
 
@@ -208,15 +284,41 @@ void Gui::on_button_clicked_step()
 	cout << "Step" << endl;
 }
 
+void Gui::on_file_dialog_response(int response_id, Gtk::FileChooserDialog* dialog)
+{
+	//Handle the response:
+	switch (response_id)
+	{
+		case Gtk::ResponseType::OK:
+		{
+		    cout << "Open or Save clicked." << endl;
+		
+		    //Notice that this is a std::string, not a Glib::ustring.
+		    auto filename = dialog->get_file()->get_path();
+		    cout << "File selected: " <<  filename << endl;
 
-void start_simulation(char * nom_fichier){
-    bool simulation_ok = true;
-    Simulation s ;
-    simulation_ok = s.lecture(nom_fichier);
-	if (!simulation_ok){
-		s.reintialise_simulation();
+			if (open_or_save == "open") {
+				s.reintialise_simulation();
+				s.lecture(const_cast<char*>(filename.c_str()));
+				//const_cast<char*>filename.c_str()
+			}
+			else if (open_or_save == "save"){
+				s.sauvegarde(const_cast<char*>(filename.c_str()));
+			}
+		    break;
+		}
+		case Gtk::ResponseType::CANCEL:
+		{
+		    cout << "Cancel clicked." << endl;
+		    break;
+		}
+		default:
+		{
+		    cout << "Unexpected button clicked." << endl;
+		    break;
+		}
 	}
-	s.sauvegarde("save.txt");
+	delete dialog;
 }
 
 void Gui::change_button_name(){
@@ -230,6 +332,8 @@ void Gui::change_button_name(){
 		}
 		name = !name;
 }
+
+
 
 
 
