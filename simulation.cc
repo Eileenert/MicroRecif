@@ -349,5 +349,14 @@ bool Simulation::collision(){
     return true;
 }
 
+unsigned int Simulation::get_nbr_algue() const{
+    return nbr_algue;
+}
+unsigned int Simulation::get_nbr_corail() const{
+    return nbr_corail;
+}
+unsigned int Simulation::get_nbr_scavenger() const{
+    return nbr_scavenger;
+}
 
 

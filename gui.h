@@ -64,14 +64,39 @@ protected:
 
     MyArea m_Area;
     
+    //VERIFIER CONVENTION POUR LES NOMS
+
     Gtk::Box m_Main_Box;
+    Gtk::Box m_General_Box;
     Gtk::Box m_Buttons_Box;
+    Gtk::Box m_Naissance_Algue_Box;
+    Gtk::Box m_Info_Box;
+    Gtk::Box m_Maj_Box;
+    Gtk::Box m_Algue_Box;
+    Gtk::Box m_Corail_Box;
+    Gtk::Box m_Scavenger_Box;
+
+
+    Gtk::Label general_Label;
     
     Gtk::Button m_Button_Exit;
     Gtk::Button m_Button_Open;
     Gtk::Button m_Button_Save;
     Gtk::Button m_Button_Start;
     Gtk::Button m_Button_Step;
+    Gtk::CheckButton m_Naissance_Algue_CheckButton;
+
+    Gtk::Label m_Naissance_Algue_Label;
+
+    Gtk::Label info_Label;
+    Gtk::Label maj_Label;
+    Gtk::Label maj_Data_Label;
+    Gtk::Label nbr_Algue_Label;
+    Gtk::Label nbr_Algue_Data_Label;
+    Gtk::Label nbr_Corail_Label;
+    Gtk::Label nbr_Corail_Data_Label;
+    Gtk::Label nbr_Scavenger_Label;
+    Gtk::Label nbr_Scavenger_Data_Label;
 };
 
 #endif 
