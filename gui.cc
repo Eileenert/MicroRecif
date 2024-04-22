@@ -134,7 +134,7 @@ Gui::Gui(char * nom_fichier):
     nbr_Algue_Data_Label(to_string(s.get_nbr_algue())),
     nbr_Corail_Label("corails:"),
     nbr_Corail_Data_Label(to_string(s.get_nbr_corail())),
-    nbr_Scavenger_Label("charognards"),
+    nbr_Scavenger_Label("charognards:"),
     nbr_Scavenger_Data_Label(to_string(s.get_nbr_scavenger()))
 {
 	bool simulation_ok = true;

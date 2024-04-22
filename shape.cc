@@ -105,3 +105,12 @@ bool do_intersect(bool simulation, S2d p1, S2d q1, S2d p2, S2d q2){
   
     return false; 
 }
+
+void dessine_cercle(S2d coord, int rayon){
+    
+
+}
+
+void dessine_ligne(S2d base, S2d extr){
+
+}

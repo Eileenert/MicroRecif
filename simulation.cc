@@ -11,8 +11,10 @@
 
 using namespace std;
 
-//RENDU 2 À COMPLETER  
-//void dessin();
+
+void Simulation::dessin(){
+    
+}
 
 Simulation::Simulation(int nbr_al, int nbr_co, int nbr_sca)
         : nbr_algue(nbr_al), nbr_corail(nbr_co), nbr_scavenger(nbr_sca), 
@@ -79,7 +81,7 @@ void Simulation::execution(bool naissance_algue){
         bool creer_algue = b(e);
         cout << creer_algue  ;
         if(creer_algue ){
-            algue_vect.push_back(Algue(u(e), u(e), 1));
+            algue_vect.push_back(Algue(u(e), u(e), 0));
         }
         
     }

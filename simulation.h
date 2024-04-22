@@ -14,6 +14,7 @@ class Simulation{
         void sauvegarde(std::string nom_fichier);
         void execution(bool naissance_algue);
         void reintialise_simulation();
+        void dessin();
 
         bool lecture(char * nom_fichier);
         bool decodage_ligne(std::string line);
