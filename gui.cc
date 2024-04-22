@@ -76,7 +76,8 @@ void MyArea::adjustFrame(int width, int height)
 //on dessine dans my area en fonction de la taille de myarea définit plus haut (enfaite myarea c'est notre récipient je crois)
 void MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height)
 {
-    //drawing in the Model space // adjust the frame (cadrage) to prevent distortion 
+	monde(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height, Frame frame)
+void monde(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height, Frame frame){//drawing in the Model space // adjust the frame (cadrage) to prevent distortion 
 	adjustFrame(width, height);
 	draw_frame(cr, frame);  // drawing the drawingArea space
 	
@@ -101,7 +102,7 @@ void MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int hei
 	cr->move_to(-250., 250.);
 	cr->line_to(-250., -250.);
 	cr->stroke();
-
+}
 }
 
 //enfaite le numéro 5 que j'ai rajouté, c'est juste pour mettre d el'espace entre les boutons, tu peux essayer de changer si tu veux
