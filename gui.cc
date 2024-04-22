@@ -3,7 +3,7 @@
 #include <gtkmm/label.h>
 #include "graphic.h"
 #include <iostream>
-#include <string>
+//#include <string> y'a déjà un string dans gui.h
 
 using namespace std;
 
@@ -76,14 +76,15 @@ void MyArea::adjustFrame(int width, int height)
 //on dessine dans my area en fonction de la taille de myarea définit plus haut (enfaite myarea c'est notre récipient je crois)
 void MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height)
 {
-    //drawing in the Model space // adjust the frame (cadrage) to prevent distortion 
+	monde(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height, Frame frame)
+void monde(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height, Frame frame){//drawing in the Model space // adjust the frame (cadrage) to prevent distortion 
 	adjustFrame(width, height);
 	draw_frame(cr, frame);  // drawing the drawingArea space
 	
 	orthographic_projection(cr, frame); // set the transformation MODELE to GTKmm
 
-	cr->set_line_width(4);
-	cr->set_source_rgb(0., 0., 0.);
+	cr->set_line_width(2.);
+	cr->set_source_rgb(0.9, 0.4, 0.6);
 
 	//dessin du cadre vert
 	cr->move_to(-250., -250.); 
@@ -101,41 +102,55 @@ void MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int hei
 	cr->move_to(-250., 250.);
 	cr->line_to(-250., -250.);
 	cr->stroke();
-
+}
 }
 
+//enfaite le numéro 5 que j'ai rajouté, c'est juste pour mettre d el'espace entre les boutons, tu peux essayer de changer si tu veux
 Gui::Gui(char * nom_fichier):
+	
 	name(true),
 	open_or_save("open"),
-    m_Main_Box(Gtk::Orientation::HORIZONTAL),
-	m_General_Box(Gtk::Orientation::VERTICAL),
-	m_Buttons_Box(Gtk::Orientation::VERTICAL),
-	m_Naissance_Algue_Box(Gtk::Orientation::HORIZONTAL),
-	m_Info_Box(Gtk::Orientation::VERTICAL),
-	m_Maj_Box(Gtk::Orientation::HORIZONTAL),
-    m_Algue_Box(Gtk::Orientation::HORIZONTAL),
-    m_Corail_Box(Gtk::Orientation::HORIZONTAL),
-    m_Scavenger_Box(Gtk::Orientation::HORIZONTAL),
-
-
-	general_Label("General"),
 	
-    // Création des boutons
-    m_Button_Exit("Exit"),
+	//toute les boxes dans le bon ordre
+    m_Main_Box(Gtk::Orientation::HORIZONTAL, 5),
+	m_General_Box(Gtk::Orientation::VERTICAL, 5),
+	m_Buttons_Box(Gtk::Orientation::VERTICAL, 5),
+	m_Naissance_Algue_Box(Gtk::Orientation::HORIZONTAL, 5),
+	m_Info_Box(Gtk::Orientation::VERTICAL, 5),
+	m_Info_txt_Box(Gtk::Orientation::HORIZONTAL, 5), //rajout
+	m_Maj_Box(Gtk::Orientation::HORIZONTAL, 5),
+    m_Algue_Box(Gtk::Orientation::HORIZONTAL, 5),
+    m_Corail_Box(Gtk::Orientation::HORIZONTAL, 5),
+    m_Scavenger_Box(Gtk::Orientation::HORIZONTAL, 5),
+	
+    // Création des boutons dans le bon ordre
+    m_Button_Exit("_Exit", true), //modifié
     m_Button_Open("Open"),  
     m_Button_Save("Save"),
-    m_Button_Start("Start"),
+    m_Button_Start("_Start", true), //modifié
     m_Button_Step("Step"),
+
+	//checkbox ??
+	m_Naissance_Algue_CheckButton(),
+	
+	//labels dans le bon ordre
+	general_Label("General"),
 	m_Naissance_Algue_Label("Naissance d'algue"),
-	info_Label("info: nombre de ..."),
-    maj_Label("mise à jour:"),
-    maj_Data_Label("0"),
+	info_Label("Info: nombre de ..."), //boite pour l'esthetique
+    maj_Label("mise à jour:"), //pour timer
+    maj_Data_Label("0"), //pour timer
     nbr_Algue_Label("algues:"),
     nbr_Algue_Data_Label(to_string(s.get_nbr_algue())),
     nbr_Corail_Label("corails:"),
     nbr_Corail_Data_Label(to_string(s.get_nbr_corail())),
     nbr_Scavenger_Label("charognards:"),
-    nbr_Scavenger_Data_Label(to_string(s.get_nbr_scavenger()))
+
+    nbr_Scavenger_Data_Label(to_string(s.get_nbr_scavenger())),
+
+	timer_added(false),// to handle a single timer
+	disconnect(false), // to handle a single timer
+	timeout_value(500) // 500 ms = 0.5 seconds//essayer min 25 ms selon edstem
+
 {
 	bool simulation_ok = true;
     Simulation s ;
@@ -150,13 +165,14 @@ Gui::Gui(char * nom_fichier):
 	set_resizable(true);
     set_child(m_Main_Box);
 
+	m_General_Box.set_margin(5);
 	m_General_Box.append(m_Buttons_Box);
-	m_General_Box.append(info_Label);
 	m_General_Box.append(m_Info_Box);
 
 	m_Main_Box.append(m_General_Box);
     m_Main_Box.append(m_Area);
     
+	m_Info_Box.append(m_Info_txt_Box);//rajout
 	m_Info_Box.append(m_Maj_Box);
 	m_Info_Box.append(m_Algue_Box);
 	m_Info_Box.append(m_Corail_Box);
@@ -165,6 +181,11 @@ Gui::Gui(char * nom_fichier):
 	
 	// allow the drawingArea expand to the window size
 	m_Area.set_expand();
+	m_Button_Start.set_expand();
+	m_Button_Exit.set_expand();
+	maj_Label.set_expand();
+	maj_Data_Label.set_expand();
+
 
 	m_Buttons_Box.append(general_Label);
     m_Buttons_Box.append(m_Button_Exit);
@@ -176,7 +197,7 @@ Gui::Gui(char * nom_fichier):
 	m_Naissance_Algue_Box.append(m_Naissance_Algue_CheckButton);
 	m_Naissance_Algue_Box.append(m_Naissance_Algue_Label);
 
-
+	m_Info_txt_Box.append(info_Label);//rajout
 	m_Maj_Box.append(maj_Label);
 	m_Maj_Box.append(maj_Data_Label);
 	m_Algue_Box.append(nbr_Algue_Label);
@@ -187,7 +208,7 @@ Gui::Gui(char * nom_fichier):
 	m_Scavenger_Box.append(nbr_Scavenger_Data_Label);
 
     m_Button_Exit.signal_clicked().connect(
-		sigc::mem_fun(*this, &Gui::on_button_clicked_exit));
+		sigc::mem_fun(*this, &Gui::on_button_clicked_exit));//pour timer
 		
     m_Button_Open.signal_clicked().connect(
 		sigc::mem_fun(*this, &Gui::on_button_clicked_open));
@@ -196,7 +217,7 @@ Gui::Gui(char * nom_fichier):
 		sigc::mem_fun(*this, &Gui::on_button_clicked_save));
 		
     m_Button_Start.signal_clicked().connect(
-		sigc::mem_fun(*this, &Gui::on_button_clicked_start));
+		sigc::mem_fun(*this, &Gui::on_button_clicked_start)); //pour timer
 
     m_Button_Step.signal_clicked().connect(
 		sigc::mem_fun(*this, &Gui::on_button_clicked_step));
@@ -215,11 +236,10 @@ bool Gui::on_window_key_pressed(guint keyval, guint, Gdk::ModifierType state)
     {
 	case 's' :
 		change_button_name();
+		timer_start_stop();
 		return true;
 	case '1' :
-		cout << "clavier, step" << endl;
-        m_Button_Step.set_label("Step");
-        return true;
+		step_fonctionne();
     }
 	return false;
 }
@@ -227,7 +247,7 @@ bool Gui::on_window_key_pressed(guint keyval, guint, Gdk::ModifierType state)
 static void draw_frame(const Cairo::RefPtr<Cairo::Context>& cr, Frame frame)
 {
 	//display a rectangular frame around the drawing area
-	cr->set_line_width(5.0);
+	cr->set_line_width(2.0);
 	// draw gray lines
 	cr->set_source_rgb(0.5, 0.5, 0.5);
 	cr->rectangle(0,0, frame.width, frame.height);
@@ -252,8 +272,7 @@ static void orthographic_projection(const Cairo::RefPtr<Cairo::Context>& cr,
 
 void Gui::on_button_clicked_exit()
 {
-	cout << "Exit" << endl;
-	exit(0);
+	hide();//mieux que exit(0); à mon avis
 }
 
 void Gui::on_button_clicked_open()
@@ -334,14 +353,15 @@ void Gui::on_button_clicked_save()
 }
 
 
-void Gui::on_button_clicked_start()
+void Gui::on_button_clicked_start()//equivalent de on_button_add_timer
 {
 	change_button_name();
+	timer_start_stop();
 }
 
 void Gui::on_button_clicked_step()
 {
-	cout << "Step" << endl;
+	step_fonctionne();
 }
 
 void Gui::on_file_dialog_response(int response_id, Gtk::FileChooserDialog* dialog)
@@ -385,15 +405,82 @@ void Gui::change_button_name(){
 	if(name) {
 			cout << "clavier, start" <<endl;
         	m_Button_Start.set_label("Stop");
+			m_Button_Step.set_sensitive(false);
 		}
 		else{
 			cout << "calvier stop" <<endl;
 			m_Button_Start.set_label("Start");
+			m_Button_Step.set_sensitive(true);
 		}
 		name = !name;
 }
 
+bool Gui::step_fonctionne(){
+	if(name) {
+		cout << "clavier, step" << endl;
+        m_Button_Step.set_label("Step");
+    return true;
+	} else { return false; }
+}
 
+//=============POUR TIMER
+
+bool Gui::on_timeout()
+{
+	static unsigned int val(1);
+	
+	if(disconnect)
+	{
+		disconnect = false; // reset for next time a Timer is created
+		
+		return false; // End of Timer 
+	}
+	
+	maj_Data_Label.set_text(std::to_string(val));  // display he simulation clock
+	
+	cout << "This is simulation update number : " << val << endl;
+
+	++val;
+	return true; 
+}
+
+void Gui::timer_start_stop(){
+	if(!name)
+	{
+		if(not timer_added)
+		{	  
+			// Creation of a new object prevents long lines and shows us a little
+			// how slots work.  We have 0 parameters and bool as a return value
+			// after calling sigc::bind.
+			sigc::slot<bool()> my_slot = sigc::bind(sigc::mem_fun(*this,
+		                                        	&Gui::on_timeout));
+		
+			// This is where we connect the slot to the Glib::signal_timeout()
+			auto conn = Glib::signal_timeout().connect(my_slot,timeout_value);
+			
+			timer_added = true;
+		
+			cout << "Timer added" << endl;
+		}
+		else
+		{
+	   		cout << "The timer already exists: nothing more is created" << endl;
+		}
+	}
+	else
+	{
+		if(not timer_added)
+		{
+			cout << "Sorry, there is no active timer at the moment." << endl;
+		}
+		else
+		{
+			cout << "manually disconnecting the timer " << endl;
+			disconnect  = true;   
+			timer_added = false;
+		}
+	}
+}
 
 
 
