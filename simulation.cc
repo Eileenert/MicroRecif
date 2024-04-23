@@ -15,7 +15,6 @@ using namespace std;
 void Simulation::dessin(){
     
     for(size_t i(0); i < nbr_algue; i++){
-        cout << "ok" << endl;
         dessin_algues(algue_vect[i].get_coord());
     }
     

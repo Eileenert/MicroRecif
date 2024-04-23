@@ -24,7 +24,7 @@ simulation.o: simulation.cc simulation.h lifeform.h shape.h constantes.h \
 gui.o: gui.cc gui.h simulation.h lifeform.h shape.h constantes.h \
 	graphic.h
 	$(CXX) $(CXXFLAGS) $(LINKING) -c $< -o $@ $(LINKING)
-graphic.o: graphic.cc graphic.h constantes.h
+graphic.o: graphic.cc graphic.h constantes.h graphic_gui.h
 	$(CXX) $(CXXFLAGS) $(LINKING) -c $< -o $@ $(LINKING)
 
 

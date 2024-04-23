@@ -4,6 +4,7 @@
 #include <iostream>
 #include "graphic.h"
 #include "constantes.h"
+#include "graphic_gui.h"
 
 using namespace std;
 
