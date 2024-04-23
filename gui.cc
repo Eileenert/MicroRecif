@@ -76,30 +76,14 @@ void MyArea::adjustFrame(int width, int height)
 //on dessine dans my area en fonction de la taille de myarea définit plus haut (enfaite myarea c'est notre récipient je crois)
 void MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height)
 {
+	graphic_set_context(cr); 
+
 	adjustFrame(width, height);
 	draw_frame(cr, frame);  // drawing the drawingArea space
 	
 	orthographic_projection(cr, frame); // set the transformation MODELE to GTKmm
 
-	cr->set_line_width(2.);
-	cr->set_source_rgb(0.5, 0.5, 0.5);
-
-	//dessin du cadre vert
-	cr->move_to(-250., -250.); 
-    cr->line_to(250., -250.);
-	cr->stroke();
-
-	cr->move_to(250., -250.); 
-    cr->line_to(250., 250.);
-	cr->stroke();
-
-	cr->move_to(250., 250.);
-    cr->line_to(-250., 250.);
-	cr->stroke();
-
-	cr->move_to(-250., 250.);
-	cr->line_to(-250., -250.);
-	cr->stroke();
+	cadre();
 }
 
 
@@ -147,7 +131,7 @@ Gui::Gui(char * nom_fichier):
 	if (!simulation_ok){
 		s.reintialise_simulation();
 	}
-	s.dessin();
+	//s.dessin();
 
 	m_Area.set_expand();
 
