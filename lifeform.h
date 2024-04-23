@@ -50,6 +50,7 @@ class Corail: public Lifeform{
         bool get_statut_cor() const;
         bool get_dir_rot() const;
         bool get_statut_dev() const;
+        bool get_is_alive() const;
         void add_seg_vector(double a, int s);
 
     private:

@@ -67,6 +67,10 @@ bool Corail::get_statut_dev() const{
     return statut_dev;
 }
 
+bool Corail::get_is_alive() const{
+    return is_alive;
+}
+
 void Corail::add_seg_vector(double a, int s){
     if(seg_vector.size() >=1){
         seg_vector.push_back(Segments(seg_vector.back().get_extr().x, 

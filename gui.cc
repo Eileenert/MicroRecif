@@ -76,15 +76,13 @@ void MyArea::adjustFrame(int width, int height)
 //on dessine dans my area en fonction de la taille de myarea définit plus haut (enfaite myarea c'est notre récipient je crois)
 void MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height)
 {
-	monde(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height, Frame frame)
-void monde(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height, Frame frame){//drawing in the Model space // adjust the frame (cadrage) to prevent distortion 
 	adjustFrame(width, height);
 	draw_frame(cr, frame);  // drawing the drawingArea space
 	
 	orthographic_projection(cr, frame); // set the transformation MODELE to GTKmm
 
 	cr->set_line_width(2.);
-	cr->set_source_rgb(0.9, 0.4, 0.6);
+	cr->set_source_rgb(0.5, 0.5, 0.5);
 
 	//dessin du cadre vert
 	cr->move_to(-250., -250.); 
@@ -103,61 +101,53 @@ void monde(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height, Frame
 	cr->line_to(-250., -250.);
 	cr->stroke();
 }
-}
+
+
 
 //enfaite le numéro 5 que j'ai rajouté, c'est juste pour mettre d el'espace entre les boutons, tu peux essayer de changer si tu veux
 Gui::Gui(char * nom_fichier):
-	
 	name(true),
 	open_or_save("open"),
-	
-	//toute les boxes dans le bon ordre
     m_Main_Box(Gtk::Orientation::HORIZONTAL, 5),
-	m_General_Box(Gtk::Orientation::VERTICAL, 5),
+	m_General_Box(Gtk::Orientation::VERTICAL, 20),
 	m_Buttons_Box(Gtk::Orientation::VERTICAL, 5),
 	m_Naissance_Algue_Box(Gtk::Orientation::HORIZONTAL, 5),
-	m_Info_Box(Gtk::Orientation::VERTICAL, 5),
-	m_Info_txt_Box(Gtk::Orientation::HORIZONTAL, 5), //rajout
-	m_Maj_Box(Gtk::Orientation::HORIZONTAL, 5),
-    m_Algue_Box(Gtk::Orientation::HORIZONTAL, 5),
-    m_Corail_Box(Gtk::Orientation::HORIZONTAL, 5),
-    m_Scavenger_Box(Gtk::Orientation::HORIZONTAL, 5),
-	
-    // Création des boutons dans le bon ordre
-    m_Button_Exit("_Exit", true), //modifié
+	m_Info_Box(Gtk::Orientation::VERTICAL, 10),
+	m_Maj_Box(Gtk::Orientation::HORIZONTAL, 50),
+    m_Algue_Box(Gtk::Orientation::HORIZONTAL, 80),
+    m_Corail_Box(Gtk::Orientation::HORIZONTAL, 78),
+    m_Scavenger_Box(Gtk::Orientation::HORIZONTAL, 43),
+
+	general_Label("General"),
+
+    // Création des boutons
+    m_Button_Exit("Exit"),
     m_Button_Open("Open"),  
     m_Button_Save("Save"),
-    m_Button_Start("_Start", true), //modifié
+    m_Button_Start("Start"),
     m_Button_Step("Step"),
-
-	//checkbox ??
-	m_Naissance_Algue_CheckButton(),
-	
-	//labels dans le bon ordre
-	general_Label("General"),
 	m_Naissance_Algue_Label("Naissance d'algue"),
-	info_Label("Info: nombre de ..."), //boite pour l'esthetique
-    maj_Label("mise à jour:"), //pour timer
-    maj_Data_Label("0"), //pour timer
+	info_Label("info: nombre de ..."),
+    maj_Label("mise à jour:"),
+    maj_Data_Label("0"),
     nbr_Algue_Label("algues:"),
     nbr_Algue_Data_Label(to_string(s.get_nbr_algue())),
     nbr_Corail_Label("corails:"),
     nbr_Corail_Data_Label(to_string(s.get_nbr_corail())),
-    nbr_Scavenger_Label("charognards:"),
-
+    nbr_Scavenger_Label("charognards"),
     nbr_Scavenger_Data_Label(to_string(s.get_nbr_scavenger())),
-
-	timer_added(false),// to handle a single timer
-	disconnect(false), // to handle a single timer
-	timeout_value(500) // 500 ms = 0.5 seconds//essayer min 25 ms selon edstem
+    timer_added(false),
+    disconnect(false),
+    timeout_value(500)
 
 {
 	bool simulation_ok = true;
-    Simulation s ;
     simulation_ok = s.lecture(nom_fichier);
 	if (!simulation_ok){
 		s.reintialise_simulation();
 	}
+
+	m_Area.set_expand();
 
     //titre, taille et permission de modifier la taille d ela fenêtre
     set_title("MicroRecif");
@@ -171,21 +161,12 @@ Gui::Gui(char * nom_fichier):
 
 	m_Main_Box.append(m_General_Box);
     m_Main_Box.append(m_Area);
-    
-	m_Info_Box.append(m_Info_txt_Box);//rajout
+	
+	m_Info_Box.append(info_Label);
 	m_Info_Box.append(m_Maj_Box);
 	m_Info_Box.append(m_Algue_Box);
 	m_Info_Box.append(m_Corail_Box);
 	m_Info_Box.append(m_Scavenger_Box);
-
-	
-	// allow the drawingArea expand to the window size
-	m_Area.set_expand();
-	m_Button_Start.set_expand();
-	m_Button_Exit.set_expand();
-	maj_Label.set_expand();
-	maj_Data_Label.set_expand();
-
 
 	m_Buttons_Box.append(general_Label);
     m_Buttons_Box.append(m_Button_Exit);
@@ -197,7 +178,6 @@ Gui::Gui(char * nom_fichier):
 	m_Naissance_Algue_Box.append(m_Naissance_Algue_CheckButton);
 	m_Naissance_Algue_Box.append(m_Naissance_Algue_Label);
 
-	m_Info_txt_Box.append(info_Label);//rajout
 	m_Maj_Box.append(maj_Label);
 	m_Maj_Box.append(maj_Data_Label);
 	m_Algue_Box.append(nbr_Algue_Label);

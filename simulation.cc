@@ -13,7 +13,22 @@ using namespace std;
 
 
 void Simulation::dessin(){
-    
+    for(size_t i(0); i < nbr_algue; i++){
+        dessin_algues(algue_vect[i].get_coord());
+    }
+
+    for(size_t i(0); i < nbr_corail; i++){
+        bool is_alive(corail_vect[i].get_is_alive());
+        dessin_base_cor(corail_vect[i].get_coord(), is_alive);
+
+        for(Segments seg : corail_vect[i].get_seg_vector()){
+            dessin_trait(seg.get_base(), seg.get_extr(), is_alive);
+        }
+    }
+
+    for(size_t i(0); i< nbr_scavenger; i++){
+        dessin_sca(scavenger_vect[i].get_coord());
+    }
 }
 
 Simulation::Simulation(int nbr_al, int nbr_co, int nbr_sca)

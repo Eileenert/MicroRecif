@@ -59,6 +59,14 @@ protected:
     void on_button_clicked_start();//pour timer
     void on_button_clicked_step();
 
+    //fin timer
+
+    void on_file_dialog_response(int response_id, Gtk::FileChooserDialog* dialog);
+
+    // pour cliquer depuis le clavier
+    bool on_window_key_pressed(guint keyval, guint keycode, 
+        Gdk::ModifierType state);
+
 //début timer
     // This is the standard prototype of the Timer callback function
 	bool on_timeout();
@@ -69,31 +77,42 @@ protected:
 	bool disconnect; 
 	
 	const int timeout_value;
-//fin timer
-
-    void on_file_dialog_response(int response_id, Gtk::FileChooserDialog* dialog);
-
-    // pour cliquer depuis le clavier
-    bool on_window_key_pressed(guint keyval, guint keycode, 
-        Gdk::ModifierType state);
 
     MyArea m_Area;
     
     //VERIFIER CONVENTION POUR LES NOMS
     //prof a fait comme ça dans une serie, doute pour l'incremention
 
-    Gtk::Box m_Main_Box, m_General_Box, m_Buttons_Box, m_Naissance_Algue_Box;
-    Gtk::Box m_Info_Box, m_Info_txt_Box, m_Maj_Box, m_Algue_Box, m_Corail_Box;
+     Gtk::Box m_Main_Box;
+    Gtk::Box m_General_Box;
+    Gtk::Box m_Buttons_Box;
+    Gtk::Box m_Naissance_Algue_Box;
+    Gtk::Box m_Info_Box;
+    Gtk::Box m_Maj_Box;
+    Gtk::Box m_Algue_Box;
+    Gtk::Box m_Corail_Box;
     Gtk::Box m_Scavenger_Box;
 
-    Gtk::Button m_Button_Exit, m_Button_Open, m_Button_Save, m_Button_Start;
+
+    Gtk::Label general_Label;
+
+    Gtk::Button m_Button_Exit;
+    Gtk::Button m_Button_Open;
+    Gtk::Button m_Button_Save;
+    Gtk::Button m_Button_Start;
     Gtk::Button m_Button_Step;
-    
     Gtk::CheckButton m_Naissance_Algue_CheckButton;
 
-    Gtk::Label general_Label, m_Naissance_Algue_Label, info_Label, maj_Label;  
-    Gtk::Label maj_Data_Label, nbr_Algue_Label, nbr_Algue_Data_Label; 
-    Gtk::Label nbr_Corail_Label, nbr_Corail_Data_Label, nbr_Scavenger_Label;
+    Gtk::Label m_Naissance_Algue_Label;
+
+    Gtk::Label info_Label;
+    Gtk::Label maj_Label;
+    Gtk::Label maj_Data_Label;
+    Gtk::Label nbr_Algue_Label;
+    Gtk::Label nbr_Algue_Data_Label;
+    Gtk::Label nbr_Corail_Label;
+    Gtk::Label nbr_Corail_Data_Label;
+    Gtk::Label nbr_Scavenger_Label;
     Gtk::Label nbr_Scavenger_Data_Label;
 };
 
