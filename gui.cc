@@ -2,6 +2,7 @@
 #include <cairomm/context.h>
 #include <gtkmm/label.h>
 #include "graphic.h"
+#include "graphic_gui.h"
 #include <iostream>
 //#include <string> y'a déjà un string dans gui.h
 
@@ -131,7 +132,7 @@ Gui::Gui(char * nom_fichier):
 	if (!simulation_ok){
 		s.reintialise_simulation();
 	}
-	//s.dessin();
+	s.dessin();
 
 	m_Area.set_expand();
 
