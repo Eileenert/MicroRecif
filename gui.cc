@@ -143,9 +143,11 @@ Gui::Gui(char * nom_fichier):
 {
 	bool simulation_ok = true;
     simulation_ok = s.lecture(nom_fichier);
+	
 	if (!simulation_ok){
 		s.reintialise_simulation();
 	}
+	s.dessin();
 
 	m_Area.set_expand();
 

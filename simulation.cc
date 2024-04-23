@@ -13,10 +13,12 @@ using namespace std;
 
 
 void Simulation::dessin(){
+    
     for(size_t i(0); i < nbr_algue; i++){
+        cout << "ok" << endl;
         dessin_algues(algue_vect[i].get_coord());
     }
-
+    
     for(size_t i(0); i < nbr_corail; i++){
         bool is_alive(corail_vect[i].get_is_alive());
         dessin_base_cor(corail_vect[i].get_coord(), is_alive);
