@@ -26,7 +26,7 @@ struct Frame // Model Framing and window parameters
 class MyArea : public Gtk::DrawingArea
 {
 public:
-    MyArea();
+    MyArea(Simulation& sim);
     virtual ~MyArea();
 
     void setFrame(Frame x); 
@@ -38,6 +38,7 @@ protected:
 
 private:
     Frame frame;
+    Simulation& s;
 };
 
 class Gui : public Gtk::Window
@@ -78,12 +79,12 @@ protected:
 	
 	const int timeout_value;
 
-    MyArea m_Area;
+    MyArea* m_Area;
     
     //VERIFIER CONVENTION POUR LES NOMS
     //prof a fait comme ça dans une serie, doute pour l'incremention
 
-     Gtk::Box m_Main_Box;
+    Gtk::Box m_Main_Box;
     Gtk::Box m_General_Box;
     Gtk::Box m_Buttons_Box;
     Gtk::Box m_Naissance_Algue_Box;

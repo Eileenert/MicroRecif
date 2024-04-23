@@ -107,11 +107,9 @@ bool do_intersect(bool simulation, S2d p1, S2d q1, S2d p2, S2d q2){
 }
 
 void dessin_algues(S2d coord){
-    
     double x(coord.x);
     double y(coord.y);
     cercle(x, y, "algue");
-    cout << "ok2" << endl;
 }
 
 void dessin_trait(S2d base, S2d extr, bool is_alive){

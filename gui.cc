@@ -1,6 +1,6 @@
-#include "gui.h"
 #include <cairomm/context.h>
 #include <gtkmm/label.h>
+#include "gui.h"
 #include "graphic.h"
 #include "graphic_gui.h"
 #include <iostream>
@@ -16,12 +16,14 @@ static void draw_frame(const Cairo::RefPtr<Cairo::Context>& cr, Frame frame);
 static void orthographic_projection(const Cairo::RefPtr<Cairo::Context>& cr, 
 									Frame frame);
 //taille du récipient
-MyArea::MyArea()
+MyArea::MyArea(Simulation& sim)
+:s(sim)
 {
 	set_content_width(taille_dessin);
 	set_content_height(taille_dessin);
 	
 	set_draw_func(sigc::mem_fun(*this, &MyArea::on_draw));
+	
 }
 
 MyArea::~MyArea()
@@ -85,6 +87,8 @@ void MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int hei
 	orthographic_projection(cr, frame); // set the transformation MODELE to GTKmm
 
 	cadre();
+	s.dessin();
+
 }
 
 
@@ -132,9 +136,8 @@ Gui::Gui(char * nom_fichier):
 	if (!simulation_ok){
 		s.reintialise_simulation();
 	}
-	s.dessin();
-
-	m_Area.set_expand();
+	m_Area = new MyArea(s);
+	m_Area->set_expand();
 
     //titre, taille et permission de modifier la taille d ela fenêtre
     set_title("MicroRecif");
@@ -147,7 +150,7 @@ Gui::Gui(char * nom_fichier):
 	m_General_Box.append(m_Info_Box);
 
 	m_Main_Box.append(m_General_Box);
-    m_Main_Box.append(m_Area);
+    m_Main_Box.append(*m_Area);
 	
 	m_Info_Box.append(info_Label);
 	m_Info_Box.append(m_Maj_Box);

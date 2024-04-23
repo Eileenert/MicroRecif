@@ -8,10 +8,11 @@
 
 using namespace std;
 
-static const Cairo::RefPtr<Cairo::Context>* ptcr(nullptr);
+static const Cairo::RefPtr<Cairo::Context>* ptcr(nullptr); 
 
-void graphic_set_context(const Cairo::RefPtr<Cairo::Context>& cr){
-    ptcr = &cr;
+void graphic_set_context(const Cairo::RefPtr<Cairo::Context>& cr)
+{
+	ptcr = &cr;
 }
 
 void cadre(){
@@ -40,6 +41,7 @@ void cadre(){
 void cercle(double x, double y, string type){
     x -= 250;
     y -= 250;
+    (*ptcr)->set_line_width(2.);
     if(type == "algue"){  
 	    (*ptcr)->set_source_rgb(0.2, 0.8, 0.2);// jsp si c'est le bon rgb
         (*ptcr)->arc(x, y, r_alg, 0, 2*M_PI);
@@ -57,6 +59,7 @@ void trait(double x1, double y1, double x2, double y2, bool is_alive){
     x2 -= 250;
     y2 -= 250;
 
+    (*ptcr)->set_line_width(2.);
     if(is_alive){
         (*ptcr)->set_source_rgb(0, 0, 1); //jsp si c'est le bon rgb
     }else{
@@ -73,6 +76,7 @@ void carre_base_cor(double x, double y, bool is_alive){
     x -= 250;
     y -= 250;
 
+    (*ptcr)->set_line_width(2.);
     if(is_alive){
         (*ptcr)->set_source_rgb(0, 0, 1); //jsp si c'est le bon rgb
     }else{
