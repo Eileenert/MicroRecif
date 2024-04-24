@@ -126,6 +126,7 @@ Gui::Gui(char * nom_fichier):
     nbr_Scavenger_Data_Label(to_string(s.get_nbr_scavenger())),
     timer_added(false),
     disconnect(false),
+	nbr_maj(1),
     timeout_value(500)
 
 {
@@ -137,6 +138,8 @@ Gui::Gui(char * nom_fichier):
 	}
 	m_Area = new MyArea(s);
 	m_Area->set_expand();
+
+	update_number();
 
     //titre, taille et permission de modifier la taille de la fenêtre
     set_title("MicroRecif");
@@ -197,6 +200,12 @@ Gui::Gui(char * nom_fichier):
                   sigc::mem_fun(*this, &Gui::on_window_key_pressed), false);
     add_controller(controller);
 	
+}
+
+bool Gui::update_number(){
+	nbr_Algue_Data_Label.set_label(to_string(s.get_nbr_algue()));
+    nbr_Corail_Data_Label.set_label(to_string(s.get_nbr_corail()));
+    nbr_Scavenger_Data_Label.set_label(to_string(s.get_nbr_scavenger()));
 }
 
 bool Gui::on_window_key_pressed(guint keyval, guint, Gdk::ModifierType state)
@@ -349,7 +358,12 @@ void Gui::on_file_dialog_response(int response_id, Gtk::FileChooserDialog* dialo
 			if (open_or_save == "open") {
 				s.reintialise_simulation();
 				s.lecture(const_cast<char*>(filename.c_str()));
-				//const_cast<char*>filename.c_str()
+
+				nbr_maj = 0;
+				maj_Data_Label.set_text(std::to_string(nbr_maj));
+				update_number();
+				m_Area->queue_draw();
+				
 			}
 			else if (open_or_save == "save"){
 				s.sauvegarde(const_cast<char*>(filename.c_str()));
@@ -396,8 +410,6 @@ bool Gui::step_fonctionne(){
 
 bool Gui::on_timeout()
 {
-	static unsigned int val(1);
-	
 	if(disconnect)
 	{
 		disconnect = false; // reset for next time a Timer is created
@@ -405,11 +417,14 @@ bool Gui::on_timeout()
 		return false; // End of Timer 
 	}
 	
-	maj_Data_Label.set_text(std::to_string(val));  // display he simulation clock
+	maj_Data_Label.set_text(std::to_string(nbr_maj));  // display he simulation clock
 	
-	cout << "This is simulation update number : " << val << endl;
+	s.execution(true); 	//METTRE bool naissance_algue)
+	update_number();
+	// Trigger a redraw of MyArea
+    m_Area->queue_draw();
 
-	++val;
+	++nbr_maj;
 	return true; 
 }
 
