@@ -193,6 +193,9 @@ Gui::Gui(char * nom_fichier):
     m_Button_Step.signal_clicked().connect(
 		sigc::mem_fun(*this, &Gui::on_button_clicked_step));
 
+	m_Naissance_Algue_CheckButton.signal_toggled().connect(sigc::mem_fun(*this, 
+                                          &Gui::algue_toggled));
+
 
 	auto controller = Gtk::EventControllerKey::create();
     controller->signal_key_pressed().connect(
@@ -396,6 +399,18 @@ bool Gui::step_fonctionne(){
 	} else { return false; }
 }
 
+
+
+void Gui::algue_toggled()
+{
+	if (m_Naissance_Algue_CheckButton.get_active()){
+		s.execution(true);
+	}
+	else{
+		s.execution(false);
+	} 
+}
+
 //=============POUR TIMER
 
 bool Gui::on_timeout()
@@ -408,8 +423,7 @@ bool Gui::on_timeout()
 	}
 	
 	maj_Data_Label.set_text(std::to_string(nbr_maj));  // display he simulation clock
-	
-	s.execution(true); 	//METTRE bool naissance_algue)
+	algue_toggled();
 	update_number();
 	// Trigger a redraw of MyArea
     m_Area->queue_draw();
