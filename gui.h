@@ -54,7 +54,7 @@ protected:
     std::string open_or_save;
     Simulation s ;
 
-    bool update_number();
+    void update_number();
     void on_button_clicked_exit();//pour timer
     void on_button_clicked_open();
     void on_button_clicked_save();
@@ -72,7 +72,7 @@ protected:
 
     // This is the standard prototype of the Timer callback function
 	bool on_timeout();
-    static unsigned int nbr_maj;
+    
 
 
     MyArea* m_Area;
@@ -114,6 +114,7 @@ protected:
 
     // to store a single timer disconnect request
 	bool disconnect; 
+    unsigned int nbr_maj;
     const int timeout_value;
     
 };

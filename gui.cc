@@ -201,7 +201,7 @@ Gui::Gui(char * nom_fichier):
 	
 }
 
-bool Gui::update_number(){
+void Gui::update_number(){
 	nbr_Algue_Data_Label.set_label(to_string(s.get_nbr_algue()));
     nbr_Corail_Data_Label.set_label(to_string(s.get_nbr_corail()));
     nbr_Scavenger_Data_Label.set_label(to_string(s.get_nbr_scavenger()));
@@ -346,17 +346,15 @@ void Gui::on_file_dialog_response(int response_id, Gtk::FileChooserDialog* dialo
 	{
 		case Gtk::ResponseType::OK:
 		{
-		    cout << "Open or Save clicked." << endl;
 		
 		    //Notice that this is a std::string, not a Glib::ustring.
 		    auto filename = dialog->get_file()->get_path();
-		    cout << "File selected: " <<  filename << endl;
 
 			if (open_or_save == "open") {
 				s.reintialise_simulation();
 				s.lecture(const_cast<char*>(filename.c_str()));
 
-				nbr_maj = 0;
+				nbr_maj = 1;	//il faudrait afficher 0 mais ensuite la première mise à jour sera 0 et non 1
 				maj_Data_Label.set_text(std::to_string(nbr_maj));
 				update_number();
 				m_Area->queue_draw();
@@ -369,13 +367,11 @@ void Gui::on_file_dialog_response(int response_id, Gtk::FileChooserDialog* dialo
 		}
 		case Gtk::ResponseType::CANCEL:
 		{
-		    cout << "Cancel clicked." << endl;
 		    break;
 		}
 		default:
 		{
-		    cout << "Unexpected button clicked." << endl;
-		    break;
+		    break; //"Unexpected button clicked."
 		}
 	}
 	delete dialog;
@@ -395,7 +391,6 @@ void Gui::change_button_name(){
 
 bool Gui::step_fonctionne(){
 	if(name) {
-		cout << "clavier, step" << endl;
         m_Button_Step.set_label("Step");
     return true;
 	} else { return false; }
@@ -434,8 +429,6 @@ void Gui::timer_start_stop(){
 		
 			// This is where we connect the slot to the Glib::signal_timeout()
 		auto conn = Glib::signal_timeout().connect(my_slot,timeout_value);
-		
-		cout << "Timer added" << endl;
 	}
 	else
 	{
