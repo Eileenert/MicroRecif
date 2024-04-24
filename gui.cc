@@ -95,6 +95,7 @@ void MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int hei
 
 Gui::Gui(char * nom_fichier):
 	name(true),
+	val(0),
 	open_or_save("open"),
     m_Main_Box(Gtk::Orientation::HORIZONTAL, 5),
 	m_General_Box(Gtk::Orientation::VERTICAL, 20),
@@ -208,6 +209,7 @@ bool Gui::on_window_key_pressed(guint keyval, guint, Gdk::ModifierType state)
 		return true;
 	case '1' :
 		step_fonctionne();
+		timer_step();
     }
 	return false;
 }
@@ -328,6 +330,7 @@ void Gui::on_button_clicked_start()//equivalent de on_button_add_timer
 void Gui::on_button_clicked_step()
 {
 	step_fonctionne();
+	timer_step();
 }
 
 void Gui::on_file_dialog_response(int response_id, Gtk::FileChooserDialog* dialog)
@@ -381,7 +384,6 @@ void Gui::change_button_name(){
 
 bool Gui::step_fonctionne(){
 	if(name) {
-		cout << "clavier, step" << endl;
         m_Button_Step.set_label("Step");
     return true;
 	} else { return false; }
@@ -389,9 +391,11 @@ bool Gui::step_fonctionne(){
 
 //=============POUR TIMER
 
+
+
 bool Gui::on_timeout()
 {
-	static unsigned int val(1);
+	//static unsigned int val(1);
 	
 	if(disconnect)
 	{
@@ -399,12 +403,10 @@ bool Gui::on_timeout()
 		
 		return false; // End of Timer 
 	}
-	
-	maj_Data_Label.set_text(std::to_string(val));  // display he simulation clock
-	
-	cout << "This is simulation update number : " << val << endl;
 
 	++val;
+	maj_Data_Label.set_text(std::to_string(val));  // display he simulation clock
+	cout << "This is simulation update number : " << val << endl;
 	return true; 
 }
 
@@ -419,8 +421,6 @@ void Gui::timer_start_stop(){
 		
 			// This is where we connect the slot to the Glib::signal_timeout()
 		auto conn = Glib::signal_timeout().connect(my_slot,timeout_value);
-		
-		cout << "Timer added" << endl;
 	}
 	else
 	{
@@ -428,5 +428,10 @@ void Gui::timer_start_stop(){
 	}
 }
 
-
+bool Gui::timer_step(){
+	val = val + 1;
+	maj_Data_Label.set_text(std::to_string(val)); 
+	cout << "This is simulation update number : " << val << endl;
+	return true; 
+}
 

@@ -48,9 +48,11 @@ public:
     void change_button_name();
     bool step_fonctionne();
     void timer_start_stop(); //pour timer
+    bool timer_step();
     
 protected:
     bool name;
+    unsigned int val;
     std::string open_or_save;
     Simulation s ;
 
