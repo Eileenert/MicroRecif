@@ -261,7 +261,7 @@ bool Simulation::decodage_scavenger(string line){
 }
 
 bool Simulation::appartenance_recipient(double x, double y){
-    if((x < 1) || (y < 1) || (x > maximum-1) || (y > maximum-1)){
+    if((x < 1) || (y < 1) || (x > maximum-1) || (y > maximum-1)){ 
         cout << message::lifeform_center_outside(x, y);
         return false;
     }

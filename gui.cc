@@ -8,14 +8,14 @@
 
 using namespace std;
 
-static Frame default_frame = {-250., 250., -250., 250., 1., 500, 500};
+static Frame default_frame = {0., 256., 0., 256., 1., 256, 256}; //juste normalement de [0, 256]
 
-constexpr unsigned int taille_dessin(500); // taille de notre récipient
+constexpr unsigned int taille_dessin(500); // pixels
 
 static void draw_frame(const Cairo::RefPtr<Cairo::Context>& cr, Frame frame);
 static void orthographic_projection(const Cairo::RefPtr<Cairo::Context>& cr, 
 									Frame frame);
-//taille du récipient
+
 MyArea::MyArea(Simulation& sim)
 :s(sim)
 {
@@ -52,6 +52,7 @@ void MyArea::adjustFrame(int width, int height)
 	
     // use the reference framing as a guide for preventing distortion
     double new_aspect_ratio((double)width/height);
+
     if( new_aspect_ratio > default_frame.asp)
     { // keep yMax and yMin. Adjust xMax and xMin
 	    frame.yMax = default_frame.yMax ;
@@ -92,8 +93,6 @@ void MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int hei
 }
 
 
-
-//enfaite le numéro 5 que j'ai rajouté, c'est juste pour mettre d el'espace entre les boutons, tu peux essayer de changer si tu veux
 Gui::Gui(char * nom_fichier):
 	name(true),
 	open_or_save("open"),
@@ -139,7 +138,7 @@ Gui::Gui(char * nom_fichier):
 	m_Area = new MyArea(s);
 	m_Area->set_expand();
 
-    //titre, taille et permission de modifier la taille d ela fenêtre
+    //titre, taille et permission de modifier la taille de la fenêtre
     set_title("MicroRecif");
     set_default_size(700, 700); //taille du Main_Box
 	set_resizable(true);
@@ -217,7 +216,7 @@ bool Gui::on_window_key_pressed(guint keyval, guint, Gdk::ModifierType state)
 static void draw_frame(const Cairo::RefPtr<Cairo::Context>& cr, Frame frame)
 {
 	//display a rectangular frame around the drawing area
-	cr->set_line_width(2.0);
+	cr->set_line_width(1.0);
 	// draw gray lines
 	cr->set_source_rgb(0.5, 0.5, 0.5);
 	cr->rectangle(0,0, frame.width, frame.height);
@@ -242,7 +241,7 @@ static void orthographic_projection(const Cairo::RefPtr<Cairo::Context>& cr,
 
 void Gui::on_button_clicked_exit()
 {
-	hide();//mieux que exit(0); à mon avis
+	hide();//mieux que exit(0); à mon avis on doit dire dans le rapport pourquoi ce choix peut-etre
 }
 
 void Gui::on_button_clicked_open()

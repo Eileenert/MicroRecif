@@ -16,32 +16,29 @@ void graphic_set_context(const Cairo::RefPtr<Cairo::Context>& cr)
 }
 
 void cadre(){
-    (*ptcr)->set_line_width(2.);
+    (*ptcr)->set_line_width(1.);
 	(*ptcr)->set_source_rgb(0.5, 0.5, 0.5);
 
-	//dessin du cadre vert
-	(*ptcr)->move_to(-250., -250.); 
-    (*ptcr)->line_to(250., -250.);
+    (*ptcr)->move_to(0., 0.); 
+    (*ptcr)->line_to(256., 0.);
 	(*ptcr)->stroke();
 
-	(*ptcr)->move_to(250., -250.); 
-    (*ptcr)->line_to(250., 250.);
+	(*ptcr)->move_to(256., 0.); 
+    (*ptcr)->line_to(256., 256.);
 	(*ptcr)->stroke();
 
-	(*ptcr)->move_to(250., 250.);
-    (*ptcr)->line_to(-250., 250.);
+	(*ptcr)->move_to(256., 256.);
+    (*ptcr)->line_to(0., 256.);
 	(*ptcr)->stroke();
 
-	(*ptcr)->move_to(-250., 250.);
-	(*ptcr)->line_to(-250., -250.);
+	(*ptcr)->move_to(0., 256.);
+	(*ptcr)->line_to(0., 0.);
 	(*ptcr)->stroke();
 }
 
 //faire un truc avec cr, jsp comment tu veux l'importer
-void cercle(double x, double y, string type){
-    x -= 250;
-    y -= 250;
-    (*ptcr)->set_line_width(2.);
+void cercle(double x, double y, string type){ 
+    (*ptcr)->set_line_width(1.);
     if(type == "algue"){  
 	    (*ptcr)->set_source_rgb(0.2, 0.8, 0.2);// jsp si c'est le bon rgb
         (*ptcr)->arc(x, y, r_alg, 0, 2*M_PI);
@@ -54,12 +51,7 @@ void cercle(double x, double y, string type){
 }
 
 void trait(double x1, double y1, double x2, double y2, bool is_alive){
-    x1 -= 250;
-    y1 -= 250;
-    x2 -= 250;
-    y2 -= 250;
-
-    (*ptcr)->set_line_width(2.);
+    (*ptcr)->set_line_width(1.);
     if(is_alive){
         (*ptcr)->set_source_rgb(0, 0, 1); //jsp si c'est le bon rgb
     }else{
@@ -73,10 +65,7 @@ void trait(double x1, double y1, double x2, double y2, bool is_alive){
 } 
 
 void carre_base_cor(double x, double y, bool is_alive){
-    x -= 250;
-    y -= 250;
-
-    (*ptcr)->set_line_width(2.);
+    (*ptcr)->set_line_width(1.);
     if(is_alive){
         (*ptcr)->set_source_rgb(0, 0, 1); //jsp si c'est le bon rgb
     }else{
