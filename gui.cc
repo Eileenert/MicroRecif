@@ -31,7 +31,7 @@ MyArea::~MyArea()
 }
 
 // defining the Model space frame to visualize in the window canvas
-void MyArea::setFrame(Frame f)
+/*void MyArea::setFrame(Frame f)
 {
 	if((f.xMin <= f.xMax) and (f.yMin <= f.yMax) and (f.height > 0))
 	{
@@ -40,7 +40,7 @@ void MyArea::setFrame(Frame f)
 	}
 	else
 		std::cout << "incorrect Model framing or window parameters" << std::endl;
-}
+}*/
 
 void MyArea::adjustFrame(int width, int height)
 {
@@ -124,7 +124,6 @@ Gui::Gui(char * nom_fichier):
     nbr_Corail_Data_Label(to_string(s.get_nbr_corail())),
     nbr_Scavenger_Label("charognards"),
     nbr_Scavenger_Data_Label(to_string(s.get_nbr_scavenger())),
-    timer_added(false),
     disconnect(false),
     timeout_value(500)
 
@@ -246,7 +245,6 @@ void Gui::on_button_clicked_exit()
 
 void Gui::on_button_clicked_open()
 {
-	cout << "Open" << endl;
 	open_or_save = "open";
 
 	auto dialog = new Gtk::FileChooserDialog("Please choose a file",
@@ -285,7 +283,6 @@ void Gui::on_button_clicked_open()
 
 void Gui::on_button_clicked_save()
 {
-	cout << "Save" << endl;
 	open_or_save = "save";
 	auto dialog = new Gtk::FileChooserDialog("Please choose a file",
 		  Gtk::FileChooser::Action::SAVE);
@@ -372,12 +369,10 @@ void Gui::on_file_dialog_response(int response_id, Gtk::FileChooserDialog* dialo
 
 void Gui::change_button_name(){
 	if(name) {
-			cout << "clavier, start" <<endl;
         	m_Button_Start.set_label("Stop");
 			m_Button_Step.set_sensitive(false);
 		}
 		else{
-			cout << "calvier stop" <<endl;
 			m_Button_Start.set_label("Start");
 			m_Button_Step.set_sensitive(true);
 		}
@@ -415,39 +410,21 @@ bool Gui::on_timeout()
 
 void Gui::timer_start_stop(){
 	if(!name)
-	{
-		if(not timer_added)
-		{	  
+	{ 
 			// Creation of a new object prevents long lines and shows us a little
 			// how slots work.  We have 0 parameters and bool as a return value
 			// after calling sigc::bind.
-			sigc::slot<bool()> my_slot = sigc::bind(sigc::mem_fun(*this,
+		sigc::slot<bool()> my_slot = sigc::bind(sigc::mem_fun(*this,
 		                                        	&Gui::on_timeout));
 		
 			// This is where we connect the slot to the Glib::signal_timeout()
-			auto conn = Glib::signal_timeout().connect(my_slot,timeout_value);
-			
-			timer_added = true;
+		auto conn = Glib::signal_timeout().connect(my_slot,timeout_value);
 		
-			cout << "Timer added" << endl;
-		}
-		else
-		{
-	   		cout << "The timer already exists: nothing more is created" << endl;
-		}
+		cout << "Timer added" << endl;
 	}
 	else
 	{
-		if(not timer_added)
-		{
-			cout << "Sorry, there is no active timer at the moment." << endl;
-		}
-		else
-		{
-			cout << "manually disconnecting the timer " << endl;
-			disconnect  = true;   
-			timer_added = false;
-		}
+		disconnect  = true;  
 	}
 }
 

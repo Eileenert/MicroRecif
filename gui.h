@@ -29,7 +29,7 @@ public:
     MyArea(Simulation& sim);
     virtual ~MyArea();
 
-    void setFrame(Frame x); 
+    //void setFrame(Frame x); sert à rien enfaite... faut demander à l'assistant au cas où
     void adjustFrame(int width, int height);
 
 protected:
@@ -68,16 +68,10 @@ protected:
     bool on_window_key_pressed(guint keyval, guint keycode, 
         Gdk::ModifierType state);
 
-//début timer
+
     // This is the standard prototype of the Timer callback function
 	bool on_timeout();
 
-    // to handle a single timer
-	bool timer_added; 
-	// to store a single timer disconnect request
-	bool disconnect; 
-	
-	const int timeout_value;
 
     MyArea* m_Area;
     
@@ -115,6 +109,11 @@ protected:
     Gtk::Label nbr_Corail_Data_Label;
     Gtk::Label nbr_Scavenger_Label;
     Gtk::Label nbr_Scavenger_Data_Label;
+
+    // to store a single timer disconnect request
+	bool disconnect; 
+    const int timeout_value;
+    
 };
 
 #endif 
