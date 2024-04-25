@@ -4,7 +4,6 @@
 #include "graphic.h"
 #include "graphic_gui.h"
 #include <iostream>
-//#include <string> y'a déjà un string dans gui.h
 
 using namespace std;
 
@@ -21,9 +20,7 @@ MyArea::MyArea(Simulation& sim)
 {
 	set_content_width(taille_dessin);
 	set_content_height(taille_dessin);
-	
 	set_draw_func(sigc::mem_fun(*this, &MyArea::on_draw));
-	
 }
 
 MyArea::~MyArea()
@@ -81,21 +78,18 @@ void MyArea::adjustFrame(int width, int height)
 void MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height)
 {
 	graphic_set_context(cr); 
-
 	adjustFrame(width, height);
 	draw_frame(cr, frame);  // drawing the drawingArea space
-	
 	orthographic_projection(cr, frame); // set the transformation MODELE to GTKmm
 
 	cadre();
 	s.dessin();
-
 }
 
 
 Gui::Gui(char * nom_fichier):
 	name(true),
-	val(0),
+	val_maj(0),
 	open_or_save("open"),
     m_Main_Box(Gtk::Orientation::HORIZONTAL, 5),
 	m_General_Box(Gtk::Orientation::VERTICAL, 20),
@@ -123,11 +117,10 @@ Gui::Gui(char * nom_fichier):
     nbr_Algue_Data_Label(to_string(s.get_nbr_algue())),
     nbr_Corail_Label("corails:"),
     nbr_Corail_Data_Label(to_string(s.get_nbr_corail())),
-    nbr_Scavenger_Label("charognards"),
+    nbr_Scavenger_Label("charognards:"),
     nbr_Scavenger_Data_Label(to_string(s.get_nbr_scavenger())),
     disconnect(false),
-	//nbr_maj(1),
-    timeout_value(500)
+    timeout_value(1000)
 
 {
 	bool simulation_ok = true;
@@ -254,7 +247,7 @@ static void orthographic_projection(const Cairo::RefPtr<Cairo::Context>& cr,
 
 void Gui::on_button_clicked_exit()
 {
-	hide();//mieux que exit(0); à mon avis on doit dire dans le rapport pourquoi ce choix peut-etre
+	hide();//mieux que exit(0); 
 }
 
 void Gui::on_button_clicked_open()
@@ -360,8 +353,7 @@ void Gui::on_file_dialog_response(int response_id, Gtk::FileChooserDialog* dialo
 				s.reintialise_simulation();
 				s.lecture(const_cast<char*>(filename.c_str()));
 
-				val = 1;	//il faudrait afficher 0 mais ensuite la première mise à jour sera 0 et non 1
-				maj_Data_Label.set_text(std::to_string(nbr_maj));
+				maj_Data_Label.set_text(std::to_string(val_maj));
 				update_number();
 				m_Area->queue_draw();
 				
@@ -420,19 +412,16 @@ void Gui::algue_toggled()
 
 bool Gui::on_timeout()
 {
-	if(disconnect)
-	{
-		disconnect = false; // reset for next time a Timer is created
-		
+	if(disconnect){
+		disconnect = false; // reset for next time a Timer is created	
 		return false; // End of Timer 
 	}
 
-	++val;
-	maj_Data_Label.set_text(std::to_string(val));  // display he simulation clock
-	cout << "This is simulation update number : " << val << endl;
+	++val_maj;
+	maj_Data_Label.set_text(std::to_string(val_maj));  // display he simulation clock
+	cout << "This is simulation update number : " << val_maj << endl;
 	s.execution(true); 	//METTRE bool naissance_algue)
 	algue_toggled();
-
 	update_number();
 	// Trigger a redraw of MyArea
     m_Area->queue_draw();
@@ -440,8 +429,7 @@ bool Gui::on_timeout()
 }
 
 void Gui::timer_start_stop(){
-	if(!name)
-	{ 
+	if(!name){ 
 			// Creation of a new object prevents long lines and shows us a little
 			// how slots work.  We have 0 parameters and bool as a return value
 			// after calling sigc::bind.
@@ -451,16 +439,17 @@ void Gui::timer_start_stop(){
 			// This is where we connect the slot to the Glib::signal_timeout()
 		auto conn = Glib::signal_timeout().connect(my_slot,timeout_value);
 	}
-	else
-	{
+	else{
 		disconnect  = true;  
 	}
 }
 
 bool Gui::timer_step(){
-	val = val + 1;
-	maj_Data_Label.set_text(std::to_string(val)); 
-	cout << "This is simulation update number : " << val << endl;
-	return true; 
+	if(name){
+		++val_maj;
+		maj_Data_Label.set_text(std::to_string(val_maj)); 
+		cout << "This is simulation update number : " << val_maj << endl;
+		return true; 
+	} else { return false; }
 }
 

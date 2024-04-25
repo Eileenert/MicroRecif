@@ -53,7 +53,7 @@ public:
     
 protected:
     bool name;
-    unsigned int val;
+    unsigned int val_maj;
     std::string open_or_save;
     Simulation s ;
 
@@ -118,7 +118,6 @@ protected:
 
     // to store a single timer disconnect request
 	bool disconnect; 
-    unsigned int nbr_maj;
     const int timeout_value;
     
 };
