@@ -37,7 +37,7 @@ MyArea::~MyArea()
 	}
 	else
 		std::cout << "incorrect Model framing or window parameters" << std::endl;
-}*/
+}*/ //DEMANDER À L'ASSISTANT CAR JE VOIS QU'IL Y'A LE RATIO (asp) DEDANS !!!
 
 void MyArea::adjustFrame(int width, int height)
 {
