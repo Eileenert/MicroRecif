@@ -5,6 +5,7 @@
 #include <gtkmm/window.h>
 #include <gtkmm/box.h>
 #include <gtkmm/button.h>
+#include <gtkmm/checkbutton.h>
 #include <gtkmm/drawingarea.h>
 #include "simulation.h"
 #include <string>
@@ -62,6 +63,7 @@ protected:
     void on_button_clicked_save();
     void on_button_clicked_start();//pour timer
     void on_button_clicked_step();
+    void algue_toggled();
 
     //fin timer
 
