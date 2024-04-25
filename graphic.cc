@@ -37,17 +37,15 @@ void cadre(){
 }
 
 //faire un truc avec cr, jsp comment tu veux l'importer
-void cercle(double x, double y, string type){ 
+void cercle(double x, double y, string type, unsigned int rayon){ 
     (*ptcr)->set_line_width(1.);
     if(type == "algue"){  
 	    (*ptcr)->set_source_rgb(0.2, 0.8, 0.2);// jsp si c'est le bon rgb
-        (*ptcr)->arc(x, y, r_alg, 0, 2*M_PI);
-        (*ptcr)->stroke();
     }else if(type == "scavenger"){
         (*ptcr)->set_source_rgb(1, 0, 0); //jsp si c'est le bon rgb
-        (*ptcr)->arc(x, y, r_sca, 0, 2*M_PI);
-        (*ptcr)->stroke();
     }
+    (*ptcr)->arc(x, y, rayon, 0, 2*M_PI);
+    (*ptcr)->stroke();
 }
 
 void trait(double x1, double y1, double x2, double y2, bool is_alive){

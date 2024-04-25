@@ -107,9 +107,10 @@ bool do_intersect(bool simulation, S2d p1, S2d q1, S2d p2, S2d q2){
 }
 
 void dessin_algues(S2d coord){
+    constexpr unsigned int r_alg(1) ; //j'avais la flemme d'appeler constantes.h juste pour ça et changer le makefile
     double x(coord.x);
     double y(coord.y);
-    cercle(x, y, "algue");
+    cercle(x, y, "algue", r_alg);
 }
 
 void dessin_trait(S2d base, S2d extr, bool is_alive){
@@ -128,8 +129,8 @@ void dessin_base_cor(S2d base, bool is_alive){
     carre_base_cor(x, y, is_alive);
 }
 
-void dessin_sca(S2d coord){
+void dessin_sca(S2d coord, unsigned int rayon){
     double x(coord.x);
     double y(coord.y);
-    cercle(x, y, "scavenger");
+    cercle(x, y, "scavenger", rayon);
 }

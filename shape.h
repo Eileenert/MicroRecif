@@ -8,7 +8,7 @@ bool do_intersect(bool simulation, S2d p1, S2d q1, S2d p2, S2d q2);
 void dessin_algues(S2d coord);
 void dessin_trait(S2d base, S2d extr, bool is_alive);
 void dessin_base_cor(S2d base, bool is_alive);
-void dessin_sca(S2d coord);
+void dessin_sca(S2d coord, unsigned int rayon);
 
 class Segments{
     public:

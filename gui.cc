@@ -126,6 +126,7 @@ Gui::Gui(char * nom_fichier):
     nbr_Scavenger_Label("charognards"),
     nbr_Scavenger_Data_Label(to_string(s.get_nbr_scavenger())),
     disconnect(false),
+	//nbr_maj(1),
     timeout_value(500)
 
 {
@@ -137,6 +138,8 @@ Gui::Gui(char * nom_fichier):
 	}
 	m_Area = new MyArea(s);
 	m_Area->set_expand();
+
+	update_number();
 
     //titre, taille et permission de modifier la taille de la fenêtre
     set_title("MicroRecif");
@@ -197,6 +200,12 @@ Gui::Gui(char * nom_fichier):
                   sigc::mem_fun(*this, &Gui::on_window_key_pressed), false);
     add_controller(controller);
 	
+}
+
+void Gui::update_number(){
+	nbr_Algue_Data_Label.set_label(to_string(s.get_nbr_algue()));
+    nbr_Corail_Data_Label.set_label(to_string(s.get_nbr_corail()));
+    nbr_Scavenger_Data_Label.set_label(to_string(s.get_nbr_scavenger()));
 }
 
 bool Gui::on_window_key_pressed(guint keyval, guint, Gdk::ModifierType state)
@@ -340,16 +349,19 @@ void Gui::on_file_dialog_response(int response_id, Gtk::FileChooserDialog* dialo
 	{
 		case Gtk::ResponseType::OK:
 		{
-		    cout << "Open or Save clicked." << endl;
 		
 		    //Notice that this is a std::string, not a Glib::ustring.
 		    auto filename = dialog->get_file()->get_path();
-		    cout << "File selected: " <<  filename << endl;
 
 			if (open_or_save == "open") {
 				s.reintialise_simulation();
 				s.lecture(const_cast<char*>(filename.c_str()));
-				//const_cast<char*>filename.c_str()
+
+				val = 1;	//il faudrait afficher 0 mais ensuite la première mise à jour sera 0 et non 1
+				maj_Data_Label.set_text(std::to_string(nbr_maj));
+				update_number();
+				m_Area->queue_draw();
+				
 			}
 			else if (open_or_save == "save"){
 				s.sauvegarde(const_cast<char*>(filename.c_str()));
@@ -358,13 +370,11 @@ void Gui::on_file_dialog_response(int response_id, Gtk::FileChooserDialog* dialo
 		}
 		case Gtk::ResponseType::CANCEL:
 		{
-		    cout << "Cancel clicked." << endl;
 		    break;
 		}
 		default:
 		{
-		    cout << "Unexpected button clicked." << endl;
-		    break;
+		    break; //"Unexpected button clicked."
 		}
 	}
 	delete dialog;
@@ -395,8 +405,6 @@ bool Gui::step_fonctionne(){
 
 bool Gui::on_timeout()
 {
-	//static unsigned int val(1);
-	
 	if(disconnect)
 	{
 		disconnect = false; // reset for next time a Timer is created
@@ -407,6 +415,10 @@ bool Gui::on_timeout()
 	++val;
 	maj_Data_Label.set_text(std::to_string(val));  // display he simulation clock
 	cout << "This is simulation update number : " << val << endl;
+	s.execution(true); 	//METTRE bool naissance_algue)
+	update_number();
+	// Trigger a redraw of MyArea
+    m_Area->queue_draw();
 	return true; 
 }
 
