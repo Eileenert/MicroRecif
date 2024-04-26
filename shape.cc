@@ -9,7 +9,6 @@ using namespace std;
 bool on_segment(bool simulation, S2d p, S2d q, S2d r);
 double orientation(S2d p, S2d q, S2d r);
 
-
 Segments::Segments(double x, double y, double a, unsigned int s)
 :angle(a), longueur(s)
 {

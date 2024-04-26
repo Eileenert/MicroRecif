@@ -442,6 +442,10 @@ bool Gui::timer_step()
 		++val_maj;
 		maj_Data_Label.set_text(std::to_string(val_maj)); 
 		cout << "This is simulation update number : " << val_maj << endl;
+		algue_toggled();
+		update_number();
+		// Trigger a redraw of MyArea
+		m_Area->queue_draw();
 		return true; 
 	} else { return false; }
 }

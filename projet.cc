@@ -4,7 +4,6 @@
 #include "gui.h"
 using namespace std;
 
-//int main(int argc, char * argv[]){  //ce que tu as fait
 int main(int argc, char * argv[])
 {
     //FAIRE QUE SI PAS DE DEUXIEME ARGUEMENT NE PAS ARREZER ET METTRE ""
