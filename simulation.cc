@@ -84,12 +84,13 @@ void Simulation::sauvegarde(string nom_fichier)
 
 void Simulation::execution(bool naissance_algue)
 {
-    for(size_t i(0); i< algue_vect.size(); i++){
+    for(size_t i(0); i < algue_vect.size(); i++){
         algue_vect[i].older();
 
         if (algue_vect[i].get_age() >= max_life_alg){
             swap(algue_vect[i], algue_vect.back());
             algue_vect.pop_back();
+            nbr_algue -=1;
         }
     }
 

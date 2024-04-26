@@ -118,7 +118,7 @@ Gui::Gui(char * nom_fichier):
 	nbr_Corail_Label("corails:"),
 	nbr_Scavenger_Label("charognards:"),
 	disconnect(false),
-	timeout_value(1000)
+	timeout_value(25)
 {
 	create_instance(nom_fichier);
 	initializeWidgets();
@@ -348,6 +348,7 @@ void Gui::on_file_dialog_response(int response_id, Gtk::FileChooserDialog* dialo
 				s.reintialise_simulation();
 				s.lecture(const_cast<char*>(filename.c_str()));
 
+				val_maj = 0;
 				maj_Data_Label.set_text(std::to_string(val_maj));
 				update_number();
 				m_Area->queue_draw();
