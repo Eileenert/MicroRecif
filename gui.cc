@@ -14,7 +14,7 @@ using namespace std;
 //juste de [0, 256]
 static Frame default_frame = {0., 256., 0., 256., 1., 256, 256}; 
 
-constexpr unsigned int taille_dessin(500); // pixels
+constexpr unsigned int taille_dessin(500);
 
 static void draw_frame(const Cairo::RefPtr<Cairo::Context>& cr, Frame frame);
 static void orthographic_projection(const Cairo::RefPtr<Cairo::Context>& cr, 
@@ -29,8 +29,7 @@ MyArea::MyArea(Simulation& sim)
 }
 
 MyArea::~MyArea()
-{
-} //DEMANDER À L'ASSISTANT
+{} 
 
 
 void MyArea::adjustFrame(int width, int height)
@@ -67,6 +66,7 @@ void MyArea::adjustFrame(int width, int height)
 	    frame.yMin = mid - 0.5*(default_frame.asp/new_aspect_ratio)*delta ;		  	  
     }
 }
+
 
 void MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr, int width,
 	int height)
@@ -238,7 +238,7 @@ static void orthographic_projection(const Cairo::RefPtr<Cairo::Context>& cr,
 
 void Gui::on_button_clicked_exit()
 {
-	hide();//mieux que exit(0); 
+	exit(0); 
 }
 
 void Gui::on_button_clicked_open()
