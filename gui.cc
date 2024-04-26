@@ -14,7 +14,7 @@ using namespace std;
 //juste de [0, 256]
 static Frame default_frame = {0., 256., 0., 256., 1., 256, 256}; 
 
-constexpr unsigned int taille_dessin(500); // pixels
+constexpr unsigned int taille_dessin(500);
 
 static void draw_frame(const Cairo::RefPtr<Cairo::Context>& cr, Frame frame);
 static void orthographic_projection(const Cairo::RefPtr<Cairo::Context>& cr, 
@@ -28,21 +28,9 @@ MyArea::MyArea(Simulation& sim)
 	set_draw_func(sigc::mem_fun(*this, &MyArea::on_draw));
 }
 
-/*MyArea::~MyArea()
+MyArea::~MyArea()
 {
-}*/ //DEMANDER À L'ASSISTANT
-
-// defining the Model space frame to visualize in the window canvas
-/*void MyArea::setFrame(Frame f)
-{
-	if((f.xMin <= f.xMax) and (f.yMin <= f.yMax) and (f.height > 0))
-	{
-		f.asp = f.width/f.height;
-		frame = f;
-	}
-	else
-		cout << "incorrect Model framing or window parameters" << endl;
-}*/ //DEMANDER À L'ASSISTANT CAR JE VOIS QU'IL Y'A LE RATIO (asp) DEDANS !!!
+}
 
 void MyArea::adjustFrame(int width, int height)
 {
@@ -79,14 +67,14 @@ void MyArea::adjustFrame(int width, int height)
     }
 }
 
-//on dessine dans my area en fonction de la taille de myarea définit plus haut (enfaite myarea c'est notre récipient je crois)
+
 void MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr, int width,
 	int height)
 {
 	graphic_set_context(cr); 
 	adjustFrame(width, height);
 	draw_frame(cr, frame);  // drawing the drawingArea space
-	orthographic_projection(cr, frame); // set the transformation MODELE to GTKmm
+	orthographic_projection(cr, frame); //set the transformation MODELE to GTKmm
 
 	cadre();
 	s.dessin();
@@ -251,7 +239,7 @@ static void orthographic_projection(const Cairo::RefPtr<Cairo::Context>& cr,
 
 void Gui::on_button_clicked_exit()
 {
-	hide();//mieux que exit(0); 
+	exit(0); 
 }
 
 void Gui::on_button_clicked_open()
