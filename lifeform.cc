@@ -36,12 +36,10 @@ void Lifeform::older()
     age +=1;
 }
 
-/*void Corail::angle_segment(double& angle_seg, double base_x, double base_y,
-    double extr_x, double extr_y){
-    extr_x = extr_x - base_x;
-    extr_y = extr_y - base_y;
-    angle_seg = atan2(extr_y, extr_x);
-} //trouve l'angle qu'un segment fait avec l'axe x, section 3.1 */
+Algue::Algue(double x1, double y1, unsigned int age1)
+:Lifeform(x1, y1, age1)
+{}
+
 Corail::Corail(double x1, double y1, int age1, unsigned int id1,
     bool statut_cor1, bool dir_rot1, bool statut_dev1, 
         unsigned int nbr_segments1)

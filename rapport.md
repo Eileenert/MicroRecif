@@ -21,6 +21,8 @@ Orjowane : widgets(start et step), méthode on_draw, timer, absence de distortio
 
 ## La structuration des données des autres entités du Modèle
 ### Quels sont les attributs de la classe simulation ?
+Dans notre classe simulations nous avons des vecteurs attributs contenants 
+chacun des instances d'une classe entitée: Algue, Corail et Scavenger
 ### OÙ et comment sont mémorisés les différents ensembles que doit gérer la simulation ?
 
 ## Brève description des types mis en œuvre dans shape

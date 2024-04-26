@@ -36,9 +36,7 @@ protected:
 class Algue: public Lifeform
 {
 public:
-    Algue(double x1, double y1, unsigned int age1)
-    :Lifeform(x1, y1, age1)
-    {}
+    Algue(double x1, double y1, unsigned int age1);
 };
 
 
