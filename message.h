@@ -1,3 +1,7 @@
+/* message.h
+Orjowane Kaki
+Eileen Rheinboldt-Tran
+*/
 #ifndef MESSAGE_H_INCLUDED
 #define MESSAGE_H_INCLUDED
 

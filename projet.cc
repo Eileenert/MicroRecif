@@ -1,3 +1,8 @@
+/* projet.cc
+Orjowane Kaki
+Eileen Rheinboldt-Tran
+*/
+
 #include <iostream>
 #include <gtkmm/application.h>
 #include "simulation.h"

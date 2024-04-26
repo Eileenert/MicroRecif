@@ -1,3 +1,7 @@
+/* gui.h
+Orjowane Kaki
+Eileen Rheinboldt-Tran
+*/
 #ifndef GUI_H
 #define GUI_H
 

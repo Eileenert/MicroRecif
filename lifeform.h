@@ -1,3 +1,7 @@
+/* lifeform.h
+Orjowane Kaki
+Eileen Rheinboldt-Tran
+*/
 #ifndef LIFEFORM_H
 #define LIFEFORM_H
 

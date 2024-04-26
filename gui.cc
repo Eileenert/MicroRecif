@@ -1,3 +1,7 @@
+/* gui.cc
+Orjowane Kaki 50%
+Eileen Rheinboldt-Tran 50%
+*/
 #include <cairomm/context.h>
 #include <gtkmm/label.h>
 #include "gui.h"
@@ -411,7 +415,7 @@ bool Gui::on_timeout()
 
 	++val_maj;
 	maj_Data_Label.set_text(std::to_string(val_maj));  // display he simulation clock
-	cout << "This is simulation update number : " << val_maj << endl;
+	//cout << "This is simulation update number : " << val_maj << endl;
 	algue_toggled();
 	update_number();
 	// Trigger a redraw of MyArea
@@ -441,7 +445,7 @@ bool Gui::timer_step()
 	if(name){
 		++val_maj;
 		maj_Data_Label.set_text(std::to_string(val_maj)); 
-		cout << "This is simulation update number : " << val_maj << endl;
+		//cout << "This is simulation update number : " << val_maj << endl;
 		algue_toggled();
 		update_number();
 		// Trigger a redraw of MyArea

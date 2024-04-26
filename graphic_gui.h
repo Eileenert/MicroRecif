@@ -1,3 +1,7 @@
+/* graphic_gui.h
+Orjowane Kaki
+Eileen Rheinboldt-Tran
+*/
 #ifndef GTKMM_EXAMPLE_GRAPHIC_GUI_H
 #define GTKMM_EXAMPLE_GRAPHIC_GUI_H
 

@@ -1,3 +1,7 @@
+/* simulation.h
+Orjowane Kaki
+Eileen Rheinboldt-Tran
+*/
 #ifndef SIMULATION_H
 #define SIMULATION_H
 #include "lifeform.h"

@@ -1,3 +1,7 @@
+/* graphic.h
+Orjowane Kaki
+Eileen Rheinboldt-Tran
+*/
 #ifndef GRAPHIC_H
 #define GRAPHIC_H
 #include <string>

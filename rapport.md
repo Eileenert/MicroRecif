@@ -15,6 +15,7 @@ Orjowane : widgets(start et step), méthode on_draw, timer, absence de distortio
 ## Où sont les ensembles de données ? 
 
 ## Hierarchie de classe des entitées de Lifeform
+    Algue, Corail et Scavenger ont comme super classe Lifeform.
 ### Quels attributs/méthodes sont gérés par la superclasse et par les classes dérivées
 ###  Optionnel : polymorphisme , quelles méthodes sont virtuelles ?
 

@@ -1,3 +1,7 @@
+/* lifeform.cc
+Orjowane Kaki 50%
+Eileen Rheinboldt-Tran 50%
+*/
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>

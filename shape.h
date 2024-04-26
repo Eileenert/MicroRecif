@@ -1,3 +1,8 @@
+/* shape.h
+Orjowane Kaki
+Eileen Rheinboldt-Tran
+*/
+
 #ifndef SHAPE_H
 #define SHAPE_H
 
