@@ -121,7 +121,8 @@ Gui::Gui(char * nom_fichier):
 	connectSignals();
 }
 
-void Gui::create_instance(char * nom_fichier){
+void Gui::create_instance(char * nom_fichier)
+{
 	bool simulation_ok = s.lecture(nom_fichier);
 	if (!simulation_ok) {
 		s.reintialise_simulation();
@@ -133,8 +134,8 @@ void Gui::create_instance(char * nom_fichier){
 	update_number();
 }
 
-void Gui::initializeWidgets() {
-
+void Gui::initializeWidgets() 
+{
 	set_title("MicroRecif");
 	set_default_size(700, 700);
 	set_resizable(true);
@@ -173,7 +174,8 @@ void Gui::initializeWidgets() {
 	m_Scavenger_Box.append(nbr_Scavenger_Data_Label);
 }
 
-void Gui::connectSignals() {
+void Gui::connectSignals() 
+{
 	m_Button_Exit.signal_clicked().connect(sigc::mem_fun(*this, &Gui::on_button_clicked_exit));
 	m_Button_Open.signal_clicked().connect(sigc::mem_fun(*this, &Gui::on_button_clicked_open));
 	m_Button_Save.signal_clicked().connect(sigc::mem_fun(*this, &Gui::on_button_clicked_save));
@@ -186,7 +188,8 @@ void Gui::connectSignals() {
 	add_controller(controller);
 }
 
-void Gui::update_number(){
+void Gui::update_number()
+{
 	nbr_Algue_Data_Label.set_label(to_string(s.get_nbr_algue()));
     nbr_Corail_Data_Label.set_label(to_string(s.get_nbr_corail()));
     nbr_Scavenger_Data_Label.set_label(to_string(s.get_nbr_scavenger()));
@@ -218,7 +221,7 @@ static void draw_frame(const Cairo::RefPtr<Cairo::Context>& cr, Frame frame)
 }
 
 static void orthographic_projection(const Cairo::RefPtr<Cairo::Context>& cr, 
-								    Frame frame)
+	Frame frame)
 {
 	// déplace l'origine au centre de la fenêtre
 	cr->translate(frame.width/2, frame.height/2);
@@ -363,7 +366,8 @@ void Gui::on_file_dialog_response(int response_id, Gtk::FileChooserDialog* dialo
 	delete dialog;
 }
 
-void Gui::change_button_name(){
+void Gui::change_button_name()
+{
 	if(name) {
         	m_Button_Start.set_label("Stop");
 			m_Button_Step.set_sensitive(false);
@@ -375,7 +379,8 @@ void Gui::change_button_name(){
 		name = !name;
 }
 
-bool Gui::step_fonctionne(){
+bool Gui::step_fonctionne()
+{
 	if(name) {
         m_Button_Step.set_label("Step");
     return true;
@@ -397,7 +402,6 @@ void Gui::algue_toggled()
 //=============POUR TIMER
 
 
-
 bool Gui::on_timeout()
 {
 	if(disconnect){
@@ -415,7 +419,8 @@ bool Gui::on_timeout()
 	return true; 
 }
 
-void Gui::timer_start_stop(){
+void Gui::timer_start_stop()
+{
 	if(!name){ 
 			// Creation of a new object prevents long lines and shows us a little
 			// how slots work.  We have 0 parameters and bool as a return value
@@ -431,7 +436,8 @@ void Gui::timer_start_stop(){
 	}
 }
 
-bool Gui::timer_step(){
+bool Gui::timer_step()
+{
 	if(name){
 		++val_maj;
 		maj_Data_Label.set_text(std::to_string(val_maj)); 

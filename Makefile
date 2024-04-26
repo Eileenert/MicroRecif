@@ -4,7 +4,8 @@ CXX = g++
 CXXFLAGS = -Wall -std=c++17 
 LINKING = `pkg-config --cflags gtkmm-4.0`
 LDLIBS = `pkg-config --libs gtkmm-4.0`
-CXXFILES = projet.cc lifeform.cc message.cc shape.cc simulation.cc gui.cc graphic.cc
+CXXFILES = projet.cc lifeform.cc message.cc shape.cc simulation.cc gui.cc \
+	graphic.cc
 OFILES = projet.o lifeform.o message.o shape.o simulation.o gui.o graphic.o
 
 # Definition de la premiere regle

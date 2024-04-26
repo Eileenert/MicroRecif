@@ -10,20 +10,21 @@ void dessin_trait(S2d base, S2d extr, bool is_alive);
 void dessin_base_cor(S2d base, bool is_alive);
 void dessin_sca(S2d coord, unsigned int rayon);
 
-class Segments{
-    public:
-        Segments(double x, double y, double a, unsigned int s);
-        double get_angle() const;
-        double get_longueur() const;
-        S2d get_extr() const;
-        S2d get_base() const;
+class Segments
+{
+public:
+    Segments(double x, double y, double a, unsigned int s);
+    double get_angle() const;
+    double get_longueur() const;
+    S2d get_extr() const;
+    S2d get_base() const;
 
-        bool superposition(Segments s);
-        double ecart_angulaire(Segments s);
-    private:
-        S2d base;
-        double angle;
-        unsigned int longueur;
+    bool superposition(Segments s);
+    double ecart_angulaire(Segments s);
+private:
+    S2d base;
+    double angle;
+    unsigned int longueur;
 };
 
 #endif

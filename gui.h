@@ -80,8 +80,6 @@ protected:
 
     // This is the standard prototype of the Timer callback function
 	bool on_timeout();
-    
-
 
     MyArea* m_Area;
     
@@ -122,8 +120,7 @@ protected:
 
     // to store a single timer disconnect request
 	bool disconnect; 
-    const int timeout_value;
-    
+    const int timeout_value; 
 };
 
 #endif 

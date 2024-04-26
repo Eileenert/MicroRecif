@@ -17,8 +17,8 @@ Simulation::Simulation(int nbr_al, int nbr_co, int nbr_sca)
 {
 }
 
-void Simulation::dessin(){
-    
+void Simulation::dessin()
+{    
     for(size_t i(0); i < nbr_algue; i++){
         dessin_algues(algue_vect[i].get_coord());
     }
@@ -38,9 +38,9 @@ void Simulation::dessin(){
 }
 
 
-void Simulation::sauvegarde(string nom_fichier){
+void Simulation::sauvegarde(string nom_fichier)
+{
     ofstream file(nom_fichier);
-
     if (file.is_open()){
         file << nbr_algue << endl;
         Algue *a(nullptr);
@@ -51,7 +51,6 @@ void Simulation::sauvegarde(string nom_fichier){
             file << (*a).get_coord().x << " " << (*a).get_coord().y ;
             file << " " << (*a).get_age() << endl;
         }
-
         file << nbr_corail << endl;
         for(size_t i(0); i < nbr_corail ; i++){
             c = &corail_vect[i];
@@ -65,7 +64,6 @@ void Simulation::sauvegarde(string nom_fichier){
                 file << (*c).get_seg_vector()[j].get_longueur() << endl;
             }
         }
-
         file << nbr_scavenger << endl;
         for(size_t i(0); i < nbr_scavenger ; i++){
             s = &scavenger_vect[i];
@@ -80,7 +78,8 @@ void Simulation::sauvegarde(string nom_fichier){
     }
 }
 
-void Simulation::execution(bool naissance_algue){
+void Simulation::execution(bool naissance_algue)
+{
     for(size_t i(0); i< algue_vect.size(); i++){
         algue_vect[i].older();
 
@@ -100,12 +99,11 @@ void Simulation::execution(bool naissance_algue){
             nbr_algue += 1;
             algue_vect.push_back(Algue(u(e), u(e), 0));
         }
-        
     }
-
 }
 
-void Simulation::reintialise_simulation(){
+void Simulation::reintialise_simulation()
+{
     nbr_algue = 0;
     nbr_corail = 0;
     nbr_scavenger = 0;
@@ -116,8 +114,8 @@ void Simulation::reintialise_simulation(){
     scavenger_vect.clear();
 }
 
-bool Simulation::lecture(char * nom_fichier){
-
+bool Simulation::lecture(char * nom_fichier)
+{
     string line;
     ifstream fichier(nom_fichier); 
 
@@ -136,7 +134,8 @@ bool Simulation::lecture(char * nom_fichier){
     return true;
 }
 
-bool Simulation::decodage_ligne(string line){
+bool Simulation::decodage_ligne(string line)
+{
     bool decodage_ok = true;
     switch(type){
         case ALGUE:
@@ -159,7 +158,8 @@ bool Simulation::decodage_ligne(string line){
     return true;
 }
 
-bool Simulation::decodage_algue(string line){
+bool Simulation::decodage_algue(string line)
+{
     istringstream data(line);
     double x, y;
     int age;
@@ -180,7 +180,6 @@ bool Simulation::decodage_algue(string line){
     if(algue_vect.size() == nbr_algue){
         type = CORAIL;
         }
-
     return true;
 }
 
@@ -230,8 +229,6 @@ bool Simulation::decodage_corail(string line){
         
 
     }
-    
-    //  PROBLEME SI corail_vect.size()==0
     if((corail_vect.size()!=0) && (corail_vect.size() == nbr_corail) 
         && (corail_vect.back().get_seg_vector().size() 
             == corail_vect.back().get_nbr_segments())){
@@ -240,7 +237,8 @@ bool Simulation::decodage_corail(string line){
     return true;
 }
 
-bool Simulation::decodage_scavenger(string line){
+bool Simulation::decodage_scavenger(string line)
+{
     istringstream data(line);
     double x, y;
     unsigned int id_corail_cible;
@@ -271,7 +269,8 @@ bool Simulation::decodage_scavenger(string line){
     return true;
 }
 
-bool Simulation::appartenance_recipient(double x, double y){
+bool Simulation::appartenance_recipient(double x, double y)
+{
     if((x < 1) || (y < 1) || (x > maximum-1) || (y > maximum-1)){ 
         cout << message::lifeform_center_outside(x, y);
         return false;
@@ -281,8 +280,8 @@ bool Simulation::appartenance_recipient(double x, double y){
 
 
 bool Simulation::extr_appartenance_recipient(double x, double y, 
-    unsigned int s, double a, unsigned int id){
-
+    unsigned int s, double a, unsigned int id)
+{
     x = x + s*cos(a);
     y = y + s*sin(a);
 
@@ -294,7 +293,8 @@ bool Simulation::extr_appartenance_recipient(double x, double y,
     return true;
 }
 
-bool Simulation::unique_id(unsigned int id){
+bool Simulation::unique_id(unsigned int id)
+{
     for(size_t i(0); i < corail_vect.size(); i++){
         if(id == corail_vect[i].get_id()){
             cout << message::lifeform_duplicated_id(id);
@@ -304,7 +304,8 @@ bool Simulation::unique_id(unsigned int id){
     return true;
 }
 
-bool Simulation::existant_id(unsigned int id_corail_cible){
+bool Simulation::existant_id(unsigned int id_corail_cible)
+{
     bool existant_id(false);
     
     for(size_t i(0); i < corail_vect.size(); i++){
@@ -320,7 +321,8 @@ bool Simulation::existant_id(unsigned int id_corail_cible){
 }
 
 
-bool Simulation::seg_superposition(){
+bool Simulation::seg_superposition()
+{
     bool col(false);
     vector<Segments> seg_vector = corail_vect.back().get_seg_vector();
     unsigned int s1(seg_vector.size()-1);
@@ -335,12 +337,12 @@ bool Simulation::seg_superposition(){
             s2, s1);
         return false;
     }
-
     return true;
 }
 
 
-bool Simulation::collision(){
+bool Simulation::collision()
+{
     bool col(false);
 
     //segment qu'on compare
@@ -372,19 +374,21 @@ bool Simulation::collision(){
                 
                 return false;
             }
-
         }
     }
     return true;
 }
 
-unsigned int Simulation::get_nbr_algue() const{
+unsigned int Simulation::get_nbr_algue() const
+{
     return nbr_algue;
 }
-unsigned int Simulation::get_nbr_corail() const{
+unsigned int Simulation::get_nbr_corail() const
+{
     return nbr_corail;
 }
-unsigned int Simulation::get_nbr_scavenger() const{
+unsigned int Simulation::get_nbr_scavenger() const
+{
     return nbr_scavenger;
 }
 
