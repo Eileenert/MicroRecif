@@ -16,7 +16,7 @@ Eileen Rheinboldt-Tran 50%
 using namespace std;
 
 Simulation::Simulation(int nbr_al, int nbr_co, int nbr_sca)
-        : nbr_algue(nbr_al), nbr_corail(nbr_co), nbr_scavenger(nbr_sca), 
+: nbr_algue(nbr_al), nbr_corail(nbr_co), nbr_scavenger(nbr_sca), 
             u(1, maximum-1)
 {
 }
@@ -24,12 +24,12 @@ Simulation::Simulation(int nbr_al, int nbr_co, int nbr_sca)
 void Simulation::dessin()
 {    
     for(size_t i(0); i < nbr_algue; i++){
-        dessin_algues(algue_vect[i].get_coord());
+        dessin_cercle(algue_vect[i].get_coord(), "algue", r_alg);
     }
     
     for(size_t i(0); i < nbr_corail; i++){
         bool is_alive(corail_vect[i].get_is_alive());
-        dessin_base_cor(corail_vect[i].get_coord(), is_alive);
+        dessin_carre(corail_vect[i].get_coord(), is_alive);
 
         for(Segments seg : corail_vect[i].get_seg_vector()){
             dessin_trait(seg.get_base(), seg.get_extr(), is_alive);
@@ -37,7 +37,8 @@ void Simulation::dessin()
     }
 
     for(size_t i(0); i< nbr_scavenger; i++){
-        dessin_sca(scavenger_vect[i].get_coord(),scavenger_vect[i].get_rayon());
+        dessin_cercle(scavenger_vect[i].get_coord(), "scavenger",
+            scavenger_vect[i].get_rayon());
     }
 }
 
@@ -113,7 +114,6 @@ void Simulation::reintialise_simulation()
     nbr_corail = 0;
     nbr_scavenger = 0;
 
-    //je crois que ce n'est pas nécessaire mais au cas où
     algue_vect.clear();
     corail_vect.clear(); 
     scavenger_vect.clear();
@@ -198,7 +198,6 @@ bool Simulation::decodage_corail(string line){
     if(nbr_corail == 0){
         data >> nbr_corail;
 
-        //verifie si le nbr est 0, car sinon dans le autre if il y a une erreur comme il n'y a pas de segments
         if (nbr_corail == 0){
             type = SCAVENGER;
             return true;

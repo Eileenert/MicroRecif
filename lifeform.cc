@@ -14,7 +14,7 @@ Eileen Rheinboldt-Tran 50%
 using namespace std;
 
 Lifeform::Lifeform(double x1, double y1, unsigned int age1)
-        :x(x1), y(y1), age(age1)
+:x(x1), y(y1), age(age1)
 {}
 
 S2d Lifeform::get_coord() const

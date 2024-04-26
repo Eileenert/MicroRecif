@@ -118,14 +118,6 @@ bool do_intersect(bool simulation, S2d p1, S2d q1, S2d p2, S2d q2)
     return false; 
 }
 
-void dessin_algues(S2d coord)
-{
-    constexpr unsigned int r_alg(1) ;
-    double x(coord.x);
-    double y(coord.y);
-    cercle(x, y, "algue", r_alg);
-}
-
 void dessin_trait(S2d base, S2d extr, bool is_alive)
 {
     double x1(base.x);
@@ -136,17 +128,17 @@ void dessin_trait(S2d base, S2d extr, bool is_alive)
     trait(x1, y1, x2, y2, is_alive);
 }
 
-void dessin_base_cor(S2d base, bool is_alive)
+void dessin_carre(S2d base, bool is_alive)
 {
     double x(base.x);
     double y(base.y);
     
-    carre_base_cor(x, y, is_alive);
+    carre_base(x, y, is_alive);
 }
 
-void dessin_sca(S2d coord, unsigned int rayon)
-{
+void dessin_cercle(S2d coord, string type, unsigned int rayon){
     double x(coord.x);
     double y(coord.y);
-    cercle(x, y, "scavenger", rayon);
+
+    cercle(x, y, type, rayon);
 }

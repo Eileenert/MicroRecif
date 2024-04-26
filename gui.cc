@@ -28,21 +28,10 @@ MyArea::MyArea(Simulation& sim)
 	set_draw_func(sigc::mem_fun(*this, &MyArea::on_draw));
 }
 
-/*MyArea::~MyArea()
+MyArea::~MyArea()
 {
-}*/ //DEMANDER À L'ASSISTANT
+} //DEMANDER À L'ASSISTANT
 
-// defining the Model space frame to visualize in the window canvas
-/*void MyArea::setFrame(Frame f)
-{
-	if((f.xMin <= f.xMax) and (f.yMin <= f.yMax) and (f.height > 0))
-	{
-		f.asp = f.width/f.height;
-		frame = f;
-	}
-	else
-		cout << "incorrect Model framing or window parameters" << endl;
-}*/ //DEMANDER À L'ASSISTANT CAR JE VOIS QU'IL Y'A LE RATIO (asp) DEDANS !!!
 
 void MyArea::adjustFrame(int width, int height)
 {
@@ -79,15 +68,13 @@ void MyArea::adjustFrame(int width, int height)
     }
 }
 
-//on dessine dans my area en fonction de la taille de myarea définit plus haut (enfaite myarea c'est notre récipient je crois)
 void MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr, int width,
 	int height)
 {
 	graphic_set_context(cr); 
 	adjustFrame(width, height);
 	draw_frame(cr, frame);  // drawing the drawingArea space
-	orthographic_projection(cr, frame); // set the transformation MODELE to GTKmm
-
+	orthographic_projection(cr, frame);
 	cadre();
 	s.dessin();
 }

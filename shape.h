@@ -6,14 +6,15 @@ Eileen Rheinboldt-Tran
 #ifndef SHAPE_H
 #define SHAPE_H
 
+#include <string>
+
 constexpr double epsil_zero(0.5) ;
 
 struct S2d {double x=0.; double y=0.;};
 bool do_intersect(bool simulation, S2d p1, S2d q1, S2d p2, S2d q2);
-void dessin_algues(S2d coord);
+void dessin_cercle(S2d coord, std::string type, unsigned int rayon);
 void dessin_trait(S2d base, S2d extr, bool is_alive);
-void dessin_base_cor(S2d base, bool is_alive);
-void dessin_sca(S2d coord, unsigned int rayon);
+void dessin_carre(S2d base, bool is_alive);
 
 class Segments
 {

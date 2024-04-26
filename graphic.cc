@@ -69,7 +69,7 @@ void trait(double x1, double y1, double x2, double y2, bool is_alive)
 
 } 
 
-void carre_base_cor(double x, double y, bool is_alive)
+void carre_base(double x, double y, bool is_alive)
 {
     (*ptcr)->set_line_width(1.);
     if(is_alive){
