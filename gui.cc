@@ -11,13 +11,14 @@ Eileen Rheinboldt-Tran 50%
 
 using namespace std;
 
-static Frame default_frame = {0., 256., 0., 256., 1., 256, 256}; //juste normalement de [0, 256]
+//juste de [0, 256]
+static Frame default_frame = {0., 256., 0., 256., 1., 256, 256}; 
 
 constexpr unsigned int taille_dessin(500); // pixels
 
 static void draw_frame(const Cairo::RefPtr<Cairo::Context>& cr, Frame frame);
 static void orthographic_projection(const Cairo::RefPtr<Cairo::Context>& cr, 
-									Frame frame);
+	Frame frame);
 
 MyArea::MyArea(Simulation& sim)
 :s(sim)
@@ -40,7 +41,7 @@ MyArea::MyArea(Simulation& sim)
 		frame = f;
 	}
 	else
-		std::cout << "incorrect Model framing or window parameters" << std::endl;
+		cout << "incorrect Model framing or window parameters" << endl;
 }*/ //DEMANDER À L'ASSISTANT CAR JE VOIS QU'IL Y'A LE RATIO (asp) DEDANS !!!
 
 void MyArea::adjustFrame(int width, int height)
@@ -79,7 +80,8 @@ void MyArea::adjustFrame(int width, int height)
 }
 
 //on dessine dans my area en fonction de la taille de myarea définit plus haut (enfaite myarea c'est notre récipient je crois)
-void MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height)
+void MyArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr, int width,
+	int height)
 {
 	graphic_set_context(cr); 
 	adjustFrame(width, height);
@@ -180,15 +182,22 @@ void Gui::initializeWidgets()
 
 void Gui::connectSignals() 
 {
-	m_Button_Exit.signal_clicked().connect(sigc::mem_fun(*this, &Gui::on_button_clicked_exit));
-	m_Button_Open.signal_clicked().connect(sigc::mem_fun(*this, &Gui::on_button_clicked_open));
-	m_Button_Save.signal_clicked().connect(sigc::mem_fun(*this, &Gui::on_button_clicked_save));
-	m_Button_Start.signal_clicked().connect(sigc::mem_fun(*this, &Gui::on_button_clicked_start));
-	m_Button_Step.signal_clicked().connect(sigc::mem_fun(*this, &Gui::on_button_clicked_step));
-	m_Naissance_Algue_CheckButton.signal_toggled().connect(sigc::mem_fun(*this, &Gui::algue_toggled));
+	m_Button_Exit.signal_clicked().connect(sigc::mem_fun(*this, 
+		&Gui::on_button_clicked_exit));
+	m_Button_Open.signal_clicked().connect(sigc::mem_fun(*this, 
+		&Gui::on_button_clicked_open));
+	m_Button_Save.signal_clicked().connect(sigc::mem_fun(*this, 
+		&Gui::on_button_clicked_save));
+	m_Button_Start.signal_clicked().connect(sigc::mem_fun(*this, 
+		&Gui::on_button_clicked_start));
+	m_Button_Step.signal_clicked().connect(sigc::mem_fun(*this, 
+		&Gui::on_button_clicked_step));
+	m_Naissance_Algue_CheckButton.signal_toggled().connect(
+		sigc::mem_fun(*this, &Gui::algue_toggled));
 
 	auto controller = Gtk::EventControllerKey::create();
-	controller->signal_key_pressed().connect(sigc::mem_fun(*this, &Gui::on_window_key_pressed), false);
+	controller->signal_key_pressed().connect(sigc::mem_fun(*this, 
+		&Gui::on_window_key_pressed), false);
 	add_controller(controller);
 }
 
@@ -333,7 +342,8 @@ void Gui::on_button_clicked_step()
 	timer_step();
 }
 
-void Gui::on_file_dialog_response(int response_id, Gtk::FileChooserDialog* dialog)
+void Gui::on_file_dialog_response(int response_id, 
+	Gtk::FileChooserDialog* dialog)
 {
 	//Handle the response:
 	switch (response_id)
@@ -415,25 +425,21 @@ bool Gui::on_timeout()
 	}
 
 	++val_maj;
-	maj_Data_Label.set_text(std::to_string(val_maj));  // display he simulation clock
-	//cout << "This is simulation update number : " << val_maj << endl;
+	maj_Data_Label.set_text(std::to_string(val_maj)); 
+
 	algue_toggled();
 	update_number();
-	// Trigger a redraw of MyArea
     m_Area->queue_draw();
+
 	return true; 
 }
 
 void Gui::timer_start_stop()
 {
 	if(!name){ 
-			// Creation of a new object prevents long lines and shows us a little
-			// how slots work.  We have 0 parameters and bool as a return value
-			// after calling sigc::bind.
 		sigc::slot<bool()> my_slot = sigc::bind(sigc::mem_fun(*this,
-		                                        	&Gui::on_timeout));
+		    &Gui::on_timeout));
 		
-			// This is where we connect the slot to the Glib::signal_timeout()
 		auto conn = Glib::signal_timeout().connect(my_slot,timeout_value);
 	}
 	else{

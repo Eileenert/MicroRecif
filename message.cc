@@ -9,7 +9,7 @@ using namespace std;
 namespace
 {
     void reorder_for_consistency(unsigned &index1, unsigned &id1,
-                                 unsigned &index2, unsigned &id2)
+        unsigned &index2, unsigned &id2)
     {
         if (index1 > index2 || (index1 == index2 && id1 > id2))
         {

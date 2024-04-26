@@ -34,7 +34,7 @@ public:
     MyArea(Simulation& sim);
     //virtual ~MyArea();
 
-    //void setFrame(Frame x); sert à rien enfaite... faut demander à l'assistant au cas où
+    //void setFrame(Frame x); sert à rien enfaite.. faut demander à l'assistant
     void adjustFrame(int width, int height);
 
 protected:
@@ -72,13 +72,12 @@ protected:
     void on_button_clicked_start();
     void on_button_clicked_step();
     void algue_toggled();
-    void on_file_dialog_response(int response_id, Gtk::FileChooserDialog* dialog);
+    void on_file_dialog_response(int response_id, 
+        Gtk::FileChooserDialog* dialog);
 
-    // pour cliquer depuis le clavier
     bool on_window_key_pressed(guint keyval, guint keycode, 
         Gdk::ModifierType state);
         
-    // This is the standard prototype of the Timer callback function
 	bool on_timeout();
 
     MyArea* m_Area;

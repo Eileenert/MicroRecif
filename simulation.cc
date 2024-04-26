@@ -37,7 +37,7 @@ void Simulation::dessin()
     }
 
     for(size_t i(0); i< nbr_scavenger; i++){
-        dessin_sca(scavenger_vect[i].get_coord(), scavenger_vect[i].get_rayon());
+        dessin_sca(scavenger_vect[i].get_coord(),scavenger_vect[i].get_rayon());
     }
 }
 
@@ -365,7 +365,8 @@ bool Simulation::collision()
                 continue;
             }
             //pas comparer avec lui même et le segment d'avant
-            else if (seg2_vector.size()>=2 && i==corail_vect.size()-1 && (j == seg2_vector.size()-2)){
+            else if (seg2_vector.size()>=2 && i==corail_vect.size()-1 && 
+                (j == seg2_vector.size()-2)){
                 continue;
             }
             S2d coord2 = seg2_vector[j].get_base();
