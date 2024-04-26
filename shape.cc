@@ -120,7 +120,7 @@ bool do_intersect(bool simulation, S2d p1, S2d q1, S2d p2, S2d q2)
 
 void dessin_algues(S2d coord)
 {
-    constexpr unsigned int r_alg(1) ; //j'avais la flemme d'appeler constantes.h juste pour ça et changer le makefile
+    constexpr unsigned int r_alg(1) ;
     double x(coord.x);
     double y(coord.y);
     cercle(x, y, "algue", r_alg);

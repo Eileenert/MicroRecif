@@ -19,20 +19,20 @@ Eileen Rheinboldt-Tran
 
 struct Frame // Model Framing and window parameters
 {
-	double xMin; // frame parameters
+	double xMin; 
 	double xMax;
 	double yMin;
 	double yMax;
 	double asp;  // frame aspect ratio
-	int height;  // window height
-	int width;   // window width
+	int height;  
+	int width;  
 };
 
 class MyArea : public Gtk::DrawingArea
 {
 public:
     MyArea(Simulation& sim);
-    virtual ~MyArea();
+    //virtual ~MyArea();
 
     //void setFrame(Frame x); sert à rien enfaite... faut demander à l'assistant au cas où
     void adjustFrame(int width, int height);
@@ -52,7 +52,7 @@ public:
     Gui(char * nom_fichier);
     void change_button_name();
     bool step_fonctionne();
-    void timer_start_stop(); //pour timer
+    void timer_start_stop(); 
     bool timer_step();
     
 protected:
@@ -66,22 +66,18 @@ protected:
     void connectSignals();
 
     void update_number();
-    void on_button_clicked_exit();//pour timer
+    void on_button_clicked_exit();
     void on_button_clicked_open();
     void on_button_clicked_save();
-    void on_button_clicked_start();//pour timer
+    void on_button_clicked_start();
     void on_button_clicked_step();
     void algue_toggled();
-
-    //fin timer
-
     void on_file_dialog_response(int response_id, Gtk::FileChooserDialog* dialog);
 
     // pour cliquer depuis le clavier
     bool on_window_key_pressed(guint keyval, guint keycode, 
         Gdk::ModifierType state);
-
-
+        
     // This is the standard prototype of the Timer callback function
 	bool on_timeout();
 

@@ -2,18 +2,6 @@
 Orjowane Kaki 
 Eileen Rheinboldt-Tran
 */
-
-// message.cc  : x fonctions pour l'affichage des messages d'erreur
-//              et une fonction supplémentaire pour indiquer le succès de la lecture
-//
-// public version V1.2: 
-//        1) message affiché par lifeform_computed_outside est modifié
-//          -> en conséquence t04.txt et out04.txt sont modifiés
-//        2) t12.txt est modifié pour enlever la seconde erreur (4 est remplacé par 12)
-//
-// public version V1.1: avec alignements corrects et message "length" corrigé
-//
-
 #include "message.h"
 
 using namespace std;

@@ -127,10 +127,9 @@ bool Simulation::lecture(char * nom_fichier)
     e.seed(1); // ré-initialiser e à chaque lecture de fichier
     
     type = ALGUE;
-    while(getline(fichier >> ws, line)) // ICI NE FONCTIONNE PLUS
+    while(getline(fichier >> ws, line))
     {   
         if(line[0]=='#' || line[0]=='\n' || line[0]=='\r') continue; 
-        
         if(!decodage_ligne(line)) return false;
     }
 
