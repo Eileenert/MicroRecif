@@ -176,6 +176,7 @@ bool Simulation::decodage_algue(string line){
         if(!age_positif(age)) return false;
         algue_vect.push_back(Algue(x, y, age));
     }   
+
     if(algue_vect.size() == nbr_algue){
         type = CORAIL;
         }
@@ -190,8 +191,16 @@ bool Simulation::decodage_corail(string line){
     bool statut, dir_rot, statut_dev;
     unsigned int nbr_segments, id, s;
 
+    //verifie si nbr déjà initialisé
     if(nbr_corail == 0){
         data >> nbr_corail;
+
+        //verifie si le nbr est 0, car sinon dans le autre if il y a une erreur comme il n'y a pas de segments
+        if (nbr_corail == 0){
+            type = SCAVENGER;
+            return true;
+        }
+        
     }
     else if((corail_vect.size() != 0) && 
         (corail_vect.back().get_seg_vector().size() 
@@ -222,6 +231,7 @@ bool Simulation::decodage_corail(string line){
 
     }
     
+    //  PROBLEME SI corail_vect.size()==0
     if((corail_vect.size()!=0) && (corail_vect.size() == nbr_corail) 
         && (corail_vect.back().get_seg_vector().size() 
             == corail_vect.back().get_nbr_segments())){

@@ -420,7 +420,6 @@ bool Gui::on_timeout()
 	++val_maj;
 	maj_Data_Label.set_text(std::to_string(val_maj));  // display he simulation clock
 	cout << "This is simulation update number : " << val_maj << endl;
-	s.execution(true); 	//METTRE bool naissance_algue)
 	algue_toggled();
 	update_number();
 	// Trigger a redraw of MyArea
