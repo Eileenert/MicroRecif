@@ -27,9 +27,9 @@ MyArea::MyArea(Simulation& sim)
 	set_draw_func(sigc::mem_fun(*this, &MyArea::on_draw));
 }
 
-MyArea::~MyArea()
+/*MyArea::~MyArea()
 {
-}
+}*/ //DEMANDER À L'ASSISTANT
 
 // defining the Model space frame to visualize in the window canvas
 /*void MyArea::setFrame(Frame f)
@@ -399,7 +399,7 @@ void Gui::algue_toggled()
 	if (m_Naissance_Algue_CheckButton.get_active()){
 		s.execution(true);
 	}
-	else{
+	else {
 		s.execution(false);
 	} 
 }
@@ -446,7 +446,6 @@ bool Gui::timer_step()
 	if(name){
 		++val_maj;
 		maj_Data_Label.set_text(std::to_string(val_maj)); 
-		//cout << "This is simulation update number : " << val_maj << endl;
 		algue_toggled();
 		update_number();
 		// Trigger a redraw of MyArea

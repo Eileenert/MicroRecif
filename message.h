@@ -5,17 +5,10 @@ Eileen Rheinboldt-Tran
 #ifndef MESSAGE_H_INCLUDED
 #define MESSAGE_H_INCLUDED
 
-// message.h  : x fonctions pour l'affichage des messages d'erreur
-//              et une fonction supplémentaire pour indiquer le succès de la lecture
-//
-// public version V1
-//
-
 #include <string>
 
 namespace message
 {
-	// age must be strictly positive
 	std::string lifeform_age(unsigned age);
 
 	// only for the center coordinate that are explicitely visible in the file
@@ -48,4 +41,4 @@ namespace message
 	std::string success();
 }
 
-#endif // MESSAGE_H_INCLUDED
+#endif 

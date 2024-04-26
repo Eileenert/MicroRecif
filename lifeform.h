@@ -36,9 +36,7 @@ protected:
 class Algue: public Lifeform
 {
 public:
-    Algue(double x1, double y1, unsigned int age1)
-    :Lifeform(x1, y1, age1)
-    {}
+    Algue(double x1, double y1, unsigned int age1);
 };
 
 
@@ -49,8 +47,6 @@ public:
         bool statut_cor1, bool dir_rot1, bool statut_dev1, 
             unsigned int nbr_segments1);
 
-    //void angle_segment(double& angle_seg, double base_x,
-        // double base_y,double extr_x, double extr_y);
     std::vector<Segments> get_seg_vector() const;
     unsigned int get_nbr_segments() const;
     unsigned int get_id() const;
@@ -62,7 +58,6 @@ public:
 
 private:
     std::vector<Segments> seg_vector;
-
     unsigned int id;
     bool statut_cor;
     bool dir_rot;   //direction rotation 0(TRIGO) ou 1(INVTRIGO)
