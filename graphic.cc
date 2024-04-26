@@ -15,7 +15,8 @@ void graphic_set_context(const Cairo::RefPtr<Cairo::Context>& cr)
 	ptcr = &cr;
 }
 
-void cadre(){
+void cadre()
+{
     (*ptcr)->set_line_width(1.);
 	(*ptcr)->set_source_rgb(0.5, 0.5, 0.5);
 
@@ -37,21 +38,23 @@ void cadre(){
 }
 
 //faire un truc avec cr, jsp comment tu veux l'importer
-void cercle(double x, double y, string type, unsigned int rayon){ 
+void cercle(double x, double y, string type, unsigned int rayon)
+{ 
     (*ptcr)->set_line_width(1.);
     if(type == "algue"){  
-	    (*ptcr)->set_source_rgb(0.2, 0.8, 0.2);// jsp si c'est le bon rgb
+	    (*ptcr)->set_source_rgb(0.2, 0.8, 0.2);
     }else if(type == "scavenger"){
-        (*ptcr)->set_source_rgb(1, 0, 0); //jsp si c'est le bon rgb
+        (*ptcr)->set_source_rgb(1, 0, 0);
     }
     (*ptcr)->arc(x, y, rayon, 0, 2*M_PI);
     (*ptcr)->stroke();
 }
 
-void trait(double x1, double y1, double x2, double y2, bool is_alive){
+void trait(double x1, double y1, double x2, double y2, bool is_alive)
+{
     (*ptcr)->set_line_width(1.);
     if(is_alive){
-        (*ptcr)->set_source_rgb(0, 0, 1); //jsp si c'est le bon rgb
+        (*ptcr)->set_source_rgb(0, 0, 1);
     }else{
         (*ptcr)->set_source_rgb(0, 0, 0);
     }
@@ -62,10 +65,11 @@ void trait(double x1, double y1, double x2, double y2, bool is_alive){
 
 } 
 
-void carre_base_cor(double x, double y, bool is_alive){
+void carre_base_cor(double x, double y, bool is_alive)
+{
     (*ptcr)->set_line_width(1.);
     if(is_alive){
-        (*ptcr)->set_source_rgb(0, 0, 1); //jsp si c'est le bon rgb
+        (*ptcr)->set_source_rgb(0, 0, 1);
     }else{
         (*ptcr)->set_source_rgb(0, 0, 0);
     }

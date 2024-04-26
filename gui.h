@@ -57,6 +57,10 @@ protected:
     std::string open_or_save;
     Simulation s ;
 
+    void create_instance(char * nom_fichier);
+    void initializeWidgets();
+    void connectSignals();
+
     void update_number();
     void on_button_clicked_exit();//pour timer
     void on_button_clicked_open();
