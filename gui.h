@@ -32,7 +32,7 @@ class MyArea : public Gtk::DrawingArea
 {
 public:
     MyArea(Simulation& sim);
-    virtual ~MyArea();
+    ~MyArea();
 
     void adjustFrame(int width, int height);
 
