@@ -19,6 +19,8 @@ public:
     void sauvegarde(std::string nom_fichier);
     void execution(bool naissance_algue);
     void step_algue(bool naissance_algue);
+    void step_corail();
+    void step_Scavenger();
     void reintialise_simulation();
     void dessin();
 

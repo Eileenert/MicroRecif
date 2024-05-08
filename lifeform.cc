@@ -93,6 +93,10 @@ void Corail::add_seg_vector(double a, int s)
     }  
 }
 
+void Corail::set_is_alive(bool alive){
+    is_alive = alive;
+}
+
 Scavenger::Scavenger(double x1, double y1,int age1, unsigned int rayon1,
     bool statut_sca1)
 :Lifeform(x1, y1, age1), rayon(rayon1), statut_sca(statut_sca1)

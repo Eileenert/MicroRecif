@@ -86,6 +86,8 @@ void Simulation::sauvegarde(string nom_fichier)
 void Simulation::execution(bool naissance_algue)
 {
     step_algue(naissance_algue);
+    step_corail();
+    step_Scavenger();
 }
 
 void Simulation::step_algue(bool naissance_algue)
@@ -109,6 +111,32 @@ void Simulation::step_algue(bool naissance_algue)
         if(creer_algue ){
             nbr_algue += 1;
             algue_vect.push_back(Algue(u(e), u(e), 0));
+        }
+    }
+
+}
+
+void Simulation::step_corail()
+{
+    for(size_t i(0); i < corail_vect.size(); i++){
+        corail_vect[i].older();
+
+        if (corail_vect[i].get_age() >= max_life_cor){
+            corail_vect[i].set_is_alive(false);
+        }
+    }
+
+}
+
+void Simulation::step_Scavenger()
+{
+    for(size_t i(0); i < scavenger_vect.size(); i++){
+        scavenger_vect[i].older();
+
+        if (scavenger_vect[i].get_age() >= max_life_sca){
+            swap(scavenger_vect[i], scavenger_vect.back());
+            scavenger_vect.pop_back();
+            nbr_scavenger -= 1;
         }
     }
 

@@ -55,6 +55,7 @@ public:
     bool get_statut_dev() const;
     bool get_is_alive() const;
     void add_seg_vector(double a, int s);
+    void set_is_alive(bool alive);
 
 private:
     std::vector<Segments> seg_vector;
