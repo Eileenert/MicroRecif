@@ -85,6 +85,11 @@ void Simulation::sauvegarde(string nom_fichier)
 
 void Simulation::execution(bool naissance_algue)
 {
+    step_algue(naissance_algue);
+}
+
+void Simulation::step_algue(bool naissance_algue)
+{
     for(size_t i(0); i < algue_vect.size(); i++){
         algue_vect[i].older();
 
@@ -106,6 +111,7 @@ void Simulation::execution(bool naissance_algue)
             algue_vect.push_back(Algue(u(e), u(e), 0));
         }
     }
+
 }
 
 void Simulation::reintialise_simulation()
