@@ -131,50 +131,6 @@ void Simulation::step_corail() {
 }
 
 
-void Simulation::step_scavenger()
-{
-    for(size_t i(0); i < scavenger_vect.size(); i++){
-        scavenger_vect[i].older();
-
-        if (scavenger_vect[i].get_age() >= max_life_sca){
-            swap(scavenger_vect[i], scavenger_vect.back());
-            scavenger_vect.pop_back();
-            nbr_scavenger -= 1;
-        } //durée de vie scavenger
-    }
-
-    //parmi tout les coraux
-    for (size_t j(0); j < corail_vect.size(); j++){
-        //je prend les coraux morts
-        if (corail_vect[j].get_statut_cor() == 0){ 
-            bool already_taken(false);
-
-            //parmi tout les scavengers
-            for (size_t i(0); i < scavenger_vect.size(); i++){
-                //si le scavenger mange et qu'il a l'id cible du corail j
-                if (((scavenger_vect[i].get_statut_sca() == 1) and (scavenger_vect[i].get_corail_id_cible() == corail_vect[j].get_id()))){
-                    already_taken = true;
-                    go_to_dead_cor(i, j);
-                }
-            } 
-            
-            //if (already_taken == true){
-                //go_to_dead_cor(i, j);
-            //}
-
-            if (already_taken == false){
-                dead_libre(); 
-                
-                for (size_t i(0); i < scavenger_vect.size(); i++){
-                //si le scavenger mange et qu'il a l'id cible du corail j
-                    if (((scavenger_vect[i].get_statut_sca() == 1) and (scavenger_vect[i].get_corail_id_cible() == corail_vect[j].get_id()))){
-                        go_to_dead_cor(i, j);
-                    }
-                }
-            }
-        }
-    }
-}
 
 void Simulation::age_and_check_corals(){
     for(size_t i = 0; i < corail_vect.size(); i++) {
@@ -333,6 +289,50 @@ double distance_deux_points(S2d p1, S2d p2){
 }
             
 
+void Simulation::step_scavenger()
+{
+    for(size_t i(0); i < scavenger_vect.size(); i++){
+        scavenger_vect[i].older();
+
+        if (scavenger_vect[i].get_age() >= max_life_sca){
+            swap(scavenger_vect[i], scavenger_vect.back());
+            scavenger_vect.pop_back();
+            nbr_scavenger -= 1;
+        } //durée de vie scavenger
+    }
+
+    //parmi tout les coraux
+    for (size_t j(0); j < corail_vect.size(); j++){
+        //je prend les coraux morts
+        if (corail_vect[j].get_statut_cor() == 0){ 
+            bool already_taken(false);
+
+            //parmi tout les scavengers
+            for (size_t i(0); i < scavenger_vect.size(); i++){
+                //si le scavenger mange et qu'il a l'id cible du corail j
+                if (((scavenger_vect[i].get_statut_sca() == 1) and (scavenger_vect[i].get_corail_id_cible() == corail_vect[j].get_id()))){
+                    already_taken = true;
+                    go_to_dead_cor(i, j);
+                }
+            } 
+            
+            //if (already_taken == true){
+                //go_to_dead_cor(i, j);
+            //}
+
+            if (already_taken == false){
+                dead_libre(); 
+                
+                for (size_t i(0); i < scavenger_vect.size(); i++){
+                //si le scavenger mange et qu'il a l'id cible du corail j
+                    if (((scavenger_vect[i].get_statut_sca() == 1) and (scavenger_vect[i].get_corail_id_cible() == corail_vect[j].get_id()))){
+                        go_to_dead_cor(i, j);
+                    }
+                }
+            }
+        }
+    }
+}
 
 void Simulation::go_to_dead_cor(int i_sca, int i_cor){ 
     double x_sca(scavenger_vect[i_sca].get_coord().x);
@@ -340,63 +340,70 @@ void Simulation::go_to_dead_cor(int i_sca, int i_cor){
     double x_cor(corail_vect[i_cor].get_seg_vector()->back().get_extr().x);
     double y_cor(corail_vect[i_cor].get_seg_vector()->back().get_extr().y);
     double L(sqrt(pow(x_cor-x_sca, 2) + pow(y_cor-y_sca, 2))); 
-    cout << "delta_l " << delta_l << endl;
 
     if (L <= delta_l){
         scavenger_vect[i_sca].set_coord(x_cor, y_cor);
         x_sca = scavenger_vect[i_sca].get_coord().x;
         y_sca = scavenger_vect[i_sca].get_coord().y;
-        cout << "l : " << x_cor << " et " << x_sca << endl;
     } else {
         double x_tmp = x_sca + (delta_l * (x_cor-x_sca)/L);
         double y_tmp = y_sca + (delta_l * (y_cor-y_sca)/L);
         scavenger_vect[i_sca].set_coord(x_tmp, y_tmp);
         x_sca = scavenger_vect[i_sca].get_coord().x;
         y_sca = scavenger_vect[i_sca].get_coord().y;
-        cout << "boucle L : " << x_cor << " et " << x_sca << endl;
-        cout << "indice corail : " << i_cor <<endl;
     }
-    cout << "valeur L : " << L<<endl <<endl;
 }
 
-//corail est fixe et on cherche un scavenger
+
 void Simulation::dead_libre(){
 
-    double Dmin(363.);
-    double i_sca(-1.), j_cor(-1.);
-    //parmis tout les scavengers
-    for (size_t i(0); i < scavenger_vect.size(); i++){  
+    
+    
+    //parmis tout les coraux
+    for (size_t j(0); j < corail_vect.size(); j++){  
 
-        //je prend les scavengers libres        
-        if (scavenger_vect[i].get_statut_sca() == 0){ 
+        //je prend les coraux libres        
+        if (corail_vect[j].get_statut_cor() == 0){ 
+            bool occupied = false;
 
-            //parmis tout les coraux
-            for (size_t j(0); j < corail_vect.size(); j++){
+            // je regarde si aucun scavenger a déjà le statut de mon corail
+            for (size_t i(0); i < scavenger_vect.size(); i++){
+                if (scavenger_vect[i].get_corail_id_cible() == corail_vect[j].get_id()){
+                    occupied = true;
+                    break;
+                }
+            }
 
-                //je prend les coraux morts
-                if (corail_vect[j].get_statut_cor() == 0){
+            if (!occupied){
+                double Dmin(363.);
+                double i_sca(-1.);
+
+                //parmis tout les scavengers
+                for (size_t i(0); i < scavenger_vect.size(); i++){
+
+                    //je prend les scavengers morts
+                    if (scavenger_vect[i].get_statut_sca() == 0){
 
                     S2d cor = corail_vect[j].get_seg_vector()->back().get_extr(); 
                     S2d sca = scavenger_vect[i].get_coord();
             
                     double L(sqrt((pow((cor.x-sca.x), 2)+pow((cor.y-sca.y), 2))));
 
-                    //on trouve le corail le plus près et on set son id dans la cible du scavenger et on change le statut du scavenger     
-                    if (L < Dmin){
-                        //scavenger_vect[i].set_corail_id_cible(corail_vect[j].get_id());
-                        //scavenger_vect[i].set_statut_sca(1);
-                        i_sca = i;
-                        j_cor = j;
-                        Dmin = L;
+                        //on trouve le corail le plus près et on set son id dans la cible du scavenger et on change le statut du scavenger     
+                        if (L < Dmin){
+                            i_sca = i;
+                            //j_cor = j;
+                            Dmin = L;
+                        }
                     }
+                }
+
+                if (i_sca != -1){
+                    scavenger_vect[i_sca].set_corail_id_cible(corail_vect[j].get_id());
+                    scavenger_vect[i_sca].set_statut_sca(1);
                 }
             }
         }
-    }
-    
-    if ((i_sca != -1) and (j_cor != -1)){
-        scavenger_vect[i_sca].set_corail_id_cible(corail_vect[j_cor].get_id());
-        scavenger_vect[i_sca].set_statut_sca(1);
     }
 }
 
@@ -647,7 +654,7 @@ bool Simulation::collision(Corail &corail)
     vector<Segments>* seg1_vector = (corail.get_seg_vector());
     S2d coord1 = (*seg1_vector).back().get_base();
     S2d extr1 = (*seg1_vector).back().get_extr();
-    cout << "extremités corail1 x: " << extr1.x << " y: " << extr1.y<< endl;
+    //cout << "extremités corail1 x: " << extr1.x << " y: " << extr1.y<< endl;
   
     for(size_t i(corail_vect.size()-1); i != SIZE_MAX; i--){
         
@@ -668,7 +675,7 @@ bool Simulation::collision(Corail &corail)
 
             S2d coord2 = seg2_vector[j].get_base();
             S2d extr2 = seg2_vector[j].get_extr();
-            cout << "extremités corail2 x: " << extr2.x << " y: " << extr2.y << endl;
+            //cout << "extremités corail2 x: " << extr2.x << " y: " << extr2.y << endl;
 
             col = do_intersect(0, coord1, extr1, coord2, extr2);
             if(col == true){
