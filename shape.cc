@@ -126,7 +126,8 @@ bool do_intersect(bool simulation, S2d p1, S2d q1, S2d p2, S2d q2)
     int o3 = orientation(p2, q2, p1); 
     int o4 = orientation(p2, q2, q1); 
 
-    if (o1 != o2 && o3 != o4) return true; 
+
+    if (o1 && o2 && o1 != o2 && o3 != o4) return true; 
 
     if (o1 == 0 && on_segment(simulation, p1, p2, q1)) return true; 
     if (o2 == 0 && on_segment(simulation, p1, q2, q1)) return true; 

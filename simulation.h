@@ -47,7 +47,7 @@ public:
     bool unique_id(unsigned int id);
     bool existant_id(unsigned int id_corail_cible);
     bool seg_superposition(Corail &corail);
-    bool collision(Corail &corail);
+    bool collision(Corail &corail, bool simulation);
 
     unsigned int get_nbr_algue() const;
     unsigned int get_nbr_corail() const;
