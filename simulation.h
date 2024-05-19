@@ -20,9 +20,17 @@ public:
     void execution(bool naissance_algue);
     void step_algue(bool naissance_algue);
     void step_corail();
-    void step_Scavenger();
+    void step_scavenger();
     void reintialise_simulation();
     void dessin();
+
+    void age_and_check_corals();
+    void process_coral_growth(Corail& corail);
+    void handle_algue_detection(Corail& corail, Segments& last_segment, double angle_to_use, size_t index_algue);
+    void update_coral_segment(Corail& corail, Segments& last_segment, double angle_to_use);
+    bool detect_algue(Corail corail, double &angle_to_use, size_t &index_algue, Segments last_segment);
+    bool new_cor(Corail &corail, Segments &last_segment);
+    bool angle_collision(Corail &corail, Segments &last_segment, double &angle_to_use);
 
     bool lecture(char * nom_fichier);
     bool decodage_ligne(std::string line);
@@ -36,8 +44,8 @@ public:
         double a, unsigned int id);
     bool unique_id(unsigned int id);
     bool existant_id(unsigned int id_corail_cible);
-    bool seg_superposition();
-    bool collision();
+    bool seg_superposition(Corail &corail);
+    bool collision(Corail &corail);
 
     unsigned int get_nbr_algue() const;
     unsigned int get_nbr_corail() const;

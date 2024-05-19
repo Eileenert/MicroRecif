@@ -12,9 +12,9 @@ constexpr unsigned d_cor(3) ;
 constexpr unsigned r_sca(3) ;
 constexpr unsigned r_sca_repro(10) ;
 constexpr unsigned delta_r_sca(1) ;
-constexpr unsigned delta_l (4) ;
+constexpr unsigned delta_l(4) ;
 constexpr unsigned l_repro (40) ;
-constexpr unsigned l_seg_interne (28) ;
+constexpr unsigned l_seg_interne(28) ;
 constexpr double delta_rot(0.0625) ;
 // en rd = env. 3.5°
 constexpr double alg_birth_rate(0.5) ;

@@ -179,8 +179,6 @@ void Gui::connectSignals()
 		&Gui::on_button_clicked_start));
 	m_Button_Step.signal_clicked().connect(sigc::mem_fun(*this, 
 		&Gui::on_button_clicked_step));
-	m_Naissance_Algue_CheckButton.signal_toggled().connect(
-		sigc::mem_fun(*this, &Gui::algue_toggled));
 
 	auto controller = Gtk::EventControllerKey::create();
 	controller->signal_key_pressed().connect(sigc::mem_fun(*this, 

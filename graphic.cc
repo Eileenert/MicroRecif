@@ -7,7 +7,6 @@ Eileen Rheinboldt-Tran 50%
 #include <string>
 #include <iostream>
 #include "graphic.h"
-#include "constantes.h"
 #include "graphic_gui.h"
 
 using namespace std;
@@ -46,7 +45,7 @@ void cercle(double x, double y, string type, unsigned int rayon)
 { 
     (*ptcr)->set_line_width(1.);
     if(type == "algue"){  
-	    (*ptcr)->set_source_rgb(0.2, 0.8, 0.2);
+	    (*ptcr)->set_source_rgb(0, 1, 0);
     }else if(type == "scavenger"){
         (*ptcr)->set_source_rgb(1, 0, 0);
     }
@@ -58,6 +57,7 @@ void trait(double x1, double y1, double x2, double y2, bool is_alive)
 {
     (*ptcr)->set_line_width(1.);
     if(is_alive){
+        
         (*ptcr)->set_source_rgb(0, 0, 1);
     }else{
         (*ptcr)->set_source_rgb(0, 0, 0);
@@ -71,6 +71,8 @@ void trait(double x1, double y1, double x2, double y2, bool is_alive)
 
 void carre_base(double x, double y, bool is_alive)
 {
+    constexpr unsigned d_cor(3) ;
+
     (*ptcr)->set_line_width(1.);
     if(is_alive){
         (*ptcr)->set_source_rgb(0, 0, 1);

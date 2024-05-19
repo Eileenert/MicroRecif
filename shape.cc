@@ -27,9 +27,22 @@ double Segments::get_angle() const
     return angle;
 }
 
+void Segments::set_angle(double a){
+    angle = a;
+    if(angle >= M_PI){
+        angle = -angle - 2*M_PI;
+    }
+    else if(angle <= -M_PI){
+        angle = angle + 2*M_PI;
+    }
+}
+
 double Segments::get_longueur() const
 {
     return longueur;
+}
+void Segments::set_longueur(double l){
+    longueur = l;
 }
 
 S2d Segments::get_extr() const
@@ -49,7 +62,7 @@ S2d Segments::get_base() const
 bool Segments::superposition(Segments s)
 {
     double ecart = ecart_angulaire(s);
-    if (abs(ecart) <= 0) return true;
+    if (abs(ecart) <= 0.05) return true;
     return false;
 }
 
@@ -76,6 +89,10 @@ double Segments::ecart_angulaire(Segments s)
     }
 
     return  ecart;
+}
+
+void Segments::set_base(double x, double y){
+    base = {x, y};
 }
 
 bool on_segment(bool simulation, S2d p, S2d q, S2d r)
@@ -132,7 +149,6 @@ void dessin_carre(S2d base, bool is_alive)
 {
     double x(base.x);
     double y(base.y);
-    
     carre_base(x, y, is_alive);
 }
 

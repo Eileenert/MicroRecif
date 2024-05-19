@@ -47,12 +47,15 @@ public:
         bool statut_cor1, bool dir_rot1, bool statut_dev1, 
             unsigned int nbr_segments1);
 
-    std::vector<Segments> get_seg_vector() const;
+    std::vector<Segments>* get_seg_vector();
     unsigned int get_nbr_segments() const;
+    void remove_last_segment();
     unsigned int get_id() const;
     bool get_statut_cor() const;
     bool get_dir_rot() const;
+    void set_dir_rot();
     bool get_statut_dev() const;
+    void set_statut_dev(bool dev);
     bool get_is_alive() const;
     void add_seg_vector(double a, int s);
     void set_is_alive(bool alive);
@@ -64,8 +67,6 @@ private:
     bool dir_rot;   //direction rotation 0(TRIGO) ou 1(INVTRIGO)
     bool statut_dev; // 0(EXTEND) 1(REPRO)
     unsigned int nbr_segments;   
-    bool is_alive;
-    bool is_extend; // true = EXTEND et false = REPRO
     std::string color; //bleu = alive ou noir = dead
     unsigned int cor_life_max;      
 };

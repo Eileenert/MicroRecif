@@ -21,9 +21,12 @@ class Segments
 public:
     Segments(double x, double y, double a, unsigned int s);
     double get_angle() const;
+    void set_angle(double a);
     double get_longueur() const;
+    void set_longueur(double l);
     S2d get_extr() const;
     S2d get_base() const;
+    void set_base(double x, double y);
 
     bool superposition(Segments s);
     double ecart_angulaire(Segments s);

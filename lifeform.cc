@@ -47,14 +47,19 @@ Corail::Corail(double x1, double y1, int age1, unsigned int id1,
 {}
 
 
-vector<Segments> Corail::get_seg_vector() const
+vector<Segments>* Corail::get_seg_vector() 
 {
-    return seg_vector;
+    return &seg_vector;
 }
 
 unsigned int Corail::get_nbr_segments() const
 {
     return nbr_segments;
+}
+
+void Corail::remove_last_segment(){
+    seg_vector.pop_back();
+    nbr_segments -= 1;
 }
 
 unsigned int Corail::get_id() const
@@ -72,14 +77,23 @@ bool Corail::get_dir_rot() const
     return dir_rot;
 }
 
+void Corail::set_dir_rot(){
+    dir_rot = !dir_rot;
+}
+
 bool Corail::get_statut_dev() const
 {
     return statut_dev;
 }
 
+void Corail::set_statut_dev(bool dev)
+{
+    statut_dev = dev;
+}
+
 bool Corail::get_is_alive() const
 {
-    return is_alive;
+    return statut_cor;
 }
 
 void Corail::add_seg_vector(double a, int s)
@@ -91,10 +105,13 @@ void Corail::add_seg_vector(double a, int s)
     else{
         seg_vector.push_back(Segments(x, y, a, s));
     }  
+    if(nbr_segments < seg_vector.size()){
+        nbr_segments +=1;
+    }   
 }
 
 void Corail::set_is_alive(bool alive){
-    is_alive = alive;
+    statut_cor = alive;
 }
 
 Scavenger::Scavenger(double x1, double y1,int age1, unsigned int rayon1,
