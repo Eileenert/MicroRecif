@@ -23,6 +23,7 @@ public:
     Lifeform(double x1, double y1, unsigned int age1);
 
     S2d get_coord() const;
+    void set_coord(double x_set, double y_set);
     unsigned int get_age() const;
     void older();
 
@@ -60,11 +61,11 @@ public:
 private:
     std::vector<Segments> seg_vector;
     unsigned int id;
-    bool statut_cor;
+    bool statut_cor; // 0(DEAD) 1(ALIVE)
     bool dir_rot;   //direction rotation 0(TRIGO) ou 1(INVTRIGO)
     bool statut_dev; // 0(EXTEND) 1(REPRO)
     unsigned int nbr_segments;   
-    bool is_alive;
+    bool is_alive; // 0(DEAD) 1(ALIVE)
     bool is_extend; // true = EXTEND et false = REPRO
     std::string color; //bleu = alive ou noir = dead
     unsigned int cor_life_max;      
@@ -76,10 +77,11 @@ public:
     Scavenger(double x1, double y1,int age1, unsigned int rayon1,
         bool statut_sca1);
 
-    void init_corail_id_cible(unsigned int corail_id_cible1);
+    void set_corail_id_cible(unsigned int corail_id_cible1);
     unsigned int get_rayon() const;
     bool get_statut_sca() const;
     unsigned int get_corail_id_cible() const;
+    void set_statut_sca(bool a); //jsp
 
 private:
     unsigned int rayon;

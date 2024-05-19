@@ -20,7 +20,9 @@ public:
     void execution(bool naissance_algue);
     void step_algue(bool naissance_algue);
     void step_corail();
-    void step_Scavenger();
+    void step_scavenger();
+    void dead_libre();
+    void go_to_dead_cor(int i_sca, int i_cor);
     void reintialise_simulation();
     void dessin();
 

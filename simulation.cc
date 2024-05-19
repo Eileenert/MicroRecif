@@ -28,7 +28,7 @@ void Simulation::dessin()
     }
     
     for(size_t i(0); i < nbr_corail; i++){
-        bool is_alive(corail_vect[i].get_is_alive());
+        bool is_alive(corail_vect[i].get_statut_cor()); 
         dessin_carre(corail_vect[i].get_coord(), is_alive);
 
         for(Segments seg : corail_vect[i].get_seg_vector()){
@@ -87,7 +87,7 @@ void Simulation::execution(bool naissance_algue)
 {
     step_algue(naissance_algue);
     step_corail();
-    step_Scavenger();
+    step_scavenger();
 }
 
 void Simulation::step_algue(bool naissance_algue)
@@ -110,7 +110,7 @@ void Simulation::step_algue(bool naissance_algue)
         cout << creer_algue  ;
         if(creer_algue ){
             nbr_algue += 1;
-            algue_vect.push_back(Algue(u(e), u(e), 0));
+            algue_vect.push_back(Algue(u(e), u(e), 1));
         }
     }
 
@@ -128,7 +128,7 @@ void Simulation::step_corail()
 
 }
 
-void Simulation::step_Scavenger()
+void Simulation::step_scavenger()
 {
     for(size_t i(0); i < scavenger_vect.size(); i++){
         scavenger_vect[i].older();
@@ -137,10 +137,143 @@ void Simulation::step_Scavenger()
             swap(scavenger_vect[i], scavenger_vect.back());
             scavenger_vect.pop_back();
             nbr_scavenger -= 1;
-        }
+        } //durée de vie scavenger
     }
 
+    //parmi tout les coraux
+    for (size_t j(0); j < corail_vect.size(); j++){
+        //je prend les coraux morts
+        if (corail_vect[j].get_statut_cor() == 0){ 
+            bool already_taken(false);
+
+            //parmi tout les scavengers
+            for (size_t i(0); i < scavenger_vect.size(); i++){
+                //si le scavenger mange et qu'il a l'id cible du corail j
+                if (((scavenger_vect[i].get_statut_sca() == 1) and (scavenger_vect[i].get_corail_id_cible() == corail_vect[j].get_id()))){
+                    already_taken = true;
+                    go_to_dead_cor(i, j);
+                }
+            } 
+            
+            //if (already_taken == true){
+                //go_to_dead_cor(i, j);
+            //}
+
+            if (already_taken == false){
+                dead_libre(); 
+                
+                for (size_t i(0); i < scavenger_vect.size(); i++){
+                //si le scavenger mange et qu'il a l'id cible du corail j
+                    if (((scavenger_vect[i].get_statut_sca() == 1) and (scavenger_vect[i].get_corail_id_cible() == corail_vect[j].get_id()))){
+                        go_to_dead_cor(i, j);
+                    }
+                }
+            }
+        }
+    }
 }
+            
+                
+               /*if (num != -1){ 
+                    scavenger_vect[num].set_statut_sca(1);
+                    scavenger_vect[num].set_corail_id_cible(corail_vect[j].get_id());
+                    go_to_dead_cor(num, j); 
+                    cout << "ok2" <<endl;
+                }
+            }
+            
+
+            // si le corail est pris 
+            if (already_taken){ 
+                int num = -1;
+                dead_libre(j, num);
+                
+                go_to_dead_cor(num, j); //scavenger_vect[num].get_coord(), corail_vect[j].get_seg_vector().back().get_extr()); //fonction pour que le scavenger aille jusqu'au corail //coordonnées du scavenger et du corail
+                cout <<  scavenger_vect[num].get_coord().x ;
+                cout << "ok3" <<endl;
+
+            } 
+        }
+    }  
+}*/
+
+void Simulation::go_to_dead_cor(int i_sca, int i_cor){ 
+    double x_sca(scavenger_vect[i_sca].get_coord().x);
+    double y_sca(scavenger_vect[i_sca].get_coord().y);
+    double x_cor(corail_vect[i_cor].get_seg_vector().back().get_extr().x);
+    double y_cor(corail_vect[i_cor].get_seg_vector().back().get_extr().y);
+    double L(sqrt(pow(x_cor-x_sca, 2) + pow(y_cor-y_sca, 2))); 
+    cout << "delta_l " << delta_l << endl;
+
+    if (L <= delta_l){
+        scavenger_vect[i_sca].set_coord(x_cor, y_cor);
+        x_sca = scavenger_vect[i_sca].get_coord().x;
+        y_sca = scavenger_vect[i_sca].get_coord().y;
+        cout << "l : " << x_cor << " et " << x_sca << endl;
+    } else {
+        double x_tmp = x_sca + (delta_l * (x_cor-x_sca)/L);
+        double y_tmp = y_sca + (delta_l * (y_cor-y_sca)/L);
+        scavenger_vect[i_sca].set_coord(x_tmp, y_tmp);
+        x_sca = scavenger_vect[i_sca].get_coord().x;
+        y_sca = scavenger_vect[i_sca].get_coord().y;
+        cout << "boucle L : " << x_cor << " et " << x_sca << endl;
+        cout << "indice corail : " << i_cor <<endl;
+    }
+    cout << "valeur L : " << L<<endl <<endl;
+}
+
+//corail est fixe et on cherche un scavenger
+void Simulation::dead_libre(){
+
+    double Dmin(363.);
+    //parmis tout les scavengers
+    for (size_t i(0); i < scavenger_vect.size(); i++){  
+
+        //je prend les scavengers libres        
+        if (scavenger_vect[i].get_statut_sca() == 0){ 
+
+            //parmis tout les coraux
+            for (size_t j(0); j < scavenger_vect.size(); j++){
+
+                //je prend les coraux morts
+                if (corail_vect[j].get_statut_cor() == 0){
+
+                    S2d cor = corail_vect[j].get_seg_vector().back().get_extr(); 
+                    S2d sca = scavenger_vect[i].get_coord();
+            
+                    double L(sqrt((pow((cor.x-sca.x), 2)+pow((cor.y-sca.y), 2))));
+
+                    //on trouve le corail le plus orès et on set son id dans la cible du scavenger et on change le statut du scavenger     
+                    if (L < Dmin){
+                        scavenger_vect[i].set_corail_id_cible(corail_vect[j].get_id());
+                        scavenger_vect[i].set_statut_sca(1);
+                        Dmin = L;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/*void Simulation::dead_libre(int h, vector<Scavenger> vect_sca, 
+    vector<Corail> vect_cor, int &indice){
+    double Dmin(363.);
+    //int indice(-1);
+     
+    for (size_t i(0); i < vect_sca.size(); i++){          
+        if (vect_sca[i].get_statut_sca() == 0){ //0 libre
+            S2d coord_cor = vect_cor[h].get_seg_vector().back().get_extr(); 
+            S2d coord_sca = vect_sca[i].get_coord();
+            double D(sqrt((pow((coord_cor.x-coord_sca.x), 2)
+                +pow((coord_cor.y-coord_sca.y), 2))));
+                    
+            if (D < Dmin){
+                Dmin = D;
+                indice = i;
+            }
+        }
+    }
+}*/
 
 void Simulation::reintialise_simulation()
 {
@@ -300,7 +433,7 @@ bool Simulation::decodage_scavenger(string line)
             if(data >> id_corail_cible){
                 if(!existant_id(id_corail_cible)) return false;
             }
-            scavenger_vect.back().init_corail_id_cible(id_corail_cible);
+            scavenger_vect.back().set_corail_id_cible(id_corail_cible);
         } 
     }
     return true;
