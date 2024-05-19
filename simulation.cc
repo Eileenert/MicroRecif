@@ -238,6 +238,7 @@ void Simulation::update_coral_segment(Corail& corail, Segments& last_segment, do
     unsigned int id = corail.get_id();
 
     if (collision(corail) || seg_superposition(corail) || !extr_appartenance_recipient(x, y, s, a, id)) {
+        cout << "aie"<< endl;
         corail.set_dir_rot();
     }
 }
@@ -336,8 +337,8 @@ double distance_deux_points(S2d p1, S2d p2){
 void Simulation::go_to_dead_cor(int i_sca, int i_cor){ 
     double x_sca(scavenger_vect[i_sca].get_coord().x);
     double y_sca(scavenger_vect[i_sca].get_coord().y);
-    double x_cor(corail_vect[i_cor].get_seg_vector().back().get_extr().x);
-    double y_cor(corail_vect[i_cor].get_seg_vector().back().get_extr().y);
+    double x_cor(corail_vect[i_cor].get_seg_vector()->back().get_extr().x);
+    double y_cor(corail_vect[i_cor].get_seg_vector()->back().get_extr().y);
     double L(sqrt(pow(x_cor-x_sca, 2) + pow(y_cor-y_sca, 2))); 
     cout << "delta_l " << delta_l << endl;
 
@@ -375,7 +376,7 @@ void Simulation::dead_libre(){
                 //je prend les coraux morts
                 if (corail_vect[j].get_statut_cor() == 0){
 
-                    S2d cor = corail_vect[j].get_seg_vector().back().get_extr(); 
+                    S2d cor = corail_vect[j].get_seg_vector()->back().get_extr(); 
                     S2d sca = scavenger_vect[i].get_coord();
             
                     double L(sqrt((pow((cor.x-sca.x), 2)+pow((cor.y-sca.y), 2))));
@@ -646,6 +647,7 @@ bool Simulation::collision(Corail &corail)
     vector<Segments>* seg1_vector = (corail.get_seg_vector());
     S2d coord1 = (*seg1_vector).back().get_base();
     S2d extr1 = (*seg1_vector).back().get_extr();
+    cout << "extremités corail1 x: " << extr1.x << " y: " << extr1.y<< endl;
   
     for(size_t i(corail_vect.size()-1); i != SIZE_MAX; i--){
         
@@ -666,6 +668,7 @@ bool Simulation::collision(Corail &corail)
 
             S2d coord2 = seg2_vector[j].get_base();
             S2d extr2 = seg2_vector[j].get_extr();
+            cout << "extremités corail2 x: " << extr2.x << " y: " << extr2.y << endl;
 
             col = do_intersect(0, coord1, extr1, coord2, extr2);
             if(col == true){

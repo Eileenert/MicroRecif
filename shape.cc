@@ -107,6 +107,7 @@ bool on_segment(bool simulation, S2d p, S2d q, S2d r)
     return false; 
 }
 
+
 double orientation(S2d p, S2d q, S2d r)
 { 
     double val = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y); 
