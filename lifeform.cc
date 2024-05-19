@@ -125,7 +125,7 @@ Scavenger::Scavenger(double x1, double y1,int age1, unsigned int rayon1,
 :Lifeform(x1, y1, age1), rayon(rayon1), statut_sca(statut_sca1)
 {}
 
-void Scavenger::set_corail_id_cible(unsigned int corail_id_cible1) //j'ai chang√© init avce set
+void Scavenger::set_corail_id_cible(unsigned int corail_id_cible1)
 {
     corail_id_cible = corail_id_cible1;
 }
@@ -133,6 +133,11 @@ void Scavenger::set_corail_id_cible(unsigned int corail_id_cible1) //j'ai chang√
 unsigned int Scavenger::get_rayon() const
 {
     return rayon;
+}
+
+void Scavenger::set_rayon(unsigned int new_rayon)
+{
+    rayon = new_rayon;
 }
 
 bool Scavenger::get_statut_sca() const

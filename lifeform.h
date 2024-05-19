@@ -80,6 +80,7 @@ public:
 
     void set_corail_id_cible(unsigned int corail_id_cible1);
     unsigned int get_rayon() const;
+    void set_rayon(unsigned int new_rayon);
     bool get_statut_sca() const;
     unsigned int get_corail_id_cible() const;
     void set_statut_sca(bool a); //jsp

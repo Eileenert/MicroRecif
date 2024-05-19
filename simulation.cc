@@ -290,7 +290,12 @@ void Simulation::step_scavenger()
 {
     verifie_old_sca();
     deplacement_vers_corail();
+    mange_segments();
 
+
+}
+
+void Simulation::mange_segments(){
     //parmis tout les scavengers
     for (size_t i(0); i < scavenger_vect.size(); i++){
         
@@ -304,10 +309,13 @@ void Simulation::step_scavenger()
             double y_cor(corail_vect[j].get_seg_vector()->back().get_extr().y);
             
             //true or false
-            bool dessus = ((x_sca == x_cor) and (y_sca == y_cor));
+            bool sur_corail = ((x_sca == x_cor) and (y_sca == y_cor));
+            bool bon_id = (scavenger_vect[i].get_corail_id_cible() == corail_vect[j].get_id());
+            bool mange = (scavenger_vect[i].get_statut_sca() == 1);
+            bool bon_rayon = (scavenger_vect[i].get_rayon() < r_sca_repro);
 
             //si le scavenger est sur le corail et que le scavenger est en mode mange et que le scavenger a l'id du corail pour cible
-            if (dessus and (scavenger_vect[i].get_statut_sca() == 1) and (scavenger_vect[i].get_corail_id_cible() == corail_vect[j].get_id())){
+            if (sur_corail && mange && bon_id && bon_rayon){
                 
                 //coordonnées de la base du segment du corail
                 S2d cor = corail_vect[j].get_seg_vector()->back().get_base(); 
@@ -326,6 +334,8 @@ void Simulation::step_scavenger()
                     //nouvelle longeur
                     double new_L = corail_vect[j].get_seg_vector()->back().get_longueur() - delta_l;
                     corail_vect[j].get_seg_vector()->back().set_longueur(new_L);
+                    //nouveau rayon pour le scavenger
+                    scavenger_vect[i].set_rayon(scavenger_vect[i].get_rayon() + delta_r_sca);
                     if (new_L == 0.){
                         corail_vect[j].get_seg_vector()->back().set_longueur(new_L);
                     }
