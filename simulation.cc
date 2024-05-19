@@ -226,6 +226,7 @@ void Simulation::go_to_dead_cor(int i_sca, int i_cor){
 void Simulation::dead_libre(){
 
     double Dmin(363.);
+    //double i_sca(-1.), i_cor(-1.);
     //parmis tout les scavengers
     for (size_t i(0); i < scavenger_vect.size(); i++){  
 
@@ -233,7 +234,7 @@ void Simulation::dead_libre(){
         if (scavenger_vect[i].get_statut_sca() == 0){ 
 
             //parmis tout les coraux
-            for (size_t j(0); j < scavenger_vect.size(); j++){
+            for (size_t j(0); j < corail_vect.size(); j++){
 
                 //je prend les coraux morts
                 if (corail_vect[j].get_statut_cor() == 0){
@@ -243,16 +244,19 @@ void Simulation::dead_libre(){
             
                     double L(sqrt((pow((cor.x-sca.x), 2)+pow((cor.y-sca.y), 2))));
 
-                    //on trouve le corail le plus orès et on set son id dans la cible du scavenger et on change le statut du scavenger     
+                    //on trouve le corail le plus près et on set son id dans la cible du scavenger et on change le statut du scavenger     
                     if (L < Dmin){
                         scavenger_vect[i].set_corail_id_cible(corail_vect[j].get_id());
                         scavenger_vect[i].set_statut_sca(1);
+                        
                         Dmin = L;
                     }
                 }
             }
         }
     }
+    //scavenger_vect[i_sca].set_corail_id_cible(corail_vect[j_cor].get_id());
+    //scavenger_vect[i_sca].set_statut_sca(1);
 }
 
 /*void Simulation::dead_libre(int h, vector<Scavenger> vect_sca, 
