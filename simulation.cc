@@ -30,7 +30,7 @@ void Simulation::dessin()
     }
     
     for(size_t i(0); i < nbr_corail; i++){
-        bool is_alive(corail_vect[i].get_is_alive());
+        bool is_alive(corail_vect[i].get_statut_cor()); 
         dessin_carre(corail_vect[i].get_coord(), is_alive);
 
         for(const Segments& seg : *(corail_vect[i].get_seg_vector())){
@@ -130,6 +130,52 @@ void Simulation::step_corail() {
     } 
 }
 
+
+void Simulation::step_scavenger()
+{
+    for(size_t i(0); i < scavenger_vect.size(); i++){
+        scavenger_vect[i].older();
+
+        if (scavenger_vect[i].get_age() >= max_life_sca){
+            swap(scavenger_vect[i], scavenger_vect.back());
+            scavenger_vect.pop_back();
+            nbr_scavenger -= 1;
+        } //durée de vie scavenger
+    }
+
+    //parmi tout les coraux
+    for (size_t j(0); j < corail_vect.size(); j++){
+        //je prend les coraux morts
+        if (corail_vect[j].get_statut_cor() == 0){ 
+            bool already_taken(false);
+
+            //parmi tout les scavengers
+            for (size_t i(0); i < scavenger_vect.size(); i++){
+                //si le scavenger mange et qu'il a l'id cible du corail j
+                if (((scavenger_vect[i].get_statut_sca() == 1) and (scavenger_vect[i].get_corail_id_cible() == corail_vect[j].get_id()))){
+                    already_taken = true;
+                    go_to_dead_cor(i, j);
+                }
+            } 
+            
+            //if (already_taken == true){
+                //go_to_dead_cor(i, j);
+            //}
+
+            if (already_taken == false){
+                dead_libre(); 
+                
+                for (size_t i(0); i < scavenger_vect.size(); i++){
+                //si le scavenger mange et qu'il a l'id cible du corail j
+                    if (((scavenger_vect[i].get_statut_sca() == 1) and (scavenger_vect[i].get_corail_id_cible() == corail_vect[j].get_id()))){
+                        go_to_dead_cor(i, j);
+                    }
+                }
+            }
+        }
+    }
+}
+
 void Simulation::age_and_check_corals(){
     for(size_t i = 0; i < corail_vect.size(); i++) {
         corail_vect[i].older();
@@ -139,6 +185,7 @@ void Simulation::age_and_check_corals(){
         }
     }
 }
+
 
 void Simulation::process_coral_growth(Corail& corail) {
     size_t index_algue = 0;
@@ -224,20 +271,6 @@ bool Simulation::detect_algue(Corail corail, double &angle_to_use, size_t &index
     return collision_algue;
 } 
 
-void Simulation::step_scavenger()
-{
-    for(size_t i(0); i < scavenger_vect.size(); i++){
-        scavenger_vect[i].older();
-
-        if (scavenger_vect[i].get_age() >= max_life_sca){
-            swap(scavenger_vect[i], scavenger_vect.back());
-            scavenger_vect.pop_back();
-            nbr_scavenger -= 1;
-        }
-    }
-
-}
-
 
 
 
@@ -297,6 +330,77 @@ bool Simulation::new_cor(Corail &corail, Segments &last_segment)
 double distance_deux_points(S2d p1, S2d p2){
     return sqrt(pow(p2.x - p1.x, 2) + pow(p2.y - p1.y, 2));
 }
+            
+
+
+void Simulation::go_to_dead_cor(int i_sca, int i_cor){ 
+    double x_sca(scavenger_vect[i_sca].get_coord().x);
+    double y_sca(scavenger_vect[i_sca].get_coord().y);
+    double x_cor(corail_vect[i_cor].get_seg_vector().back().get_extr().x);
+    double y_cor(corail_vect[i_cor].get_seg_vector().back().get_extr().y);
+    double L(sqrt(pow(x_cor-x_sca, 2) + pow(y_cor-y_sca, 2))); 
+    cout << "delta_l " << delta_l << endl;
+
+    if (L <= delta_l){
+        scavenger_vect[i_sca].set_coord(x_cor, y_cor);
+        x_sca = scavenger_vect[i_sca].get_coord().x;
+        y_sca = scavenger_vect[i_sca].get_coord().y;
+        cout << "l : " << x_cor << " et " << x_sca << endl;
+    } else {
+        double x_tmp = x_sca + (delta_l * (x_cor-x_sca)/L);
+        double y_tmp = y_sca + (delta_l * (y_cor-y_sca)/L);
+        scavenger_vect[i_sca].set_coord(x_tmp, y_tmp);
+        x_sca = scavenger_vect[i_sca].get_coord().x;
+        y_sca = scavenger_vect[i_sca].get_coord().y;
+        cout << "boucle L : " << x_cor << " et " << x_sca << endl;
+        cout << "indice corail : " << i_cor <<endl;
+    }
+    cout << "valeur L : " << L<<endl <<endl;
+}
+
+//corail est fixe et on cherche un scavenger
+void Simulation::dead_libre(){
+
+    double Dmin(363.);
+    double i_sca(-1.), j_cor(-1.);
+    //parmis tout les scavengers
+    for (size_t i(0); i < scavenger_vect.size(); i++){  
+
+        //je prend les scavengers libres        
+        if (scavenger_vect[i].get_statut_sca() == 0){ 
+
+            //parmis tout les coraux
+            for (size_t j(0); j < corail_vect.size(); j++){
+
+                //je prend les coraux morts
+                if (corail_vect[j].get_statut_cor() == 0){
+
+                    S2d cor = corail_vect[j].get_seg_vector().back().get_extr(); 
+                    S2d sca = scavenger_vect[i].get_coord();
+            
+                    double L(sqrt((pow((cor.x-sca.x), 2)+pow((cor.y-sca.y), 2))));
+
+                    //on trouve le corail le plus près et on set son id dans la cible du scavenger et on change le statut du scavenger     
+                    if (L < Dmin){
+                        //scavenger_vect[i].set_corail_id_cible(corail_vect[j].get_id());
+                        //scavenger_vect[i].set_statut_sca(1);
+                        i_sca = i;
+                        j_cor = j;
+                        Dmin = L;
+                    }
+                }
+            }
+        }
+    }
+    
+    if ((i_sca != -1) and (j_cor != -1)){
+        scavenger_vect[i_sca].set_corail_id_cible(corail_vect[j_cor].get_id());
+        scavenger_vect[i_sca].set_statut_sca(1);
+    }
+}
+
+
+
 
 void Simulation::reintialise_simulation()
 {
@@ -456,7 +560,7 @@ bool Simulation::decodage_scavenger(string line)
             if(data >> id_corail_cible){
                 if(!existant_id(id_corail_cible)) return false;
             }
-            scavenger_vect.back().init_corail_id_cible(id_corail_cible);
+            scavenger_vect.back().set_corail_id_cible(id_corail_cible);
         } 
     }
     return true;

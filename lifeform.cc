@@ -25,6 +25,12 @@ S2d Lifeform::get_coord() const
     return coord;
 }
 
+void Lifeform::set_coord(double x_set, double y_set)
+{
+    x = x_set;
+    y = y_set;
+}
+
 unsigned int Lifeform::get_age() const
 {
     return age;
@@ -119,7 +125,7 @@ Scavenger::Scavenger(double x1, double y1,int age1, unsigned int rayon1,
 :Lifeform(x1, y1, age1), rayon(rayon1), statut_sca(statut_sca1)
 {}
 
-void Scavenger::init_corail_id_cible(unsigned int corail_id_cible1)
+void Scavenger::set_corail_id_cible(unsigned int corail_id_cible1) //j'ai changé init avce set
 {
     corail_id_cible = corail_id_cible1;
 }
@@ -134,9 +140,15 @@ bool Scavenger::get_statut_sca() const
     return statut_sca;
 }
 
+void Scavenger::set_statut_sca(bool a)
+{
+    statut_sca = a;
+}
+
+
 unsigned int Scavenger::get_corail_id_cible() const
 {
-    return corail_id_cible;
+   return corail_id_cible;
 }
 
 bool verifie_positive(int nbr)
