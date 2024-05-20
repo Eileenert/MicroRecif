@@ -311,8 +311,8 @@ double distance_deux_points(S2d p1, S2d p2){
 void Simulation::step_scavenger()
 {
     verifie_old_sca();
-    deplacement_vers_corail();
     scavenger_sur_corail();
+    deplacement_vers_corail();
 
 }
 
@@ -360,7 +360,6 @@ void Simulation::scavenger_sur_corail(){
                     scavenger_vect[i].set_rayon(scavenger_vect[i].get_rayon() + delta_r_sca);
 
                     if (corail_vect[j].get_seg_vector()->back().get_longueur() == 0.){
-                        cout << corail_vect[j].get_nbr_segments()<< endl;
                         corail_vect[j].remove_last_segment();
                         if(corail_vect[j].get_nbr_segments() == 0){
                             swap(corail_vect[j], corail_vect.back());
@@ -437,7 +436,6 @@ void Simulation::go_to_dead_cor(int i_sca, int i_cor){
         scavenger_vect[i_sca].set_coord(x_cor, y_cor);
         x_sca = scavenger_vect[i_sca].get_coord().x;
         y_sca = scavenger_vect[i_sca].get_coord().y;
-        cout << "l : " << x_cor << " et " << x_sca << endl;
     } else {
         double x_tmp = x_sca + (delta_l * (x_cor-x_sca)/L);
         double y_tmp = y_sca + (delta_l * (y_cor-y_sca)/L);
@@ -479,7 +477,6 @@ void Simulation::dead_libre(){
                         S2d sca = scavenger_vect[i].get_coord();
             
                         double L(sqrt((pow((cor.x-sca.x), 2)+pow((cor.y-sca.y), 2))));
-                        cout << "valeur L  :  " << L <<endl;
 
                         //on trouve le corail le plus près et on set son id dans la cible du scavenger et on change le statut du scavenger     
                         if (L < Dmin){
