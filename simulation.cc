@@ -194,7 +194,6 @@ void Simulation::update_coral_segment(Corail& corail, Segments& last_segment, do
     unsigned int id = corail.get_id();
 
     if (collision(corail) || seg_superposition(corail) || !extr_appartenance_recipient(x, y, s, a, id)) {
-        cout << "aie"<< endl;
         corail.set_dir_rot();
     }
 }
@@ -275,8 +274,7 @@ bool Simulation::new_cor(Corail &corail, Segments &last_segment)
                 return false;
             }
         } 
-    }
-    
+    }  
     return false;
 }
 
@@ -290,56 +288,81 @@ void Simulation::step_scavenger()
 {
     verifie_old_sca();
     deplacement_vers_corail();
-    mange_segments();
-
+    scavenger_sur_corail();
 
 }
 
-void Simulation::mange_segments(){
+void Simulation::scavenger_sur_corail(){
+
     //parmis tout les scavengers
     for (size_t i(0); i < scavenger_vect.size(); i++){
         
         //parmi tout les coraux
         for (size_t j(0); j < corail_vect.size(); j++){
-            double x_sca(scavenger_vect[i].get_coord().x);
-            double y_sca(scavenger_vect[i].get_coord().y);
-            
-            //coordonnées de l'extremité du segment du corail
-            double x_cor(corail_vect[j].get_seg_vector()->back().get_extr().x);
-            double y_cor(corail_vect[j].get_seg_vector()->back().get_extr().y);
+            Segments* last_segment = &corail_vect[j].get_seg_vector()->back();
+            S2d cor_e = corail_vect[j].get_seg_vector()->back().get_extr();
+            S2d seg_b =(*last_segment).get_base();
+            S2d sca = scavenger_vect[i].get_coord();
             
             //true or false
-            bool sur_corail = ((x_sca == x_cor) and (y_sca == y_cor));
+            bool sur_corail = ((sca.x == cor_e.x) && (sca.y == cor_e.y));
             bool bon_id = (scavenger_vect[i].get_corail_id_cible() == corail_vect[j].get_id());
             bool mange = (scavenger_vect[i].get_statut_sca() == 1);
-            bool bon_rayon = (scavenger_vect[i].get_rayon() < r_sca_repro);
+            
 
             //si le scavenger est sur le corail et que le scavenger est en mode mange et que le scavenger a l'id du corail pour cible
-            if (sur_corail && mange && bon_id && bon_rayon){
-                
-                //coordonnées de la base du segment du corail
-                S2d cor = corail_vect[j].get_seg_vector()->back().get_base(); 
-                S2d sca = scavenger_vect[i].get_coord();
+            if (sur_corail && mange && bon_id){
 
                 // longeurs du segment du corail
                 double L(corail_vect[j].get_seg_vector()->back().get_longueur());
-
-                //nouvelles coordonnées pour le scavenger après son déplacement sur le corail
-                double new_x = sca.x + delta_l * (cor.x-sca.x)/L;
-                double new_y = sca.y + delta_l * (cor.y-sca.y)/L;
-                scavenger_vect[i].set_coord(new_x, new_y);
+                
 
                 //si la longueur du segment ne vaut pas 0
                 if (corail_vect[j].get_seg_vector()->back().get_longueur() != 0){
-                    //nouvelle longeur
-                    double new_L = corail_vect[j].get_seg_vector()->back().get_longueur() - delta_l;
-                    corail_vect[j].get_seg_vector()->back().set_longueur(new_L);
-                    //nouveau rayon pour le scavenger
-                    scavenger_vect[i].set_rayon(scavenger_vect[i].get_rayon() + delta_r_sca);
-                    if (new_L == 0.){
+                    //nouvelles coordonnées pour le scavenger après son déplacement sur le corail
+                    double new_x = sca.x + delta_l * (seg_b.x-sca.x)/L;
+                    double new_y = sca.y + delta_l * (seg_b.y-sca.y)/L;
+                    scavenger_vect[i].set_coord(new_x, new_y);
+                    
+                    //nouvelle longeur du corail
+                    if (corail_vect[j].get_seg_vector()->back().get_longueur() <= delta_l){
+                        corail_vect[j].get_seg_vector()->back().set_longueur(0);
+                    }else {
+                        double new_L = corail_vect[j].get_seg_vector()->back().get_longueur() - delta_l;
                         corail_vect[j].get_seg_vector()->back().set_longueur(new_L);
                     }
+                    
+                    //nouveau rayon pour le scavenger
+                    scavenger_vect[i].set_rayon(scavenger_vect[i].get_rayon() + delta_r_sca);
+
+                    if (corail_vect[j].get_seg_vector()->back().get_longueur() == 0.){
+                        cout << corail_vect[j].get_nbr_segments()<< endl;
+                        corail_vect[j].remove_last_segment();
+                        if(corail_vect[j].get_nbr_segments() == 0){
+                            swap(corail_vect[j], corail_vect.back());
+                            corail_vect.pop_back();
+                            nbr_corail -=1;
+                            scavenger_vect[i].set_statut_sca(0);
+                        }
+                    }
                 }
+            }
+
+            bool bon_rayon = (scavenger_vect[i].get_rayon() < r_sca_repro);
+
+            if (!bon_rayon){
+                //scavenger retreci
+                scavenger_vect[i].set_rayon(r_sca);
+
+                //création d'un nouveau scavenger 
+                //double d(sqrt(pow(sca.x-seg_b.x, 2) + pow(sca.y-seg_b.y, 2)));
+                //double x_repro(sca.x + delta_l * (seg_b.x-sca.x)/d); 
+                //double y_repro(sca.y + delta_l * (seg_b.y-sca.y)/d);
+                double x_repro(sca.x); 
+                double y_repro(sca.y);
+                scavenger_vect.push_back(Scavenger(x_repro, y_repro, 1, r_sca, 0));
+                nbr_scavenger += 1;
+                bon_rayon = true;
             }
         }
     }

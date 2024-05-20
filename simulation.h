@@ -23,7 +23,7 @@ public:
     void step_scavenger();
     void verifie_old_sca();
     void deplacement_vers_corail();
-    void mange_segments();
+    void scavenger_sur_corail();
     void dead_libre();
     void go_to_dead_cor(int i_sca, int i_cor);
     void reintialise_simulation();
