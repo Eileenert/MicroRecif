@@ -146,7 +146,7 @@ void Simulation::age_and_check_corals(){
 void Simulation::process_coral_growth(Corail& corail) {
     size_t index_algue = 0;
     if (corail.get_seg_vector()->empty()) {
-        std::cout << "Error: Corail segment vector is empty!" << std::endl;
+        cout << "Error: Corail segment vector is empty!" << std::endl;
         return;
     }
     Segments* last_segment = &corail.get_seg_vector()->back();
@@ -160,7 +160,6 @@ void Simulation::process_coral_growth(Corail& corail) {
 }
 
 void Simulation::handle_algue_detection(Corail& corail, Segments& last_segment, double angle_to_use, size_t index_algue) {
-    std::cout << "Algue detected" << std::endl;
     last_segment.set_angle(last_segment.get_angle() + angle_to_use);
     last_segment.set_longueur(last_segment.get_longueur() + delta_l);
 
@@ -170,7 +169,7 @@ void Simulation::handle_algue_detection(Corail& corail, Segments& last_segment, 
     double a = last_segment.get_angle();
     unsigned int id = corail.get_id();
 
-    if (collision(corail) || !extr_appartenance_recipient(x, y, s, a, id) || seg_superposition(corail)) {
+    if (collision(corail, true) || !extr_appartenance_recipient(x, y, s, a, id) || seg_superposition(corail)) {
         last_segment.set_angle(last_segment.get_angle() - angle_to_use);
         last_segment.set_longueur(last_segment.get_longueur() - delta_l);
         corail.set_dir_rot();
@@ -193,12 +192,13 @@ void Simulation::update_coral_segment(Corail& corail, Segments& last_segment, do
     double a = last_segment.get_angle();
     unsigned int id = corail.get_id();
 
-    if (collision(corail) || seg_superposition(corail) || !extr_appartenance_recipient(x, y, s, a, id)) {
+    if (collision(corail, true) || seg_superposition(corail) || !extr_appartenance_recipient(x, y, s, a, id)) {
         corail.set_dir_rot();
     }
 }
 
 bool Simulation::detect_algue(Corail corail, double &angle_to_use, size_t &index_algue, Segments last_segment) {
+    
     bool collision_algue(false);
     double angle(last_segment.get_angle());
     double longueur(last_segment.get_longueur());
@@ -251,7 +251,7 @@ bool Simulation::new_cor(Corail &corail, Segments &last_segment)
             last_segment.set_longueur(l_repro/2);
             corail_vect.back().add_seg_vector(last_segment.get_angle(), l_repro - l_seg_interne);
 
-            if(collision(corail_vect.back()) || seg_superposition(corail_vect.back())){
+            if(collision(corail_vect.back(), true) || seg_superposition(corail_vect.back())){
                 corail_vect.pop_back();
                 nbr_corail -= 1;
                 last_segment.set_longueur(longeur_avant);
@@ -268,7 +268,7 @@ bool Simulation::new_cor(Corail &corail, Segments &last_segment)
             corail.set_statut_dev(true);
             corail.add_seg_vector(last_segment.get_angle() ,l_repro - l_seg_interne);
 
-            if(collision(corail) || seg_superposition(corail)){
+            if(collision(corail, true) || seg_superposition(corail)){
                 corail.remove_last_segment();
                 last_segment.set_longueur(last_segment.get_longueur() - delta_l );
                 return false;
@@ -411,6 +411,9 @@ void Simulation::go_to_dead_cor(int i_sca, int i_cor){
 
     if (L <= delta_l){
         scavenger_vect[i_sca].set_coord(x_cor, y_cor);
+        x_sca = scavenger_vect[i_sca].get_coord().x;
+        y_sca = scavenger_vect[i_sca].get_coord().y;
+        cout << "l : " << x_cor << " et " << x_sca << endl;
     } else {
         double x_tmp = x_sca + (delta_l * (x_cor-x_sca)/L);
         double y_tmp = y_sca + (delta_l * (y_cor-y_sca)/L);
@@ -590,7 +593,7 @@ bool Simulation::decodage_corail(string line){
         if(!extr_appartenance_recipient(x, y, s, a, id)) return false;
         corail_vect.back().add_seg_vector(a,s);   
         if(seg_superposition(corail_vect.back())) return false;
-        if(collision(corail_vect.back())) return false;
+        if(collision(corail_vect.back(), false)) return false;
     }
     else if(corail_vect.size() < nbr_corail){
         data >> x >> y;
@@ -719,7 +722,7 @@ bool Simulation::seg_superposition(Corail &corail)
 }
 
 
-bool Simulation::collision(Corail &corail)
+bool Simulation::collision(Corail &corail, bool simulation)
 {
     bool col(false);
 
@@ -727,7 +730,6 @@ bool Simulation::collision(Corail &corail)
     vector<Segments>* seg1_vector = (corail.get_seg_vector());
     S2d coord1 = (*seg1_vector).back().get_base();
     S2d extr1 = (*seg1_vector).back().get_extr();
-    //cout << "extremités corail1 x: " << extr1.x << " y: " << extr1.y<< endl;
   
     for(size_t i(corail_vect.size()-1); i != SIZE_MAX; i--){
         
@@ -748,9 +750,9 @@ bool Simulation::collision(Corail &corail)
 
             S2d coord2 = seg2_vector[j].get_base();
             S2d extr2 = seg2_vector[j].get_extr();
-            //cout << "extremités corail2 x: " << extr2.x << " y: " << extr2.y << endl;
 
-            col = do_intersect(0, coord1, extr1, coord2, extr2);
+
+            col = do_intersect(simulation,coord1, extr1, coord2, extr2);
             if(col == true){
                 cout << message::segment_collision(corail_vect.back().get_id(), 
                    (*seg1_vector).size()-1 , corail_vect[i].get_id(), j);
