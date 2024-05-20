@@ -28,11 +28,15 @@ public:
 
     void age_and_check_corals();
     void process_coral_growth(Corail& corail);
-    void handle_algue_detection(Corail& corail, Segments& last_segment, double angle_to_use, size_t index_algue);
-    void update_coral_segment(Corail& corail, Segments& last_segment, double angle_to_use);
-    bool detect_algue(Corail corail, double &angle_to_use, size_t &index_algue, Segments last_segment);
+    void handle_algue_detection(Corail& corail, Segments& last_segment, 
+        double angle_to_use, size_t index_algue);
+    void update_coral_segment(Corail& corail, Segments& last_segment, 
+        double angle_to_use);
+    bool detect_algue(Corail corail, double &angle_to_use, size_t &index_algue,
+        Segments last_segment);
     bool new_cor(Corail &corail, Segments &last_segment);
-    bool angle_collision(Corail &corail, Segments &last_segment, double &angle_to_use);
+    bool angle_collision(Corail &corail, Segments &last_segment, 
+        double &angle_to_use);
 
     bool lecture(char * nom_fichier);
     bool decodage_ligne(std::string line);

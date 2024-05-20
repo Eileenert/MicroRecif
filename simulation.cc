@@ -18,8 +18,8 @@ using namespace std;
 double distance_deux_points(S2d p1, S2d p2);
 
 Simulation::Simulation(int nbr_al, int nbr_co, int nbr_sca)
-: nbr_algue(nbr_al), nbr_corail(nbr_co), nbr_scavenger(nbr_sca), 
-            u(1, maximum-1)
+    : nbr_algue(nbr_al), nbr_corail(nbr_co), nbr_scavenger(nbr_sca), 
+        u(1, maximum-1)
 {
 }
 
@@ -118,7 +118,8 @@ void Simulation::step_algue(bool naissance_algue)
 
 }
 
-void Simulation::step_corail() {
+void Simulation::step_corail() 
+{
     age_and_check_corals();
     
     for (Corail& corail : corail_vect) {
@@ -152,22 +153,22 @@ void Simulation::step_scavenger()
             //parmi tout les scavengers
             for (size_t i(0); i < scavenger_vect.size(); i++){
                 //si le scavenger mange et qu'il a l'id cible du corail j
-                if (((scavenger_vect[i].get_statut_sca() == 1) and (scavenger_vect[i].get_corail_id_cible() == corail_vect[j].get_id()))){
+                if (((scavenger_vect[i].get_statut_sca() == 1) and 
+                    (scavenger_vect[i].get_corail_id_cible() == 
+                        corail_vect[j].get_id()))){
                     already_taken = true;
                     go_to_dead_cor(i, j);
                 }
             } 
-            
-            //if (already_taken == true){
-                //go_to_dead_cor(i, j);
-            //}
 
             if (already_taken == false){
                 dead_libre(); 
                 
                 for (size_t i(0); i < scavenger_vect.size(); i++){
                 //si le scavenger mange et qu'il a l'id cible du corail j
-                    if (((scavenger_vect[i].get_statut_sca() == 1) and (scavenger_vect[i].get_corail_id_cible() == corail_vect[j].get_id()))){
+                    if (((scavenger_vect[i].get_statut_sca() == 1) and
+                        (scavenger_vect[i].get_corail_id_cible() == 
+                            corail_vect[j].get_id()))){
                         go_to_dead_cor(i, j);
                     }
                 }
@@ -176,7 +177,8 @@ void Simulation::step_scavenger()
     }
 }
 
-void Simulation::age_and_check_corals(){
+void Simulation::age_and_check_corals()
+{
     for(size_t i = 0; i < corail_vect.size(); i++) {
         corail_vect[i].older();
 
@@ -187,7 +189,8 @@ void Simulation::age_and_check_corals(){
 }
 
 
-void Simulation::process_coral_growth(Corail& corail) {
+void Simulation::process_coral_growth(Corail& corail) 
+{
     size_t index_algue = 0;
     if (corail.get_seg_vector()->empty()) {
         cout << "Error: Corail segment vector is empty!" << std::endl;
@@ -197,13 +200,16 @@ void Simulation::process_coral_growth(Corail& corail) {
     double angle_to_use = corail.get_dir_rot() ? -delta_rot : delta_rot;
     
     if (detect_algue(corail, angle_to_use, index_algue, *last_segment)) {
-        handle_algue_detection(corail, *last_segment, angle_to_use, index_algue);
+        handle_algue_detection(corail, *last_segment, angle_to_use, 
+            index_algue);
     } else {
         update_coral_segment(corail, *last_segment, angle_to_use);
     }
 }
 
-void Simulation::handle_algue_detection(Corail& corail, Segments& last_segment, double angle_to_use, size_t index_algue) {
+void Simulation::handle_algue_detection(Corail& corail, Segments& last_segment, 
+    double angle_to_use, size_t index_algue) 
+{
     last_segment.set_angle(last_segment.get_angle() + angle_to_use);
     last_segment.set_longueur(last_segment.get_longueur() + delta_l);
 
@@ -213,7 +219,8 @@ void Simulation::handle_algue_detection(Corail& corail, Segments& last_segment, 
     double a = last_segment.get_angle();
     unsigned int id = corail.get_id();
 
-    if (collision(corail, true) || !extr_appartenance_recipient(x, y, s, a, id) || seg_superposition(corail)) {
+    if (collision(corail, true) || !extr_appartenance_recipient(x, y, s, a, id) 
+        || seg_superposition(corail)) {
         last_segment.set_angle(last_segment.get_angle() - angle_to_use);
         last_segment.set_longueur(last_segment.get_longueur() - delta_l);
         corail.set_dir_rot();
@@ -227,7 +234,9 @@ void Simulation::handle_algue_detection(Corail& corail, Segments& last_segment, 
     nbr_algue -= 1;
 }
 
-void Simulation::update_coral_segment(Corail& corail, Segments& last_segment, double angle_to_use) {
+void Simulation::update_coral_segment(Corail& corail, 
+    Segments& last_segment, double angle_to_use) 
+{
     last_segment.set_angle(last_segment.get_angle() + angle_to_use);
 
     double x = last_segment.get_base().x;
@@ -236,27 +245,34 @@ void Simulation::update_coral_segment(Corail& corail, Segments& last_segment, do
     double a = last_segment.get_angle();
     unsigned int id = corail.get_id();
 
-    if (collision(corail, true) || seg_superposition(corail) || !extr_appartenance_recipient(x, y, s, a, id)) {
+    if (collision(corail, true) || seg_superposition(corail) || 
+        !extr_appartenance_recipient(x, y, s, a, id)) {
         corail.set_dir_rot();
     }
 }
 
-bool Simulation::detect_algue(Corail corail, double &angle_to_use, size_t &index_algue, Segments last_segment) {
+bool Simulation::detect_algue(Corail corail, double &angle_to_use, size_t &index_algue, Segments last_segment) 
+{
     
     bool collision_algue(false);
     double angle(last_segment.get_angle());
     double longueur(last_segment.get_longueur());
     double smaller_angle(delta_rot);
     for (size_t j = 0; j < algue_vect.size(); j++) {
-        double d2 = distance_deux_points(last_segment.get_base(), algue_vect[j].get_coord());
-        double angle_point = atan2(algue_vect[j].get_coord().y - last_segment.get_base().y, algue_vect[j].get_coord().x - last_segment.get_base().x);
+        double d2 = distance_deux_points(last_segment.get_base(), 
+            algue_vect[j].get_coord());
+        double angle_point = atan2(algue_vect[j].get_coord().y - 
+            last_segment.get_base().y, 
+                algue_vect[j].get_coord().x - last_segment.get_base().x);
         
         if(d2 <= longueur && abs(angle_point-angle) < smaller_angle){
             bool dans_intervalle(false);
             if (corail.get_dir_rot()) {
-                dans_intervalle = (angle_point >= (angle - delta_rot) && angle_point <= angle);
+                dans_intervalle = (angle_point >= (angle - delta_rot) && 
+                    angle_point <= angle);
             } else{
-                dans_intervalle = (angle_point <= (angle + delta_rot) && angle_point >= angle);
+                dans_intervalle = (angle_point <= (angle + delta_rot) && 
+                    angle_point >= angle);
             }
             
             if (dans_intervalle) {
@@ -278,9 +294,12 @@ bool Simulation::new_cor(Corail &corail, Segments &last_segment)
 {
     if(last_segment.get_longueur() >= l_repro){
         if(corail.get_statut_dev()){
-            if(!appartenance_recipient(last_segment.get_extr().x, last_segment.get_extr().y) 
-            || !extr_appartenance_recipient(last_segment.get_extr().x , last_segment.get_extr().y, l_repro - l_seg_interne, last_segment.get_angle(), corail.get_id())){
-                last_segment.set_longueur(last_segment.get_longueur() - delta_l );
+            if(!appartenance_recipient(last_segment.get_extr().x,
+             last_segment.get_extr().y) || 
+                !extr_appartenance_recipient(last_segment.get_extr().x 
+                    , last_segment.get_extr().y, l_repro - l_seg_interne, 
+                        last_segment.get_angle(), corail.get_id())){
+                last_segment.set_longueur(last_segment.get_longueur() -delta_l);
                 return false;
             }
             corail.set_statut_dev(false);
@@ -292,13 +311,16 @@ bool Simulation::new_cor(Corail &corail, Segments &last_segment)
                 }
             }
             double longeur_avant(last_segment.get_longueur());
-            corail_vect.push_back(Corail(last_segment.get_extr().x, last_segment.get_extr().y, 
+            corail_vect.push_back(Corail(last_segment.get_extr().x, 
+                last_segment.get_extr().y, 
                 1, id, 1, 1, 0, 0));
             nbr_corail += 1;
             last_segment.set_longueur(l_repro/2);
-            corail_vect.back().add_seg_vector(last_segment.get_angle(), l_repro - l_seg_interne);
+            corail_vect.back().add_seg_vector(last_segment.get_angle(), 
+                l_repro - l_seg_interne);
 
-            if(collision(corail_vect.back(), true) || seg_superposition(corail_vect.back())){
+            if(collision(corail_vect.back(), true) || 
+                seg_superposition(corail_vect.back())){
                 corail_vect.pop_back();
                 nbr_corail -= 1;
                 last_segment.set_longueur(longeur_avant);
@@ -308,16 +330,19 @@ bool Simulation::new_cor(Corail &corail, Segments &last_segment)
             return true;
         }
         else{
-            if(!extr_appartenance_recipient(last_segment.get_extr().x, last_segment.get_extr().y, l_repro - l_seg_interne, last_segment.get_angle(), corail.get_id())){
-                last_segment.set_longueur(last_segment.get_longueur() - delta_l );
+            if(!extr_appartenance_recipient(last_segment.get_extr().x, 
+                last_segment.get_extr().y, l_repro - l_seg_interne, 
+                    last_segment.get_angle(), corail.get_id())){
+                last_segment.set_longueur(last_segment.get_longueur() -delta_l);
                 return false;
             }
             corail.set_statut_dev(true);
-            corail.add_seg_vector(last_segment.get_angle() ,l_repro - l_seg_interne);
+            corail.add_seg_vector(last_segment.get_angle() ,
+                l_repro - l_seg_interne);
 
             if(collision(corail, true) || seg_superposition(corail)){
                 corail.remove_last_segment();
-                last_segment.set_longueur(last_segment.get_longueur() - delta_l );
+                last_segment.set_longueur(last_segment.get_longueur() -delta_l);
                 return false;
             }
         } 
@@ -370,15 +395,11 @@ void Simulation::dead_libre(){
                 //je prend les coraux morts
                 if (corail_vect[j].get_statut_cor() == 0){
 
-                    S2d cor = corail_vect[j].get_seg_vector()->back().get_extr(); 
+                    S2d cor =corail_vect[j].get_seg_vector()->back().get_extr(); 
                     S2d sca = scavenger_vect[i].get_coord();
             
-                    double L(sqrt((pow((cor.x-sca.x), 2)+pow((cor.y-sca.y), 2))));
-
-                    //on trouve le corail le plus près et on set son id dans la cible du scavenger et on change le statut du scavenger     
+                    double L(sqrt((pow((cor.x-sca.x),2)+pow((cor.y-sca.y),2))));
                     if (L < Dmin){
-                        //scavenger_vect[i].set_corail_id_cible(corail_vect[j].get_id());
-                        //scavenger_vect[i].set_statut_sca(1);
                         i_sca = i;
                         j_cor = j;
                         Dmin = L;

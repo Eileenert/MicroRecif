@@ -42,14 +42,14 @@ void Lifeform::older()
 }
 
 Algue::Algue(double x1, double y1, unsigned int age1)
-:Lifeform(x1, y1, age1)
+    :Lifeform(x1, y1, age1)
 {}
 
 Corail::Corail(double x1, double y1, int age1, unsigned int id1,
     bool statut_cor1, bool dir_rot1, bool statut_dev1, 
         unsigned int nbr_segments1)
-:Lifeform(x1, y1, age1), id(id1), statut_cor(statut_cor1), dir_rot(dir_rot1), 
-    statut_dev(statut_dev1), nbr_segments(nbr_segments1)
+    :Lifeform(x1, y1, age1), id(id1), statut_cor(statut_cor1), dir_rot(dir_rot1)
+    , statut_dev(statut_dev1), nbr_segments(nbr_segments1)
 {}
 
 
@@ -122,7 +122,7 @@ void Corail::set_is_alive(bool alive){
 
 Scavenger::Scavenger(double x1, double y1,int age1, unsigned int rayon1,
     bool statut_sca1)
-:Lifeform(x1, y1, age1), rayon(rayon1), statut_sca(statut_sca1)
+    :Lifeform(x1, y1, age1), rayon(rayon1), statut_sca(statut_sca1)
 {}
 
 void Scavenger::set_corail_id_cible(unsigned int corail_id_cible1) //j'ai changé init avce set
