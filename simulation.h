@@ -29,7 +29,6 @@ public:
     void reintialise_simulation();
     void dessin();
 
-    void age_and_check_corals();
     void process_coral_growth(Corail& corail);
     void handle_algue_detection(Corail& corail, Segments& last_segment, 
         double angle_to_use, size_t index_algue);

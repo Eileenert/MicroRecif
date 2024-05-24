@@ -58,7 +58,6 @@ void trait(double x1, double y1, double x2, double y2, bool is_alive)
 {
     (*ptcr)->set_line_width(1.);
     if (is_alive){
-
         (*ptcr)->set_source_rgb(0, 0, 1);
     }
     else{
