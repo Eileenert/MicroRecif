@@ -215,17 +215,17 @@ static void draw_frame(const Cairo::RefPtr<Cairo::Context> &cr, Frame frame)
 	cr->stroke();
 }
 
+
+//Deplace origine en bas à gauche
 static void orthographic_projection(const Cairo::RefPtr<Cairo::Context> &cr,
 	Frame frame)
 {
-	// déplace l'origine au centre de la fenêtre
 	cr->translate(frame.width / 2, frame.height / 2);
 	// normalise la largeur et hauteur aux valeurs fournies par le cadrage
 	// ET inverse la direction de l'axe Y
 	cr->scale(frame.width / (frame.xMax - frame.xMin),
 			  -frame.height / (frame.yMax - frame.yMin));
 
-	// décalage au centre du cadrage
 	cr->translate(-(frame.xMin + frame.xMax) / 2, -(frame.yMin + frame.yMax)/2);
 }
 
@@ -360,6 +360,7 @@ void Gui::on_file_dialog_response(int response_id,
 
 void Gui::change_button_name()
 {
+	//name = true veut dire que stop est affiché
 	if (name){
 		m_Button_Start.set_label("Stop");
 		m_Button_Step.set_sensitive(false);
@@ -396,6 +397,7 @@ void Gui::algue_toggled()
 
 bool Gui::on_timeout()
 {
+	//disconnect nous permet d'arret le timer/les executions
 	if (disconnect){
 		disconnect = false; // reset for next time a Timer is created
 		return false;		// End of Timer
@@ -404,7 +406,7 @@ bool Gui::on_timeout()
 	++val_maj;
 	maj_Data_Label.set_text(std::to_string(val_maj));
 
-	algue_toggled();
+	algue_toggled(); //appelle execution de simulation en fct de la checkbox d'algue
 	update_number();
 	m_Area->queue_draw();
 
@@ -413,7 +415,9 @@ bool Gui::on_timeout()
 
 void Gui::timer_start_stop()
 {
+	//name = true veut dire que stop est affiché
 	if (!name){
+		//appelle on_timeout
 		sigc::slot<bool()> my_slot = sigc::bind(sigc::mem_fun(*this,
 			&Gui::on_timeout));
 
@@ -426,6 +430,7 @@ void Gui::timer_start_stop()
 
 bool Gui::timer_step()
 {
+	//name = true veut dire que start est affiché
 	if (name){
 		++val_maj;
 		maj_Data_Label.set_text(std::to_string(val_maj));

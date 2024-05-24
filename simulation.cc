@@ -263,7 +263,7 @@ bool Simulation::new_cor(Corail &corail, Segments &last_segment)
                 }
             }
             double longeur_avant(last_segment.get_longueur());
-            corail_vect.push_back(Corail(last_segment.get_extr().x, 
+            corail_vect.push_back(Corail(last_segment.get_extr().x, //SEGMENTATION FAULT ICI !!!!!!!!!!!!!!!!!!!!!!!
                 last_segment.get_extr().y, 
                 1, id, 1, 1, 0, 0));
             nbr_corail += 1;

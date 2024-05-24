@@ -95,6 +95,7 @@ void Segments::set_base(double x, double y){
     base = {x, y};
 }
 
+//verifie si le point r est sur le segment pq
 bool on_segment(bool simulation, S2d p, S2d q, S2d r)
 {
     double s((r.x-p.x)*(q.x-p.x)+(r.y-p.y)*(q.y-p.y));
@@ -107,7 +108,8 @@ bool on_segment(bool simulation, S2d p, S2d q, S2d r)
     return false; 
 }
 
-
+//determine l'orientation de 3 points p q et r renvioe 0 si les points sont
+//colinéaire, 1 si sens aiguille montre, 2 si inverse
 double orientation(S2d p, S2d q, S2d r)
 { 
     double val = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y); 
